@@ -1,0 +1,262 @@
+{
+  "schema_version": "1",
+  "id": "fiber-1",
+  "origin": "Synthetic",
+  "hubs": [
+    {
+      "id": "hub-1",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    }
+  ],
+  "elements": [
+    {
+      "id": "cmts",
+      "kind": "Cmts",
+      "component_ref": "cmts",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "forward-tx",
+      "kind": "OpticalTx",
+      "component_ref": "forward-tx",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "return-rx",
+      "kind": "OpticalRx",
+      "component_ref": "return-rx",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "edfa",
+      "kind": "OpticalAmp",
+      "component_ref": "edfa",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "mux",
+      "kind": "OpticalPassive",
+      "component_ref": "mux",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "switch",
+      "kind": "Switch",
+      "component_ref": "switch",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "sfp-lr",
+      "kind": "Transceiver",
+      "component_ref": "sfp-lr",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "grandmaster",
+      "kind": "TimingSource",
+      "component_ref": "grandmaster",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "panel",
+      "kind": "PatchPanel",
+      "component_ref": "panel",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "closure",
+      "kind": "SpliceClosure",
+      "component_ref": "closure",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "structure": "pole-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "node-end",
+      "kind": {
+        "NodeEnd": {
+          "service_group": "sg-1"
+        }
+      },
+      "component_ref": "node-end",
+      "geo": {
+        "lon_deg": -105.11,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out"
+      ],
+      "record_status": "Built"
+    }
+  ],
+  "cables": [
+    {
+      "id": "cable-1",
+      "component_ref": "fiber-48",
+      "from": "panel",
+      "to": "closure",
+      "len_ft": 5000.0,
+      "installation": "Aerial",
+      "path": [
+        {
+          "geo": {
+            "lon_deg": -105.105,
+            "lat_deg": 39.9
+          },
+          "structure": "pole-1"
+        }
+      ],
+      "support": "strand",
+      "record_status": "Designed"
+    }
+  ],
+  "links": [
+    {
+      "id": "link-1",
+      "service_group": "sg-1",
+      "direction": "Both",
+      "wavelength_nm": 1310.0,
+      "hops": [
+        {
+          "Connector": {
+            "at": "panel",
+            "component_ref": "sc-apc"
+          }
+        },
+        {
+          "Through": {
+            "element": "mux",
+            "port_in": "in",
+            "port_out": "out"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "cable-1",
+            "strand": 1
+          }
+        },
+        {
+          "Splice": {
+            "at": "closure",
+            "loss_db": 0.05
+          }
+        },
+        {
+          "Splice": {
+            "at": "closure"
+          }
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "service_group": "sg-1",
+      "cmts": "cmts",
+      "port": "in"
+    }
+  ],
+  "structures": [
+    {
+      "id": "pole-1",
+      "kind": "Pole",
+      "component_ref": "pole-1",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    }
+  ]
+}

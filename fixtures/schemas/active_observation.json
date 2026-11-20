@@ -1,0 +1,14 @@
+{
+  "schema_version": "2",
+  "t": 300,
+  "origin": "Field",
+  "element_id": "amp",
+  "v_in": 86.47,
+  "i_draw": 0.69,
+  "temp_c": 31.0,
+  "status": "Up",
+  "out_level": {
+    "out_level_dbmv": 46.1,
+    "f_ref_mhz": 750.0
+  }
+}

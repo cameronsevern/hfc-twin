@@ -1,0 +1,111 @@
+{
+  "schema_version": "1",
+  "origin": "Synthetic",
+  "calls": [
+    {
+      "id": 1,
+      "t_s": 3720,
+      "home": "modem-5",
+      "service_group": "sg-1",
+      "reason": "NoService",
+      "answered_t_s": 3900,
+      "abandoned_t_s": null,
+      "ticket": 2
+    }
+  ],
+  "tickets": [
+    {
+      "id": 2,
+      "service_group": "sg-1",
+      "opened_t_s": 3900,
+      "first_home": "modem-5",
+      "calls": [
+        1
+      ],
+      "status": "Dispatched",
+      "jobs": [
+        3
+      ],
+      "closed_t_s": null
+    }
+  ],
+  "jobs": [
+    {
+      "id": 3,
+      "created_t_s": 3600,
+      "service_group": "sg-1",
+      "target": {
+        "Plant": {
+          "element": "amp-2"
+        }
+      },
+      "geo": {
+        "lon_deg": -105.09,
+        "lat_deg": 39.9
+      },
+      "source": "Telemetry",
+      "crew": "Line",
+      "truck": 4,
+      "arrived_t_s": 4500,
+      "done_t_s": 18900,
+      "outcome": {
+        "Fixed": {
+          "what": "a dig-in through buried cable"
+        }
+      }
+    }
+  ],
+  "trucks": [
+    {
+      "id": 4,
+      "crew": "Line",
+      "geo": {
+        "lon_deg": -105.09,
+        "lat_deg": 39.9
+      },
+      "state": {
+        "Driving": {
+          "job": 3,
+          "path": [
+            {
+              "lon_deg": -105.09,
+              "lat_deg": 39.9
+            },
+            {
+              "lon_deg": -105.09,
+              "lat_deg": 39.9
+            }
+          ],
+          "depart_t_s": 3660,
+          "arrive_t_s": 4500
+        }
+      },
+      "on_shift": true
+    }
+  ],
+  "counters": {
+    "customer_minutes_out": 240,
+    "homes_out_now": 4,
+    "calls": 1,
+    "calls_answered": 1,
+    "calls_abandoned": 0,
+    "calls_told_of_outage": 0,
+    "tickets": 1,
+    "truck_rolls": 1,
+    "repeat_rolls": 0,
+    "no_trouble_found": 0,
+    "fixes": 1,
+    "onset_to_first_call": [
+      2,
+      1
+    ],
+    "onset_to_dispatch": [
+      0,
+      1
+    ],
+    "onset_to_fix": [
+      255,
+      1
+    ]
+  }
+}

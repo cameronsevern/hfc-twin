@@ -1,0 +1,112 @@
+{
+  "origin": "Synthetic",
+  "profile": "d31_highsplit_1218_rpd",
+  "draws": 360,
+  "method": "One estimate moved in the world at a time, with the diagnoser on nominal values. Same faults and seeds at every point.",
+  "lines": [
+    {
+      "estimate": "Tap return loss, dB change",
+      "low": -4.0,
+      "high": 6.0,
+      "answer_changed": 0.2513888888888889,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.6375
+    },
+    {
+      "estimate": "Active return loss, dB change",
+      "low": -4.0,
+      "high": 6.0,
+      "answer_changed": 0.19444444444444445,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.690625
+    },
+    {
+      "estimate": "Hardline and drop loss, share",
+      "low": -0.1,
+      "high": 0.1,
+      "answer_changed": 0.18055555555555555,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.74375
+    },
+    {
+      "estimate": "AGC range, dB change",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.09722222222222222,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.740625
+    },
+    {
+      "estimate": "Modem implementation MER, dB change",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.07361111111111111,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.790625
+    },
+    {
+      "estimate": "Cable temperature coefficient, per °C change",
+      "low": -0.0005,
+      "high": 0.0005,
+      "answer_changed": 0.05416666666666667,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.790625
+    },
+    {
+      "estimate": "Modem return loss, dB change",
+      "low": -4.0,
+      "high": 6.0,
+      "answer_changed": 0.05,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.76875
+    },
+    {
+      "estimate": "CIN at reference, dB change (BLE120 suggests about −10)",
+      "low": -10.0,
+      "high": 4.0,
+      "answer_changed": 0.044444444444444446,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.778125
+    },
+    {
+      "estimate": "Tap port isolation, dB change",
+      "low": -6.0,
+      "high": 6.0,
+      "answer_changed": 0.04027777777777778,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.775
+    },
+    {
+      "estimate": "Forward noise figure, dB change",
+      "low": -2.0,
+      "high": 3.0,
+      "answer_changed": 0.002777777777777778,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.7875
+    },
+    {
+      "estimate": "Active power draw, share (BLE120 suggests −60 %)",
+      "low": -0.6,
+      "high": 0.2,
+      "answer_changed": 0.001388888888888889,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.78125
+    },
+    {
+      "estimate": "Loop resistance, share",
+      "low": -0.1,
+      "high": 0.25,
+      "answer_changed": 0.0,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.784375
+    },
+    {
+      "estimate": "Return noise figure, dB change",
+      "low": -4.0,
+      "high": 2.0,
+      "answer_changed": 0.0,
+      "accuracy_nominal": 0.784375,
+      "accuracy_worst": 0.784375
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+ "origin": "Synthetic",
+ "chosen": {
+  "hidden": 64,
+  "epochs": 16
+ },
+ "folds": {
+  "family:UrbanGrid": {
+   "fold": "family:UrbanGrid",
+   "train_rows": 26000,
+   "temperature": 1.0905077326652577,
+   "nll": 0.8524319265138388,
+   "rows": 5920,
+   "placeable": 5032,
+   "top1": 0.7601351351351351,
+   "top3": 0.845389507154213,
+   "healthy_false_alarm": 0.7989864864864865,
+   "ece": 0.02511504079605377,
+   "fit_s": 1753.5523307323456
+  },
+  "family:Suburban": {
+   "fold": "family:Suburban",
+   "train_rows": 25320,
+   "temperature": 1.0,
+   "nll": 0.8922812289686869,
+   "rows": 6560,
+   "placeable": 5576,
+   "top1": 0.7693687230989957,
+   "top3": 0.9001076040172167,
+   "healthy_false_alarm": 0.5350609756097561,
+   "ece": 0.015934603962274967,
+   "fit_s": 1777.1793689727783
+  },
+  "family:Rural": {
+   "fold": "family:Rural",
+   "train_rows": 9880,
+   "temperature": 1.0,
+   "nll": 0.8997322147984248,
+   "rows": 24800,
+   "placeable": 21074,
+   "top1": 0.6282623137515422,
+   "top3": 0.7957672961943627,
+   "healthy_false_alarm": 0.5711987127916331,
+   "ece": 0.09312916120183799,
+   "fit_s": 1599.7647154331207
+  },
+  "profile:lowsplit": {
+   "fold": "profile:lowsplit",
+   "train_rows": 15104,
+   "temperature": 1.0905077326652577,
+   "nll": 1.0468533905835948,
+   "rows": 14360,
+   "placeable": 12206,
+   "top1": 0.47992790430935606,
+   "top3": 0.6514009503522857,
+   "healthy_false_alarm": 1.0,
+   "ece": 0.38080340976772364,
+   "fit_s": 1333.4868700504303
+  },
+  "profile:highsplit": {
+   "fold": "profile:highsplit",
+   "train_rows": 11960,
+   "temperature": 1.0905077326652577,
+   "nll": 1.0935628909730903,
+   "rows": 18336,
+   "placeable": 14892,
+   "top1": 0.5580177276390008,
+   "top3": 0.7448965887724953,
+   "healthy_false_alarm": 0.6492602262837249,
+   "ece": 0.09405412390786687,
+   "fit_s": 1141.7757608890533
+  }
+ }
+}

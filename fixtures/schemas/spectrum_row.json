@@ -1,0 +1,28 @@
+{
+  "schema_version": "2",
+  "origin": "Synthetic",
+  "observation_schema": "2",
+  "fault_schema": "4",
+  "map": "omaha_ne",
+  "profile": "d31_lowsplit_1002_iccap",
+  "service_group": "sg-1",
+  "modem": "modem-2",
+  "channel": "ofdm-1",
+  "first_mhz": 811.1,
+  "seed": 7,
+  "causes": [
+    "Suckout"
+  ],
+  "shapes": [
+    {
+      "shape": "Dip",
+      "worst_fall_db": 18.0,
+      "bins": 2
+    }
+  ],
+  "worst_fall_db": 18.0,
+  "min_hex": "a050ff",
+  "mean_hex": "a058ff",
+  "fall_hex": "004800",
+  "shapes_hex": "000004000000"
+}

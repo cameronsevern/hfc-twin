@@ -1,0 +1,848 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Profile",
+  "description": "An architecture profile.",
+  "type": "object",
+  "properties": {
+    "band_plan": {
+      "description": "Spectrum by direction.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/BandSegment"
+      }
+    },
+    "capability": {
+      "description": "The plant-side capability set.",
+      "$ref": "#/$defs/CapabilitySet"
+    },
+    "channel_plan": {
+      "description": "Channels in that spectrum.",
+      "$ref": "#/$defs/ChannelPlan"
+    },
+    "design_levels": {
+      "description": "Design targets and limits.",
+      "$ref": "#/$defs/DesignLevels"
+    },
+    "docsis": {
+      "description": "DOCSIS version and duplex mode.",
+      "$ref": "#/$defs/Docsis"
+    },
+    "fec": {
+      "description": "FEC figures by modulation.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FecRow"
+      }
+    },
+    "id": {
+      "description": "Stable id, referenced by plants.",
+      "$ref": "#/$defs/ProfileId"
+    },
+    "max_cascade": {
+      "description": "Most amps from the root to any modem.",
+      "type": "integer",
+      "format": "uint8",
+      "maximum": 255,
+      "minimum": 0
+    },
+    "max_homes_passed": {
+      "description": "Most homes passed per node.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "modem_behavior": {
+      "description": "Vendor-dependent modem and CMTS behaviour.",
+      "$ref": "#/$defs/ModemBehavior"
+    },
+    "node_kind": {
+      "description": "The kind of device a plant on this profile must have at its root.",
+      "$ref": "#/$defs/NodeKind"
+    },
+    "plant_reports": {
+      "description": "What the plant's optics and actives report beyond `capability` (§16, observation version 2). Version 2.",
+      "$ref": "#/$defs/PlantReports"
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "docsis",
+    "band_plan",
+    "channel_plan",
+    "max_cascade",
+    "max_homes_passed",
+    "design_levels",
+    "fec",
+    "modem_behavior",
+    "node_kind",
+    "capability"
+  ],
+  "$defs": {
+    "AccessPath": {
+      "description": "How an adapter reaches a device's data.",
+      "oneOf": [
+        {
+          "description": "SNMP to the modem's own address.",
+          "type": "string",
+          "const": "CmSnmp"
+        },
+        {
+          "description": "A PNM file the modem uploads as a TFTP client.",
+          "type": "string",
+          "const": "CmTftp"
+        },
+        {
+          "description": "SNMP to the CMTS, for what it holds about a modem or channel.",
+          "type": "string",
+          "const": "CmtsSnmp"
+        }
+      ]
+    },
+    "BandSegment": {
+      "description": "One contiguous part of a band plan. Segments rather than one upstream and one\ndownstream range, since D4.0 has two upstream bands and FDX shares one.",
+      "type": "object",
+      "properties": {
+        "direction": {
+          "description": "Which way it carries signal.",
+          "$ref": "#/$defs/Direction"
+        },
+        "hi_mhz": {
+          "description": "Upper edge, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "lo_mhz": {
+          "description": "Lower edge, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lo_mhz",
+        "hi_mhz",
+        "direction"
+      ]
+    },
+    "CapabilitySet": {
+      "description": "Which observation fields exist, and how.",
+      "type": "object",
+      "properties": {
+        "access": {
+          "description": "Ways to reach the data.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AccessPath"
+          }
+        },
+        "band_power_6mhz": {
+          "description": "OFDM receive power per 6 MHz band.",
+          "type": "boolean"
+        },
+        "ds_chan_est_file": {
+          "description": "Downstream channel estimate coefficients, by file.",
+          "type": "boolean"
+        },
+        "ds_chan_est_summary": {
+          "description": "Downstream channel estimate `ResponseSummary`.",
+          "type": "boolean"
+        },
+        "ds_rxmer_file": {
+          "description": "Downstream RxMER per subcarrier, by file.",
+          "type": "boolean"
+        },
+        "ds_rxmer_summary": {
+          "description": "Downstream RxMER mean, standard deviation and 2nd percentile.",
+          "type": "boolean"
+        },
+        "fbc": {
+          "description": "Full-band capture, or `None` if unsupported.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FbcCapability"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "i_draw": {
+          "description": "Active reports current draw.",
+          "type": "boolean"
+        },
+        "ofdma_preeq_file": {
+          "description": "OFDMA pre-eq coefficients, by file.",
+          "type": "boolean"
+        },
+        "ofdma_preeq_summary": {
+          "description": "OFDMA pre-eq `ResponseSummary`.",
+          "type": "boolean"
+        },
+        "out_level": {
+          "description": "Active reports an output level.",
+          "type": "boolean"
+        },
+        "per_profile_fec": {
+          "description": "OFDM codeword counts per data profile.",
+          "type": "boolean"
+        },
+        "plc_ncp_counters": {
+          "description": "OFDM PLC and NCP counters.",
+          "type": "boolean"
+        },
+        "sc_qam_preeq": {
+          "description": "SC-QAM pre-eq taps.",
+          "type": "boolean"
+        },
+        "status": {
+          "description": "Active reports operating status.",
+          "type": "boolean"
+        },
+        "temp_c": {
+          "description": "Active reports temperature.",
+          "type": "boolean"
+        },
+        "us_rxmer_file": {
+          "description": "Upstream RxMER per subcarrier, by file.",
+          "type": "boolean"
+        },
+        "us_rxmer_summary": {
+          "description": "Upstream RxMER channel mean.",
+          "type": "boolean"
+        },
+        "us_spectrum_capture": {
+          "description": "Upstream spectrum capture.",
+          "type": "boolean"
+        },
+        "v_in": {
+          "description": "Active reports input voltage.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ds_rxmer_file",
+        "ds_rxmer_summary",
+        "ds_chan_est_file",
+        "ds_chan_est_summary",
+        "ofdma_preeq_file",
+        "ofdma_preeq_summary",
+        "sc_qam_preeq",
+        "per_profile_fec",
+        "plc_ncp_counters",
+        "band_power_6mhz",
+        "us_rxmer_file",
+        "us_rxmer_summary",
+        "us_spectrum_capture",
+        "v_in",
+        "i_draw",
+        "temp_c",
+        "status",
+        "out_level",
+        "access"
+      ]
+    },
+    "ChannelId": {
+      "description": "A channel in a channel plan, stable across migrations (§9).",
+      "type": "string"
+    },
+    "ChannelPlan": {
+      "description": "Every channel the profile runs.",
+      "type": "object",
+      "properties": {
+        "ds_sc_qam": {
+          "description": "Downstream SC-QAM channels.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DsScQamChannel"
+          }
+        },
+        "ofdm": {
+          "description": "Downstream OFDM channels.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OfdmChannel"
+          }
+        },
+        "ofdma": {
+          "description": "Upstream OFDMA channels.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OfdmaChannel"
+          }
+        },
+        "us_sc_qam": {
+          "description": "Upstream SC-QAM channels.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UsScQamChannel"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ds_sc_qam",
+        "ofdm",
+        "us_sc_qam",
+        "ofdma"
+      ]
+    },
+    "DataProfile": {
+      "description": "A data profile on an OFDM or OFDMA channel, with one modulation across it.",
+      "type": "object",
+      "properties": {
+        "data_profile_id": {
+          "description": "Downstream profile id (0 is Profile A) or upstream data IUC.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "modulation": {
+          "description": "Modulation.",
+          "$ref": "#/$defs/Qam"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data_profile_id",
+        "modulation"
+      ]
+    },
+    "DesignLevels": {
+      "description": "Design targets and limits (§3).",
+      "type": "object",
+      "properties": {
+        "modem_in_max_dbmv": {
+          "description": "Modem input ceiling, dBmV per 6 MHz (§3.3).",
+          "type": "number",
+          "format": "double"
+        },
+        "modem_in_min_dbmv_by_qam": {
+          "description": "Modem input floor by highest modulation (§3.3).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/QamFloor"
+          }
+        },
+        "modem_in_total_max_dbmv": {
+          "description": "Modem total input ceiling, dBmV over the whole band (§3.3).",
+          "type": "number",
+          "format": "double"
+        },
+        "out_dbmv_at_hi": {
+          "description": "Active output at the downstream band's top frequency, dBmV per 6 MHz (§3.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "psd_spread_max_db": {
+          "description": "Most the average power per MHz at a modem may exceed the average of its\nlowest-power 24 MHz, dB (§3.3).",
+          "type": "number",
+          "format": "double"
+        },
+        "tilt_db": {
+          "description": "Output tilt across the downstream band, dB (§3.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "us_node_in_target_dbmv": {
+          "description": "Level the node's return input needs, dBmV per 6.4 MHz (§7.2).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "out_dbmv_at_hi",
+        "tilt_db",
+        "psd_spread_max_db",
+        "modem_in_min_dbmv_by_qam",
+        "modem_in_max_dbmv",
+        "modem_in_total_max_dbmv",
+        "us_node_in_target_dbmv"
+      ]
+    },
+    "Direction": {
+      "description": "Direction of a band segment.",
+      "oneOf": [
+        {
+          "description": "Upstream only.",
+          "type": "string",
+          "const": "Us"
+        },
+        {
+          "description": "Downstream only.",
+          "type": "string",
+          "const": "Ds"
+        },
+        {
+          "description": "Shared, under FDX.",
+          "type": "string",
+          "const": "Both"
+        }
+      ]
+    },
+    "Docsis": {
+      "description": "DOCSIS version and duplex mode.",
+      "oneOf": [
+        {
+          "description": "DOCSIS 3.0.",
+          "type": "string",
+          "const": "D30"
+        },
+        {
+          "description": "DOCSIS 3.1.",
+          "type": "string",
+          "const": "D31"
+        },
+        {
+          "description": "DOCSIS 4.0, extended spectrum.",
+          "type": "string",
+          "const": "D40Esd"
+        },
+        {
+          "description": "DOCSIS 4.0, full duplex.",
+          "type": "string",
+          "const": "D40Fdx"
+        }
+      ]
+    },
+    "DsScQamChannel": {
+      "description": "A downstream SC-QAM channel.",
+      "type": "object",
+      "properties": {
+        "center_mhz": {
+          "description": "Centre frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "channel_id": {
+          "description": "Stable channel id.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "modulation": {
+          "description": "Modulation.",
+          "$ref": "#/$defs/Qam"
+        },
+        "width_mhz": {
+          "description": "Occupied width, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "center_mhz",
+        "width_mhz",
+        "modulation"
+      ]
+    },
+    "FbcCapability": {
+      "description": "Full-band capture support.",
+      "type": "object",
+      "properties": {
+        "file": {
+          "description": "Available as a PNM file.",
+          "type": "boolean"
+        },
+        "hi_mhz": {
+          "description": "Highest covered frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "lo_mhz": {
+          "description": "Lowest covered frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "snmp": {
+          "description": "Available over SNMP.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "snmp",
+        "lo_mhz",
+        "hi_mhz"
+      ]
+    },
+    "FecRow": {
+      "description": "FEC figures for one modulation (§4.6).",
+      "type": "object",
+      "properties": {
+        "qam": {
+          "description": "Modulation.",
+          "$ref": "#/$defs/Qam"
+        },
+        "req_cnr_above_1002_db": {
+          "description": "Required CNR from 1002 to 1218 MHz where it differs, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "req_cnr_db": {
+          "description": "Required CNR in AWGN, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "sc_qam_thr_db": {
+          "description": "SC-QAM failure threshold where a source gives one, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "thr_db": {
+          "description": "OFDM failure threshold `thr`, where uncorrectables begin, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "qam",
+        "thr_db",
+        "req_cnr_db"
+      ]
+    },
+    "ModemBehavior": {
+      "description": "Modem and CMTS behaviour that sources leave to vendors (§7.2, §7.4).",
+      "type": "object",
+      "properties": {
+        "ranging_spacing_s": {
+          "description": "Station maintenance spacing, seconds.",
+          "type": "number",
+          "format": "double"
+        },
+        "reregistration_s": {
+          "description": "Time from a usable channel to registration, seconds.",
+          "type": "number",
+          "format": "double"
+        },
+        "tx_saturation": {
+          "description": "Above the transmit limit.",
+          "$ref": "#/$defs/TxSaturation"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "tx_saturation",
+        "ranging_spacing_s",
+        "reregistration_s"
+      ]
+    },
+    "NcpModulation": {
+      "description": "NCP modulation. The PLC is always 16-QAM, so it has no field (§4.6).",
+      "oneOf": [
+        {
+          "description": "QPSK.",
+          "type": "string",
+          "const": "Qpsk"
+        },
+        {
+          "description": "16-QAM.",
+          "type": "string",
+          "const": "Qam16"
+        },
+        {
+          "description": "64-QAM.",
+          "type": "string",
+          "const": "Qam64"
+        }
+      ]
+    },
+    "NodeKind": {
+      "description": "The kind of head-end device at a tree's root.",
+      "oneOf": [
+        {
+          "description": "Analog fiber node, fed from an I-CCAP.",
+          "type": "string",
+          "const": "Analog"
+        },
+        {
+          "description": "Remote PHY device.",
+          "type": "string",
+          "const": "Rpd"
+        }
+      ]
+    },
+    "OfdmChannel": {
+      "description": "A downstream OFDM channel.",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "Stable channel id.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "cp_us": {
+          "description": "Cyclic prefix, µs.",
+          "type": "number",
+          "format": "double"
+        },
+        "data_profiles": {
+          "description": "Data profiles.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DataProfile"
+          }
+        },
+        "fft_size": {
+          "description": "FFT size: 4096 or 8192.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "first_active_mhz": {
+          "description": "First active subcarrier, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "last_active_mhz": {
+          "description": "Last active subcarrier, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "ncp_modulation": {
+          "description": "NCP modulation.",
+          "$ref": "#/$defs/NcpModulation"
+        },
+        "rolloff_us": {
+          "description": "Window roll-off, µs.",
+          "type": "number",
+          "format": "double"
+        },
+        "subcarrier_spacing_khz": {
+          "description": "Subcarrier spacing, kHz; 50 at 4K and 25 at 8K.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "first_active_mhz",
+        "last_active_mhz",
+        "fft_size",
+        "subcarrier_spacing_khz",
+        "cp_us",
+        "rolloff_us",
+        "data_profiles",
+        "ncp_modulation"
+      ]
+    },
+    "OfdmaChannel": {
+      "description": "An upstream OFDMA channel.",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "Stable channel id.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "cp_us": {
+          "description": "Cyclic prefix, µs.",
+          "type": "number",
+          "format": "double"
+        },
+        "data_profiles": {
+          "description": "Data profiles.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DataProfile"
+          }
+        },
+        "fft_size": {
+          "description": "FFT size: 2048 or 4096.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "first_active_mhz": {
+          "description": "First active subcarrier, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "last_active_mhz": {
+          "description": "Last active subcarrier, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "rolloff_us": {
+          "description": "Window roll-off, µs.",
+          "type": "number",
+          "format": "double"
+        },
+        "subcarrier_spacing_khz": {
+          "description": "Subcarrier spacing, kHz; 50 at 2K and 25 at 4K.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "first_active_mhz",
+        "last_active_mhz",
+        "fft_size",
+        "subcarrier_spacing_khz",
+        "cp_us",
+        "rolloff_us",
+        "data_profiles"
+      ]
+    },
+    "PlantReports": {
+      "description": "Plant-side readings observation version 2 added, each its own flag. Absent is none, as version 1 reported. Version 2.",
+      "type": "object",
+      "properties": {
+        "hub_optical_rx": {
+          "description": "The hub's return receiver input power (`heOpRxInputPower`), or the hub optic's receive power.",
+          "type": "boolean",
+          "default": false
+        },
+        "node_optical_rx": {
+          "description": "An analog node's forward receiver power (`fnOpticalReceiverPower`), or an RPD optic's receive power.",
+          "type": "boolean",
+          "default": false
+        },
+        "out_level_per_port": {
+          "description": "An active's output level per output port (`rfAmpRFPortOutputRFLevel`).",
+          "type": "boolean",
+          "default": false
+        },
+        "rpd_optic_status": {
+          "description": "An RPD's optic status, from its pluggable's diagnostics.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProfileId": {
+      "description": "An architecture profile.",
+      "type": "string"
+    },
+    "Qam": {
+      "description": "A constellation. These are the orders with §4.6 thresholds.",
+      "oneOf": [
+        {
+          "description": "16-QAM.",
+          "type": "string",
+          "const": "Qam16"
+        },
+        {
+          "description": "64-QAM.",
+          "type": "string",
+          "const": "Qam64"
+        },
+        {
+          "description": "128-QAM.",
+          "type": "string",
+          "const": "Qam128"
+        },
+        {
+          "description": "256-QAM.",
+          "type": "string",
+          "const": "Qam256"
+        },
+        {
+          "description": "512-QAM.",
+          "type": "string",
+          "const": "Qam512"
+        },
+        {
+          "description": "1024-QAM.",
+          "type": "string",
+          "const": "Qam1024"
+        },
+        {
+          "description": "2048-QAM.",
+          "type": "string",
+          "const": "Qam2048"
+        },
+        {
+          "description": "4096-QAM.",
+          "type": "string",
+          "const": "Qam4096"
+        }
+      ]
+    },
+    "QamFloor": {
+      "description": "The lowest downstream level a modem may run at a given highest modulation (§3.3).",
+      "type": "object",
+      "properties": {
+        "min_dbmv": {
+          "description": "Input floor, dBmV per 6 MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "qam": {
+          "description": "Highest modulation in use.",
+          "$ref": "#/$defs/Qam"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "qam",
+        "min_dbmv"
+      ]
+    },
+    "TxSaturation": {
+      "description": "What a modem does when asked for more transmit power than it has (§7.2).",
+      "oneOf": [
+        {
+          "description": "Transmits at its limit, so the CMTS hears it low by the deficit.",
+          "type": "string",
+          "const": "Clamp"
+        }
+      ]
+    },
+    "UsScQamChannel": {
+      "description": "An upstream SC-QAM channel.",
+      "type": "object",
+      "properties": {
+        "center_mhz": {
+          "description": "Centre frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "channel_id": {
+          "description": "Stable channel id.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "modulation": {
+          "description": "Modulation.",
+          "$ref": "#/$defs/Qam"
+        },
+        "symbol_rate_msym_per_s": {
+          "description": "Symbol rate, Msym/s (§5.3).",
+          "type": "number",
+          "format": "double"
+        },
+        "width_mhz": {
+          "description": "Occupied width, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "center_mhz",
+        "width_mhz",
+        "symbol_rate_msym_per_s",
+        "modulation"
+      ]
+    }
+  }
+}

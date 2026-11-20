@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpsRates",
+  "description": "The rates a world runs on, by name. `ops::World` refuses a file missing one it reads.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Stable identifier.",
+      "type": "string"
+    },
+    "rates": {
+      "description": "Every rate, by name.",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/Rate"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "rates"
+  ],
+  "$defs": {
+    "Confidence": {
+      "description": "What a rate rests on (invariant 9, for numbers that aren't parts).",
+      "oneOf": [
+        {
+          "description": "A published figure: a statistic, a report, a paper.",
+          "type": "string",
+          "const": "Published"
+        },
+        {
+          "description": "Worked out from published figures, and the working says how.",
+          "type": "string",
+          "const": "Inferred"
+        },
+        {
+          "description": "Judgement, with nothing published behind it.",
+          "type": "string",
+          "const": "Generic"
+        }
+      ]
+    },
+    "Rate": {
+      "description": "One rate.",
+      "type": "object",
+      "properties": {
+        "confidence": {
+          "description": "What it rests on.",
+          "$ref": "#/$defs/Confidence"
+        },
+        "note": {
+          "description": "How it was read or worked out.",
+          "type": "string"
+        },
+        "source_url": {
+          "description": "Where it comes from, if anywhere.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit": {
+          "description": "Its unit, in words, such as `per span per year` or `minutes`.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Its value.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit",
+        "confidence",
+        "note"
+      ]
+    }
+  }
+}

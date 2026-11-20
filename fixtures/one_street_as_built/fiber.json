@@ -1,0 +1,542 @@
+{
+  "schema_version": "1",
+  "id": "fiber-as-built",
+  "origin": "Synthetic",
+  "hubs": [
+    {
+      "id": "hub-1",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    }
+  ],
+  "elements": [
+    {
+      "id": "cmts-1",
+      "kind": "Cmts",
+      "component_ref": "cmts-generic-iccap",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "sg-1"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "ftx-1",
+      "kind": "OpticalTx",
+      "component_ref": "ftx-generic-1310",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "osplit-1",
+      "kind": "OpticalPassive",
+      "component_ref": "osplit-generic-1x8",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "in",
+        "out-1"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "rrx-1",
+      "kind": "OpticalRx",
+      "component_ref": "rrx-generic-hfc",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "core-1",
+      "kind": "Cmts",
+      "component_ref": "core-generic-rphy",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "sg-1"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "switch-1",
+      "kind": "Switch",
+      "component_ref": "switch-generic-48",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "ports": [
+        "port-1"
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "sfp-1",
+      "kind": "Transceiver",
+      "component_ref": "sfp-generic-10g-lr",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "timing-1",
+      "kind": "TimingSource",
+      "component_ref": "timing-generic-gm",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "panel-1",
+      "kind": "PatchPanel",
+      "component_ref": "panel-generic-24",
+      "geo": {
+        "lon_deg": -105.109998,
+        "lat_deg": 39.9
+      },
+      "hub": "hub-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "closure-1",
+      "kind": "SpliceClosure",
+      "component_ref": "closure-generic",
+      "geo": {
+        "lon_deg": -105.104282,
+        "lat_deg": 39.9
+      },
+      "structure": "fpole-2",
+      "record_status": "Built"
+    },
+    {
+      "id": "node-end-low",
+      "kind": {
+        "NodeEnd": {
+          "service_group": "sg-as-built-lowsplit"
+        }
+      },
+      "component_ref": "node-generic-1002-modular",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "structure": "pole-1",
+      "record_status": "Built"
+    },
+    {
+      "id": "node-end-high",
+      "kind": {
+        "NodeEnd": {
+          "service_group": "sg-as-built-highsplit"
+        }
+      },
+      "component_ref": "rpd-generic-1218-modular",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "structure": "pole-1",
+      "record_status": "Built"
+    }
+  ],
+  "cables": [
+    {
+      "id": "jumper-1",
+      "component_ref": "fiber-generic-jumper",
+      "from": "ftx-1",
+      "to": "osplit-1",
+      "len_ft": 15.0,
+      "installation": "Underground",
+      "record_status": "Built"
+    },
+    {
+      "id": "jumper-4",
+      "component_ref": "fiber-generic-jumper",
+      "from": "osplit-1",
+      "to": "panel-1",
+      "len_ft": 15.0,
+      "installation": "Underground",
+      "record_status": "Built"
+    },
+    {
+      "id": "jumper-2",
+      "component_ref": "fiber-generic-jumper",
+      "from": "panel-1",
+      "to": "rrx-1",
+      "len_ft": 15.0,
+      "installation": "Underground",
+      "record_status": "Built"
+    },
+    {
+      "id": "jumper-3",
+      "component_ref": "fiber-generic-jumper-duplex",
+      "from": "sfp-1",
+      "to": "panel-1",
+      "len_ft": 15.0,
+      "installation": "Underground",
+      "record_status": "Built"
+    },
+    {
+      "id": "fiber-1",
+      "component_ref": "fiber-generic-48",
+      "from": "panel-1",
+      "to": "closure-1",
+      "len_ft": 1700.0,
+      "installation": "Aerial",
+      "path": [
+        {
+          "geo": {
+            "lon_deg": -105.107137,
+            "lat_deg": 39.9
+          },
+          "structure": "fpole-1"
+        }
+      ],
+      "support": "strand-generic",
+      "record_status": "Built"
+    },
+    {
+      "id": "fiber-2",
+      "component_ref": "fiber-generic-12",
+      "from": "closure-1",
+      "to": "node-end-low",
+      "len_ft": 1300.0,
+      "installation": "Aerial",
+      "path": [
+        {
+          "geo": {
+            "lon_deg": -105.102141,
+            "lat_deg": 39.9
+          },
+          "structure": "fpole-3"
+        }
+      ],
+      "support": "strand-generic",
+      "record_status": "Built"
+    },
+    {
+      "id": "fiber-3",
+      "component_ref": "fiber-generic-12",
+      "from": "closure-1",
+      "to": "node-end-high",
+      "len_ft": 1300.0,
+      "installation": "Aerial",
+      "path": [
+        {
+          "geo": {
+            "lon_deg": -105.102141,
+            "lat_deg": 39.9
+          },
+          "structure": "fpole-3"
+        }
+      ],
+      "support": "strand-generic",
+      "record_status": "Built"
+    }
+  ],
+  "links": [
+    {
+      "id": "link-low-fwd",
+      "service_group": "sg-as-built-lowsplit",
+      "direction": "Forward",
+      "wavelength_nm": 1310.0,
+      "hops": [
+        {
+          "Connector": {
+            "at": "ftx-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "jumper-1",
+            "strand": 1
+          }
+        },
+        {
+          "Connector": {
+            "at": "osplit-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Through": {
+            "element": "osplit-1",
+            "port_in": "in",
+            "port_out": "out-1"
+          }
+        },
+        {
+          "Connector": {
+            "at": "osplit-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "jumper-4",
+            "strand": 1
+          }
+        },
+        {
+          "Connector": {
+            "at": "panel-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-1",
+            "strand": 1
+          }
+        },
+        {
+          "Splice": {
+            "at": "closure-1"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-2",
+            "strand": 1
+          }
+        },
+        {
+          "Connector": {
+            "at": "node-end-low",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        }
+      ]
+    },
+    {
+      "id": "link-low-ret",
+      "service_group": "sg-as-built-lowsplit",
+      "direction": "Return",
+      "wavelength_nm": 1310.0,
+      "hops": [
+        {
+          "Connector": {
+            "at": "node-end-low",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-2",
+            "strand": 2
+          }
+        },
+        {
+          "Splice": {
+            "at": "closure-1"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-1",
+            "strand": 2
+          }
+        },
+        {
+          "Connector": {
+            "at": "panel-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "jumper-2",
+            "strand": 1
+          }
+        },
+        {
+          "Connector": {
+            "at": "rrx-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        }
+      ]
+    },
+    {
+      "id": "link-high-fwd",
+      "service_group": "sg-as-built-highsplit",
+      "direction": "Forward",
+      "wavelength_nm": 1310.0,
+      "hops": [
+        {
+          "Connector": {
+            "at": "sfp-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "jumper-3",
+            "strand": 1
+          }
+        },
+        {
+          "Connector": {
+            "at": "panel-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-1",
+            "strand": 3
+          }
+        },
+        {
+          "Splice": {
+            "at": "closure-1"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-3",
+            "strand": 1
+          }
+        },
+        {
+          "Connector": {
+            "at": "node-end-high",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        }
+      ]
+    },
+    {
+      "id": "link-high-ret",
+      "service_group": "sg-as-built-highsplit",
+      "direction": "Return",
+      "wavelength_nm": 1310.0,
+      "hops": [
+        {
+          "Connector": {
+            "at": "node-end-high",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-3",
+            "strand": 2
+          }
+        },
+        {
+          "Splice": {
+            "at": "closure-1"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "fiber-1",
+            "strand": 4
+          }
+        },
+        {
+          "Connector": {
+            "at": "panel-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        },
+        {
+          "Fiber": {
+            "cable": "jumper-3",
+            "strand": 2
+          }
+        },
+        {
+          "Connector": {
+            "at": "sfp-1",
+            "component_ref": "fconn-generic-sc-apc"
+          }
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "service_group": "sg-as-built-lowsplit",
+      "cmts": "cmts-1",
+      "port": "sg-1"
+    },
+    {
+      "service_group": "sg-as-built-highsplit",
+      "cmts": "core-1",
+      "port": "sg-1"
+    }
+  ],
+  "structures": [
+    {
+      "id": "fpole-1",
+      "kind": "Pole",
+      "component_ref": "structure-generic-pole",
+      "geo": {
+        "lon_deg": -105.107137,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    },
+    {
+      "id": "fpole-2",
+      "kind": "Pole",
+      "component_ref": "structure-generic-pole",
+      "geo": {
+        "lon_deg": -105.104282,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    },
+    {
+      "id": "fpole-3",
+      "kind": "Pole",
+      "component_ref": "structure-generic-pole",
+      "geo": {
+        "lon_deg": -105.102141,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    },
+    {
+      "id": "pole-1",
+      "kind": "Pole",
+      "component_ref": "structure-generic-pole",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "homes_per_node": 250,
+  "cascade_limit": null,
+  "take_rate": 0.6,
+  "d30_share": 0.3,
+  "max_drop_ft": 250.0,
+  "pinned_nodes": [
+    {
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      }
+    }
+  ],
+  "seed": 1,
+  "rules_id": "generic",
+  "mode": {
+    "LegacyThenUpgrade": {
+      "legacy_rules_id": "legacy-1002",
+      "legacy_profile_ref": "d30_lowsplit_750_legacy"
+    }
+  }
+}

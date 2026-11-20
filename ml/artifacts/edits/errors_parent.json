@@ -1,0 +1,557 @@
+{
+ "origin": "Synthetic",
+ "split": "calibrate",
+ "summary": {
+  "fall_mae_db": 2.1385,
+  "small_fall_mae_db": 0.1854,
+  "macro_f1": 0.9127,
+  "lowmer_f1": 0.7069,
+  "min_f1": 0.7069,
+  "healthy_false_alarm": 0.0085,
+  "severe_10_db": 0.9983,
+  "severe_20_db": 1.0
+ },
+ "fall_bands": {
+  "0-3": {
+   "bins": 15632426,
+   "mae_db": 0.1854458451271057,
+   "bias_db": 0.09498140215873718
+  },
+  "3-6": {
+   "bins": 308024,
+   "mae_db": 2.7074975967407227,
+   "bias_db": -1.8789112567901611
+  },
+  "6-10": {
+   "bins": 332604,
+   "mae_db": 3.433042049407959,
+   "bias_db": -1.918499231338501
+  },
+  "10-20": {
+   "bins": 720365,
+   "mae_db": 1.599660038948059,
+   "bias_db": -0.19093656539916992
+  },
+  "20-1000": {
+   "bins": 442881,
+   "mae_db": 1.6469768285751343,
+   "bias_db": -0.5735549330711365
+  }
+ },
+ "shapes": {
+  "Ingress": {
+   "f1": 0.962862930452397,
+   "precision": 0.9674355495251018,
+   "recall": 0.9583333333333334,
+   "captures": 744
+  },
+  "Spike": {
+   "f1": 0.9734647460197119,
+   "precision": 0.9801526717557252,
+   "recall": 0.9668674698795181,
+   "captures": 664
+  },
+  "Dip": {
+   "f1": 0.9491039426523297,
+   "precision": 0.9664233576642336,
+   "recall": 0.9323943661971831,
+   "captures": 710
+  },
+  "RollOff": {
+   "f1": 0.9255663430420712,
+   "precision": 0.9300813008130081,
+   "recall": 0.9210950080515298,
+   "captures": 621
+  },
+  "BandLoss": {
+   "f1": 0.9469964664310955,
+   "precision": 0.9305555555555556,
+   "recall": 0.9640287769784173,
+   "captures": 695
+  },
+  "Ripple": {
+   "f1": 0.9393939393939394,
+   "precision": 0.9117647058823529,
+   "recall": 0.96875,
+   "captures": 64
+  },
+  "Wave": {
+   "f1": 0.9084457061745919,
+   "precision": 0.9411764705882353,
+   "recall": 0.877914951989026,
+   "captures": 729
+  },
+  "LowMer": {
+   "f1": 0.7069243156199678,
+   "precision": 0.857421875,
+   "recall": 0.6013698630136987,
+   "captures": 730
+  },
+  "Edge": {
+   "f1": 0.9017667844522969,
+   "precision": 0.9101283880171184,
+   "recall": 0.8935574229691877,
+   "captures": 714
+  }
+ },
+ "lowmer": {
+  "missed": 291,
+  "false_calls": 73,
+  "missed_with_another_shape_named": 57,
+  "missed_flat_share": 0.8316151202749141,
+  "missed_causes": {
+   "AmpDrift": 121,
+   "ConnectorReflection": 113,
+   "ForwardOptics": 108,
+   "BadDrop": 62,
+   "WaterIngress": 61,
+   "FrequencySelectiveLoss": 51,
+   "DownstreamIngress": 48,
+   "Suckout": 18,
+   "AdjacentLevelOffset": 12,
+   "ResonantPeak": 9
+  },
+  "false_call_causes": {
+   "FrequencySelectiveLoss": 31,
+   "WaterIngress": 28,
+   "ConnectorReflection": 25,
+   "DownstreamIngress": 23,
+   "AdjacentLevelOffset": 8,
+   "Suckout": 5,
+   "AmpDrift": 3,
+   "BadDrop": 3,
+   "ResonantPeak": 1
+  },
+  "worst_missed": [
+   {
+    "index": 7960,
+    "map": "tampa_seminole_heights_fl",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "BadDrop"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 26.7
+   },
+   {
+    "index": 4446,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "AmpDrift",
+     "Suckout"
+    ],
+    "shapes": [
+     "LowMer",
+     "Dip"
+    ],
+    "worst_fall_db": 35.6
+   },
+   {
+    "index": 16702,
+    "map": "northampton_ma",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "AmpDrift",
+     "Suckout"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 26.0
+   },
+   {
+    "index": 8134,
+    "map": "tampa_seminole_heights_fl",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 25.8
+   },
+   {
+    "index": 4209,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "BadDrop"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 24.8
+   },
+   {
+    "index": 12829,
+    "map": "cary_nc",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "AmpDrift",
+     "FrequencySelectiveLoss",
+     "Suckout"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 23.5
+   },
+   {
+    "index": 3321,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "BadDrop"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 21.5
+   },
+   {
+    "index": 17279,
+    "map": "northampton_ma",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 21.2
+   },
+   {
+    "index": 4999,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "Ripple",
+     "LowMer"
+    ],
+    "worst_fall_db": 24.7
+   },
+   {
+    "index": 5000,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "Ripple",
+     "LowMer"
+    ],
+    "worst_fall_db": 23.7
+   },
+   {
+    "index": 4654,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "ConnectorReflection",
+     "AmpDrift",
+     "WaterIngress"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 20.2
+   },
+   {
+    "index": 3030,
+    "map": "kansas_city_brookside_mo",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "DownstreamIngress",
+     "ConnectorReflection",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "LowMer"
+    ],
+    "worst_fall_db": 17.4
+   },
+   {
+    "index": 14396,
+    "map": "northampton_ma",
+    "profile": "d31_lowsplit_1002_iccap",
+    "causes": [
+     "WaterIngress",
+     "ForwardOptics"
+    ],
+    "shapes": [
+     "Wave",
+     "LowMer"
+    ],
+    "worst_fall_db": 18.8
+   },
+   {
+    "index": 16190,
+    "map": "northampton_ma",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "WaterIngress",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "Wave",
+     "LowMer"
+    ],
+    "worst_fall_db": 27.6
+   },
+   {
+    "index": 16189,
+    "map": "northampton_ma",
+    "profile": "d31_highsplit_1218_rpd",
+    "causes": [
+     "WaterIngress",
+     "AmpDrift"
+    ],
+    "shapes": [
+     "Wave",
+     "LowMer"
+    ],
+    "worst_fall_db": 27.6
+   }
+  ]
+ },
+ "worst_fall": [
+  {
+   "index": 9279,
+   "map": "tampa_seminole_heights_fl",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "AmpDrift",
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Spike"
+   ],
+   "worst_fall_db": 62.8,
+   "mae_db": 17.81,
+   "bias_db": -17.81
+  },
+  {
+   "index": 2103,
+   "map": "kansas_city_brookside_mo",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "ConnectorReflection",
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 63.3,
+   "mae_db": 17.02,
+   "bias_db": -17.02
+  },
+  {
+   "index": 13284,
+   "map": "northampton_ma",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "FrequencySelectiveLoss",
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Spike"
+   ],
+   "worst_fall_db": 61.3,
+   "mae_db": 16.73,
+   "bias_db": -16.73
+  },
+  {
+   "index": 6593,
+   "map": "tampa_seminole_heights_fl",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 65.7,
+   "mae_db": 16.54,
+   "bias_db": -16.54
+  },
+  {
+   "index": 1343,
+   "map": "kansas_city_brookside_mo",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "ConnectorReflection",
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 72.2,
+   "mae_db": 16.15,
+   "bias_db": -16.15
+  },
+  {
+   "index": 7308,
+   "map": "tampa_seminole_heights_fl",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "ResonantPeak",
+    "DownstreamIngress",
+    "WaterIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 64.4,
+   "mae_db": 15.94,
+   "bias_db": -15.94
+  },
+  {
+   "index": 15089,
+   "map": "northampton_ma",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "WaterIngress",
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Edge",
+    "Ingress"
+   ],
+   "worst_fall_db": 68.9,
+   "mae_db": 15.88,
+   "bias_db": -15.88
+  },
+  {
+   "index": 18224,
+   "map": "northampton_ma",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Spike"
+   ],
+   "worst_fall_db": 62.2,
+   "mae_db": 15.77,
+   "bias_db": -15.77
+  },
+  {
+   "index": 586,
+   "map": "kansas_city_brookside_mo",
+   "profile": "d31_lowsplit_1002_iccap",
+   "causes": [
+    "DownstreamIngress",
+    "BadDrop"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 63.0,
+   "mae_db": 15.47,
+   "bias_db": -15.47
+  },
+  {
+   "index": 11702,
+   "map": "cary_nc",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "DownstreamIngress",
+    "ConnectorReflection"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 65.5,
+   "mae_db": 15.41,
+   "bias_db": -15.41
+  },
+  {
+   "index": 16357,
+   "map": "northampton_ma",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Spike"
+   ],
+   "worst_fall_db": 70.2,
+   "mae_db": 15.34,
+   "bias_db": -15.34
+  },
+  {
+   "index": 15698,
+   "map": "northampton_ma",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "AdjacentLevelOffset",
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 69.8,
+   "mae_db": 15.23,
+   "bias_db": -15.23
+  },
+  {
+   "index": 3753,
+   "map": "kansas_city_brookside_mo",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "FrequencySelectiveLoss",
+    "DownstreamIngress",
+    "WaterIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 70.1,
+   "mae_db": 15.19,
+   "bias_db": -15.19
+  },
+  {
+   "index": 3880,
+   "map": "kansas_city_brookside_mo",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "DownstreamIngress",
+    "ConnectorReflection"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 66.1,
+   "mae_db": 15.02,
+   "bias_db": -15.02
+  },
+  {
+   "index": 16017,
+   "map": "northampton_ma",
+   "profile": "d31_highsplit_1218_rpd",
+   "causes": [
+    "DownstreamIngress"
+   ],
+   "shapes": [
+    "Ingress"
+   ],
+   "worst_fall_db": 65.9,
+   "mae_db": 14.96,
+   "bias_db": -14.96
+  }
+ ]
+}

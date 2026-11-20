@@ -1,0 +1,345 @@
+{
+  "schema_version": "1",
+  "t": 300,
+  "origin": "Synthetic",
+  "element_id": "modem",
+  "generation": "D31",
+  "rxmer": [
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "axis": {
+        "zero_freq_mhz": 800.0,
+        "first_active_index": 700,
+        "spacing_khz": 50.0
+      },
+      "rxmer_db": [
+        41.75,
+        null,
+        42.0
+      ],
+      "rxmer_mean_db": 41.88,
+      "rxmer_stddev_db": 0.2,
+      "rxmer_p2_db": 41.75
+    }
+  ],
+  "fbc": {
+    "profile_ref": "sample-profile",
+    "first_bin_center_mhz": 258.0,
+    "bin_width_khz": 29.3,
+    "noise_bandwidth_khz": 43.9,
+    "fbc_dbmv": [
+      -14.0,
+      -13.75
+    ]
+  },
+  "ds_chan_est": [
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "axis": {
+        "zero_freq_mhz": 800.0,
+        "first_active_index": 700,
+        "spacing_khz": 50.0
+      },
+      "coefficients": [
+        {
+          "re": 1.0,
+          "im": 0.0
+        },
+        null
+      ],
+      "summary": {
+        "mag_mean_db": 0.0,
+        "mag_slope_db_per_mhz": 0.01,
+        "mag_ripple_rms_db": 0.1,
+        "mag_ripple_pp_db": 0.4,
+        "gd_mean_ns": 120.0,
+        "gd_slope_ns_per_mhz": 0.02,
+        "gd_ripple_rms_ns": 1.0,
+        "gd_ripple_pp_ns": 4.0
+      }
+    }
+  ],
+  "ds_rx": [
+    {
+      "channel_id": "ds-sc-01",
+      "profile_ref": "sample-profile",
+      "ds_rx_dbmv": {
+        "ScQam": {
+          "level_dbmv": 7.5
+        }
+      }
+    },
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "ds_rx_dbmv": {
+        "Ofdm": {
+          "bands": [
+            {
+              "center_mhz": 837.0,
+              "level_dbmv": 7.25
+            }
+          ],
+          "plc_band_dbmv": 7.5
+        }
+      }
+    }
+  ],
+  "codewords": [
+    {
+      "channel_id": "ds-sc-01",
+      "profile_ref": "sample-profile",
+      "data_profile_id": null,
+      "total": 1000,
+      "corrected": 1,
+      "uncorrectable": 0
+    },
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "data_profile_id": 1,
+      "total": 2000,
+      "corrected": 900,
+      "uncorrectable": 0
+    }
+  ],
+  "plc": [
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "total": 100,
+      "unreliable": 0
+    }
+  ],
+  "ncp": [
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "total": 100,
+      "crc_failures": 0
+    }
+  ],
+  "preeq": {
+    "sc_qam": [
+      {
+        "channel_id": "us-sc-1",
+        "profile_ref": "sample-profile",
+        "taps": [
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          },
+          {
+            "re": 1.0,
+            "im": 0.0
+          }
+        ],
+        "main_tap_index": 8,
+        "mtc_db": 0.005,
+        "mtr_db": 29.0,
+        "nmter_db": -29.0
+      }
+    ],
+    "ofdma": [
+      {
+        "channel_id": "ofdma-1",
+        "profile_ref": "sample-profile",
+        "axis": {
+          "zero_freq_mhz": 800.0,
+          "first_active_index": 700,
+          "spacing_khz": 50.0
+        },
+        "coefficients": [
+          {
+            "re": 1.0,
+            "im": 0.0
+          }
+        ],
+        "summary": {
+          "mag_mean_db": 0.0,
+          "mag_slope_db_per_mhz": 0.01,
+          "mag_ripple_rms_db": 0.1,
+          "mag_ripple_pp_db": 0.4,
+          "gd_mean_ns": 120.0,
+          "gd_slope_ns_per_mhz": 0.02,
+          "gd_ripple_rms_ns": 1.0,
+          "gd_ripple_pp_ns": 4.0
+        }
+      }
+    ]
+  },
+  "us_tx": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "psd_dbmv_per_1p6mhz": 23.5,
+      "total_dbmv": 29.52
+    },
+    {
+      "channel_id": "ofdma-1",
+      "profile_ref": "sample-profile",
+      "psd_dbmv_per_1p6mhz": 31.99,
+      "total_dbmv": null
+    }
+  ],
+  "us_rx": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "us_rx_dbmv_per_1p6mhz": 3.98
+    }
+  ],
+  "us_rxmer": [
+    {
+      "channel_id": "ofdma-1",
+      "profile_ref": "sample-profile",
+      "axis": {
+        "zero_freq_mhz": 800.0,
+        "first_active_index": 700,
+        "spacing_khz": 50.0
+      },
+      "us_rxmer_db": [
+        40.0,
+        null
+      ],
+      "us_rxmer_mean_db": 40.0
+    }
+  ],
+  "reg_state": "Operational",
+  "ds_channel_state": [
+    {
+      "channel_id": "ds-sc-01",
+      "profile_ref": "sample-profile",
+      "state": "Usable"
+    }
+  ],
+  "us_channel_state": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "state": "Unusable"
+    }
+  ],
+  "partial_channel": [
+    {
+      "channel_id": "ofdm-1",
+      "profile_ref": "sample-profile",
+      "failed_data_profiles": [
+        2
+      ],
+      "ncp_failed": false,
+      "plc_failed": false
+    }
+  ],
+  "t3_timeouts": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "count": 3
+    }
+  ],
+  "t4_timeouts": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "count": 0
+    }
+  ],
+  "ranging_status": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "status": "Success"
+    }
+  ]
+}

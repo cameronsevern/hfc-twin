@@ -1,0 +1,3060 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ComponentLibrary",
+  "description": "A collection of component entries.",
+  "type": "object",
+  "properties": {
+    "components": {
+      "description": "The entries.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Component"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "components"
+  ],
+  "$defs": {
+    "AccessPath": {
+      "description": "How an adapter reaches a device's data.",
+      "oneOf": [
+        {
+          "description": "SNMP to the modem's own address.",
+          "type": "string",
+          "const": "CmSnmp"
+        },
+        {
+          "description": "A PNM file the modem uploads as a TFTP client.",
+          "type": "string",
+          "const": "CmTftp"
+        },
+        {
+          "description": "SNMP to the CMTS, for what it holds about a modem or channel.",
+          "type": "string",
+          "const": "CmtsSnmp"
+        }
+      ]
+    },
+    "ActiveSpec": {
+      "description": "An amp or a node's or RPD's RF module.",
+      "type": "object",
+      "properties": {
+        "agc_pilots_mhz": {
+          "description": "Frequencies its AGC reads level at, MHz (§3.4). Version 2.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "agc_range_db": {
+          "description": "AGC range either side of nominal, dB (§3.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "cin_ref_db": {
+          "description": "CIN at `ref_out_dbmv`, dB (§4.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "cin_table": {
+          "description": "CIN by frequency at `ref_out_dbmv`, in place of `cin_ref_db` where given (§4.4). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CinPoint"
+          }
+        },
+        "cso_ref_db": {
+          "description": "CSO at `ref_out_dbmv`, dB (§4.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "ctb_ref_db": {
+          "description": "CTB at `ref_out_dbmv`, dB (§4.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "duplex": {
+          "description": "How it separates the two directions.",
+          "$ref": "#/$defs/Duplex"
+        },
+        "gain_flatness_db": {
+          "description": "Forward gain flatness, peak to valley, dB. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "gain_table": {
+          "description": "Forward gain by frequency at full gain with no plug-ins, its built-in slope included, in place of `max_gain_db`\nflat where given. Alignment reads it (§15). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GainPoint"
+          }
+        },
+        "max_gain_db": {
+          "description": "Highest forward gain, dB (§3.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "max_out_dbmv_at_hi": {
+          "description": "Highest output it can deliver at the band's top frequency, dBmV per 6 MHz (§3.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "min_in_dbmv": {
+          "description": "Lowest forward input at the band's top frequency, dBmV per 6 MHz (§3.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "nf_db": {
+          "description": "Forward noise figure, dB (§4.2).",
+          "type": "number",
+          "format": "double"
+        },
+        "nf_table": {
+          "description": "Forward noise figure by frequency, in place of `nf_db` where given (§4.2). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NoiseFigurePoint"
+          }
+        },
+        "outputs": {
+          "description": "Its RF outputs, when it has more than one or they differ: per output port, its level below the main output and\nthe return combining loss into it. Absent means every output is the main output. Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputSpec"
+          }
+        },
+        "plugin_family": {
+          "description": "Which plug-ins fit it: a plug-in fits a host of the same family. Version 2.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "power_w": {
+          "description": "Power draw, watts (§6.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "ref_composite_dbmv": {
+          "description": "Total composite power at the output that the distortion and CIN figures are quoted at, dBmV (§4.4, §17). Where\ngiven, CIN follows the composite power the channel plan loads rather than the level at the top frequency.\nVersion 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "ref_out_dbmv": {
+          "description": "Output level the distortion figures are quoted at, dBmV per 6 MHz at the band's\ntop frequency (§4.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_gain_db": {
+          "description": "Highest return gain, dB (§7.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss at its ports by frequency, in place of `return_loss_db` where given (§5.1). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        },
+        "return_nf_db": {
+          "description": "Return noise figure, dB (§7.3).",
+          "type": "number",
+          "format": "double"
+        },
+        "v_min": {
+          "description": "Lowest input voltage it runs at, volts (§6.3).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "max_out_dbmv_at_hi",
+        "max_gain_db",
+        "min_in_dbmv",
+        "nf_db",
+        "return_nf_db",
+        "ctb_ref_db",
+        "cso_ref_db",
+        "cin_ref_db",
+        "ref_out_dbmv",
+        "return_gain_db",
+        "agc_range_db",
+        "return_loss_db",
+        "duplex",
+        "power_w",
+        "v_min"
+      ]
+    },
+    "BatterySpec": {
+      "description": "A standby battery. Version 2.",
+      "type": "object",
+      "properties": {
+        "capacity_ah": {
+          "description": "Capacity, amp-hours.",
+          "type": "number",
+          "format": "double"
+        },
+        "v_end_discharge": {
+          "description": "Voltage it mustn't be discharged below, volts.",
+          "type": "number",
+          "format": "double"
+        },
+        "v_nominal": {
+          "description": "Nominal voltage, volts.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "v_nominal",
+        "capacity_ah",
+        "v_end_discharge"
+      ]
+    },
+    "CableSpec": {
+      "description": "Cable or drop attenuation, delay and resistance.",
+      "type": "object",
+      "properties": {
+        "ampacity_a": {
+          "description": "Current it can carry, amps, at 20 °C ambient [SCTE 32]. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "atten_a": {
+          "description": "Skin-effect coefficient `a` in `A(f) = a·√f + b·f`, dB per 100 ft at f in MHz (§1.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "atten_b": {
+          "description": "Dielectric coefficient `b` in `A(f) = a·√f + b·f`, dB per 100 ft at f in MHz (§1.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "family": {
+          "description": "Size family, such as `500` or `series-6`, so a connector can be checked against its cable. Version 2.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "k_temp": {
+          "description": "Attenuation temperature coefficient `k_T`, per °C (§1.2).",
+          "type": "number",
+          "format": "double"
+        },
+        "r_loop_k_temp": {
+          "description": "How loop resistance rises with conductor temperature, per °C from 20 °C (§6.2, §19). Absent holds\n`r_loop_ohm_per_kft` at every temperature, as version 1 did. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "r_loop_ohm_per_kft": {
+          "description": "DC loop resistance, Ω per 1000 ft (§1.4).",
+          "type": "number",
+          "format": "double"
+        },
+        "v_f": {
+          "description": "Velocity factor, dimensionless (§1.3).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "atten_a",
+        "atten_b",
+        "k_temp",
+        "v_f",
+        "r_loop_ohm_per_kft"
+      ]
+    },
+    "CapabilitySet": {
+      "description": "Which observation fields exist, and how.",
+      "type": "object",
+      "properties": {
+        "access": {
+          "description": "Ways to reach the data.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AccessPath"
+          }
+        },
+        "band_power_6mhz": {
+          "description": "OFDM receive power per 6 MHz band.",
+          "type": "boolean"
+        },
+        "ds_chan_est_file": {
+          "description": "Downstream channel estimate coefficients, by file.",
+          "type": "boolean"
+        },
+        "ds_chan_est_summary": {
+          "description": "Downstream channel estimate `ResponseSummary`.",
+          "type": "boolean"
+        },
+        "ds_rxmer_file": {
+          "description": "Downstream RxMER per subcarrier, by file.",
+          "type": "boolean"
+        },
+        "ds_rxmer_summary": {
+          "description": "Downstream RxMER mean, standard deviation and 2nd percentile.",
+          "type": "boolean"
+        },
+        "fbc": {
+          "description": "Full-band capture, or `None` if unsupported.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FbcCapability"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "i_draw": {
+          "description": "Active reports current draw.",
+          "type": "boolean"
+        },
+        "ofdma_preeq_file": {
+          "description": "OFDMA pre-eq coefficients, by file.",
+          "type": "boolean"
+        },
+        "ofdma_preeq_summary": {
+          "description": "OFDMA pre-eq `ResponseSummary`.",
+          "type": "boolean"
+        },
+        "out_level": {
+          "description": "Active reports an output level.",
+          "type": "boolean"
+        },
+        "per_profile_fec": {
+          "description": "OFDM codeword counts per data profile.",
+          "type": "boolean"
+        },
+        "plc_ncp_counters": {
+          "description": "OFDM PLC and NCP counters.",
+          "type": "boolean"
+        },
+        "sc_qam_preeq": {
+          "description": "SC-QAM pre-eq taps.",
+          "type": "boolean"
+        },
+        "status": {
+          "description": "Active reports operating status.",
+          "type": "boolean"
+        },
+        "temp_c": {
+          "description": "Active reports temperature.",
+          "type": "boolean"
+        },
+        "us_rxmer_file": {
+          "description": "Upstream RxMER per subcarrier, by file.",
+          "type": "boolean"
+        },
+        "us_rxmer_summary": {
+          "description": "Upstream RxMER channel mean.",
+          "type": "boolean"
+        },
+        "us_spectrum_capture": {
+          "description": "Upstream spectrum capture.",
+          "type": "boolean"
+        },
+        "v_in": {
+          "description": "Active reports input voltage.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ds_rxmer_file",
+        "ds_rxmer_summary",
+        "ds_chan_est_file",
+        "ds_chan_est_summary",
+        "ofdma_preeq_file",
+        "ofdma_preeq_summary",
+        "sc_qam_preeq",
+        "per_profile_fec",
+        "plc_ncp_counters",
+        "band_power_6mhz",
+        "us_rxmer_file",
+        "us_rxmer_summary",
+        "us_spectrum_capture",
+        "v_in",
+        "i_draw",
+        "temp_c",
+        "status",
+        "out_level",
+        "access"
+      ]
+    },
+    "CinPoint": {
+      "description": "A point in a CIN table, at the part's `ref_out_dbmv` (§4.4).",
+      "type": "object",
+      "properties": {
+        "cin_db": {
+          "description": "Carrier to intermodulation noise, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "cin_db"
+      ]
+    },
+    "CmtsKind": {
+      "description": "The kinds of CMTS.",
+      "oneOf": [
+        {
+          "description": "MAC and PHY in one hub chassis, with RF ports to analog optics.",
+          "type": "string",
+          "const": "Integrated"
+        },
+        {
+          "description": "A Remote PHY core, physical or virtual: the PHY is in the node.",
+          "type": "string",
+          "const": "Core"
+        }
+      ]
+    },
+    "CmtsSpec": {
+      "description": "A CMTS or Remote PHY core. Version 2.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Which kind.",
+          "$ref": "#/$defs/CmtsKind"
+        },
+        "ports": {
+          "description": "Service group ports.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "source_mer": {
+          "description": "MER its downstream modulators make by frequency, before any plant. Integrated only (§4.5).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MerPoint"
+          }
+        },
+        "us_rx_ceiling_db": {
+          "description": "The highest upstream RxMER its burst receivers can report, dB. Integrated only.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "ports"
+      ]
+    },
+    "Component": {
+      "description": "One library entry.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Stable id, referenced by plant elements and edges.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "model": {
+          "description": "Model name.",
+          "type": "string"
+        },
+        "rated_hi_mhz": {
+          "description": "Highest rated frequency, MHz. `None` only on a part with no RF path ([`ComponentSpec::has_rf_path`]).\nA table lookup outside the rated band is an error (§2.1, §11).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rated_lo_mhz": {
+          "description": "Lowest rated frequency, MHz. `None` only on a part with no RF path ([`ComponentSpec::has_rf_path`]).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "source_url": {
+          "description": "Where the numbers came from, if published.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "spec_confidence": {
+          "description": "How far to trust the numbers.",
+          "$ref": "#/$defs/SpecConfidence"
+        },
+        "tolerance": {
+          "description": "How far its stated values may stray, which is what §8's randomization draws within. Absent means §8's\ndefaults. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Tolerance"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "vendor": {
+          "description": "Vendor name.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Revision of this entry.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "oneOf": [
+        {
+          "description": "See [`NodeSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Node"
+            },
+            "spec": {
+              "$ref": "#/$defs/NodeSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`RpdSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Rpd"
+            },
+            "spec": {
+              "$ref": "#/$defs/RpdSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`ActiveSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Amp"
+            },
+            "spec": {
+              "$ref": "#/$defs/ActiveSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`TapSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Tap"
+            },
+            "spec": {
+              "$ref": "#/$defs/TapSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`SplitterSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Splitter"
+            },
+            "spec": {
+              "$ref": "#/$defs/SplitterSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`DirectionalCouplerSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "DirectionalCoupler"
+            },
+            "spec": {
+              "$ref": "#/$defs/DirectionalCouplerSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`PowerInserterSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "PowerInserter"
+            },
+            "spec": {
+              "$ref": "#/$defs/PowerInserterSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`PowerSupplySpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "PowerSupply"
+            },
+            "spec": {
+              "$ref": "#/$defs/PowerSupplySpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`TerminatorSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Terminator"
+            },
+            "spec": {
+              "$ref": "#/$defs/TerminatorSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`CableSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Cable"
+            },
+            "spec": {
+              "$ref": "#/$defs/CableSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`CableSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Drop"
+            },
+            "spec": {
+              "$ref": "#/$defs/CableSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`ModemSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Modem"
+            },
+            "spec": {
+              "$ref": "#/$defs/ModemSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`PlugInSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "PlugIn"
+            },
+            "spec": {
+              "$ref": "#/$defs/PlugInSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`LineEqualizerSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "LineEqualizer"
+            },
+            "spec": {
+              "$ref": "#/$defs/LineEqualizerSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`ConnectorSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Connector"
+            },
+            "spec": {
+              "$ref": "#/$defs/ConnectorSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`GroundBlockSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "GroundBlock"
+            },
+            "spec": {
+              "$ref": "#/$defs/GroundBlockSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`DropAmpSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "DropAmp"
+            },
+            "spec": {
+              "$ref": "#/$defs/DropAmpSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`FilterSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Filter"
+            },
+            "spec": {
+              "$ref": "#/$defs/FilterSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`CpeSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Cpe"
+            },
+            "spec": {
+              "$ref": "#/$defs/CpeSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`BatterySpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Battery"
+            },
+            "spec": {
+              "$ref": "#/$defs/BatterySpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`StructureSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Structure"
+            },
+            "spec": {
+              "$ref": "#/$defs/StructureSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`StrandSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Strand"
+            },
+            "spec": {
+              "$ref": "#/$defs/StrandSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`ConduitSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Conduit"
+            },
+            "spec": {
+              "$ref": "#/$defs/ConduitSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`FiberCableSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "FiberCable"
+            },
+            "spec": {
+              "$ref": "#/$defs/FiberCableSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`SpliceClosureSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "SpliceClosure"
+            },
+            "spec": {
+              "$ref": "#/$defs/SpliceClosureSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`PatchPanelSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "PatchPanel"
+            },
+            "spec": {
+              "$ref": "#/$defs/PatchPanelSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`FiberConnectorSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "FiberConnector"
+            },
+            "spec": {
+              "$ref": "#/$defs/FiberConnectorSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`OpticalPassiveSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "OpticalPassive"
+            },
+            "spec": {
+              "$ref": "#/$defs/OpticalPassiveSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`OpticalTxSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "OpticalTx"
+            },
+            "spec": {
+              "$ref": "#/$defs/OpticalTxSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`OpticalRxSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "OpticalRx"
+            },
+            "spec": {
+              "$ref": "#/$defs/OpticalRxSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`OpticalAmpSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "OpticalAmp"
+            },
+            "spec": {
+              "$ref": "#/$defs/OpticalAmpSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`TransceiverSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Transceiver"
+            },
+            "spec": {
+              "$ref": "#/$defs/TransceiverSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`SwitchSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Switch"
+            },
+            "spec": {
+              "$ref": "#/$defs/SwitchSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`CmtsSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "Cmts"
+            },
+            "spec": {
+              "$ref": "#/$defs/CmtsSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        },
+        {
+          "description": "See [`TimingSourceSpec`].",
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "string",
+              "const": "TimingSource"
+            },
+            "spec": {
+              "$ref": "#/$defs/TimingSourceSpec"
+            }
+          },
+          "required": [
+            "class",
+            "spec"
+          ]
+        }
+      ],
+      "required": [
+        "id",
+        "version",
+        "vendor",
+        "model",
+        "spec_confidence"
+      ]
+    },
+    "ComponentId": {
+      "description": "A component library entry.",
+      "type": "string"
+    },
+    "ConduitSpec": {
+      "description": "Conduit, counted by the foot. Nothing about it reaches the sim. Version 2.",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ConnectorKind": {
+      "description": "The kinds of coax connector.",
+      "oneOf": [
+        {
+          "description": "A hardline pin connector into a housing port.",
+          "type": "string",
+          "const": "HardlinePin"
+        },
+        {
+          "description": "A splice joining two lengths of hardline.",
+          "type": "string",
+          "const": "HardlineSplice"
+        },
+        {
+          "description": "An adapter at a housing port: an elbow or an extension.",
+          "type": "string",
+          "const": "HousingAdapter"
+        },
+        {
+          "description": "A drop's F connector.",
+          "type": "string",
+          "const": "DropF"
+        }
+      ]
+    },
+    "ConnectorSpec": {
+      "description": "A connector, splice or adapter, at a point along a cable. Version 2.",
+      "type": "object",
+      "properties": {
+        "cable_family": {
+          "description": "The cable size family it fits, matched against `CableSpec::family`. `None` fits any.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "insertion_loss_db": {
+          "description": "Insertion loss, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "kind": {
+          "description": "What it is.",
+          "$ref": "#/$defs/ConnectorKind"
+        },
+        "return_loss_db": {
+          "description": "Return loss, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss by frequency, in place of `return_loss_db` where given.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "insertion_loss_db",
+        "return_loss_db"
+      ]
+    },
+    "CpeDevice": {
+      "description": "What a piece of customer equipment is.",
+      "oneOf": [
+        {
+          "description": "A set-top box.",
+          "type": "string",
+          "const": "SetTop"
+        },
+        {
+          "description": "A television tuned directly from the coax.",
+          "type": "string",
+          "const": "Television"
+        },
+        {
+          "description": "An in-home network adapter.",
+          "type": "string",
+          "const": "MocaAdapter"
+        },
+        {
+          "description": "Anything else on a port.",
+          "type": "string",
+          "const": "Other"
+        }
+      ]
+    },
+    "CpeSpec": {
+      "description": "Customer equipment that reports nothing to the twin. It loads a port and reflects. Version 2.",
+      "type": "object",
+      "properties": {
+        "device": {
+          "description": "What it is.",
+          "$ref": "#/$defs/CpeDevice"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its port, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss by frequency, in place of `return_loss_db` where given.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "device",
+        "return_loss_db"
+      ]
+    },
+    "DirectionalCouplerSpec": {
+      "description": "A directional coupler (§2.2). Through loss is computed from these.",
+      "type": "object",
+      "properties": {
+        "coupled_value_db": {
+          "description": "Coupled port value `X`, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "excess_loss_db": {
+          "description": "Excess through loss, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "power_passing": {
+          "description": "Whether AC passes to the through port.",
+          "type": "boolean"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss by frequency, in place of `return_loss_db` where given. Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "coupled_value_db",
+        "excess_loss_db",
+        "return_loss_db",
+        "power_passing"
+      ]
+    },
+    "DropAmpSpec": {
+      "description": "An amplifier in a home. Version 2.",
+      "type": "object",
+      "properties": {
+        "duplex": {
+          "description": "How it separates the two directions.",
+          "$ref": "#/$defs/Duplex"
+        },
+        "gain_db": {
+          "description": "Forward gain to each output, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "max_out_dbmv_at_hi": {
+          "description": "Highest output at the band's top frequency, dBmV per 6 MHz, if stated.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "nf_db": {
+          "description": "Forward noise figure, dB (§4.2).",
+          "type": "number",
+          "format": "double"
+        },
+        "outputs": {
+          "description": "Forward outputs.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "return_gain_db": {
+          "description": "Return gain, dB. `None` for a passive return path.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_nf_db": {
+          "description": "Return noise figure, dB, on an amplified return (§7.3).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "return_passive_loss_db": {
+          "description": "Loss through a passive return path, dB. `None` when the return is amplified.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "outputs",
+        "gain_db",
+        "nf_db",
+        "return_loss_db",
+        "duplex"
+      ]
+    },
+    "Duplex": {
+      "description": "How an active separates the two directions.",
+      "oneOf": [
+        {
+          "description": "Frequency division, at one of a set of splits.",
+          "type": "object",
+          "properties": {
+            "Diplexed": {
+              "type": "object",
+              "properties": {
+                "remote_switchable": {
+                  "description": "Whether the split can change without a truck roll.",
+                  "type": "boolean"
+                },
+                "splits": {
+                  "description": "The splits this part supports.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/Split"
+                  }
+                }
+              },
+              "required": [
+                "splits",
+                "remote_switchable"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Diplexed"
+          ]
+        },
+        {
+          "description": "Echo-cancelled full duplex (SCTE 296).",
+          "type": "object",
+          "properties": {
+            "FullDuplexEc": {
+              "type": "object",
+              "properties": {
+                "group_delay_ns": {
+                  "description": "Band-edge group delay, ns (§5.6).",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/GroupDelayPoint"
+                  }
+                }
+              },
+              "required": [
+                "group_delay_ns"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "FullDuplexEc"
+          ]
+        }
+      ]
+    },
+    "FbcCapability": {
+      "description": "Full-band capture support.",
+      "type": "object",
+      "properties": {
+        "file": {
+          "description": "Available as a PNM file.",
+          "type": "boolean"
+        },
+        "hi_mhz": {
+          "description": "Highest covered frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "lo_mhz": {
+          "description": "Lowest covered frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "snmp": {
+          "description": "Available over SNMP.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "snmp",
+        "lo_mhz",
+        "hi_mhz"
+      ]
+    },
+    "FiberCableSpec": {
+      "description": "A fiber optic cable. Version 2.",
+      "type": "object",
+      "properties": {
+        "construction": {
+          "description": "How it's built.",
+          "$ref": "#/$defs/FiberConstruction"
+        },
+        "fiber_count": {
+          "description": "Fibers in the sheath.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "fiber_type": {
+          "description": "The fiber.",
+          "$ref": "#/$defs/FiberType"
+        },
+        "fibers_per_tube": {
+          "description": "Fibers per buffer tube or ribbon.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "loss": {
+          "description": "Loss by wavelength, interpolated linearly between the wavelengths given.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WavelengthLoss"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fiber_count",
+        "fibers_per_tube",
+        "fiber_type",
+        "construction",
+        "loss"
+      ]
+    },
+    "FiberConnectorSpec": {
+      "description": "A fiber connector, mated pair. Version 2.",
+      "type": "object",
+      "properties": {
+        "insertion_loss_db": {
+          "description": "Insertion loss of a mated pair, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "polish": {
+          "description": "End-face polish.",
+          "$ref": "#/$defs/FiberPolish"
+        },
+        "return_loss_db": {
+          "description": "Return loss, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "style": {
+          "description": "Its style, such as `SC` or `LC`.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "style",
+        "polish",
+        "insertion_loss_db",
+        "return_loss_db"
+      ]
+    },
+    "FiberConstruction": {
+      "description": "How a fiber cable is built.",
+      "oneOf": [
+        {
+          "description": "Loose buffer tubes, lashed or in duct.",
+          "type": "string",
+          "const": "LooseTube"
+        },
+        {
+          "description": "Ribbon.",
+          "type": "string",
+          "const": "Ribbon"
+        },
+        {
+          "description": "All-dielectric self-supporting, for aerial spans without strand.",
+          "type": "string",
+          "const": "Adss"
+        },
+        {
+          "description": "Armored, for direct burial.",
+          "type": "string",
+          "const": "Armored"
+        },
+        {
+          "description": "For blowing into microduct.",
+          "type": "string",
+          "const": "Microduct"
+        },
+        {
+          "description": "A drop or a jumper.",
+          "type": "string",
+          "const": "Drop"
+        }
+      ]
+    },
+    "FiberPolish": {
+      "description": "A fiber connector's end-face polish.",
+      "oneOf": [
+        {
+          "description": "Ultra physical contact.",
+          "type": "string",
+          "const": "Upc"
+        },
+        {
+          "description": "Angled physical contact.",
+          "type": "string",
+          "const": "Apc"
+        }
+      ]
+    },
+    "FiberType": {
+      "description": "A fiber type.",
+      "oneOf": [
+        {
+          "description": "Standard single-mode, ITU-T G.652.D.",
+          "type": "string",
+          "const": "G652D"
+        },
+        {
+          "description": "Bend-insensitive single-mode, ITU-T G.657.A1.",
+          "type": "string",
+          "const": "G657A1"
+        },
+        {
+          "description": "Bend-insensitive single-mode, ITU-T G.657.A2.",
+          "type": "string",
+          "const": "G657A2"
+        }
+      ]
+    },
+    "FilterShape": {
+      "description": "The shape of a filter.",
+      "oneOf": [
+        {
+          "description": "Passes above its stop band.",
+          "type": "string",
+          "const": "HighPass"
+        },
+        {
+          "description": "Passes below its stop band.",
+          "type": "string",
+          "const": "LowPass"
+        },
+        {
+          "description": "Stops one band and passes the rest, such as a point-of-entry filter.",
+          "type": "string",
+          "const": "BandStop"
+        },
+        {
+          "description": "Passes one band and stops the rest.",
+          "type": "string",
+          "const": "BandPass"
+        }
+      ]
+    },
+    "FilterSpec": {
+      "description": "A filter, on a tap port or in a home. Version 2.",
+      "type": "object",
+      "properties": {
+        "pass_loss_db": {
+          "description": "Loss in the pass band, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_db": {
+          "description": "Return loss in the pass band, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "shape": {
+          "description": "Its shape.",
+          "$ref": "#/$defs/FilterShape"
+        },
+        "stop_bands": {
+          "description": "The bands it stops.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FreqRange"
+          }
+        },
+        "stop_depth_db": {
+          "description": "Attenuation in a stop band, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "stop_return_loss_db": {
+          "description": "Return loss in a stop band, dB: a filter reflects what it stops.",
+          "type": "number",
+          "format": "double"
+        },
+        "transition_mhz": {
+          "description": "Width of each edge's roll-off from pass to stop, MHz, if stated. `None` is an abrupt edge.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "stop_bands",
+        "stop_depth_db",
+        "pass_loss_db",
+        "return_loss_db",
+        "stop_return_loss_db"
+      ]
+    },
+    "FreqRange": {
+      "description": "A band of frequencies.",
+      "type": "object",
+      "properties": {
+        "hi_mhz": {
+          "description": "Upper edge, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "lo_mhz": {
+          "description": "Lower edge, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lo_mhz",
+        "hi_mhz"
+      ]
+    },
+    "GainPoint": {
+      "description": "A point in a gain table (§15).",
+      "type": "object",
+      "properties": {
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "gain_db": {
+          "description": "Gain, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "gain_db"
+      ]
+    },
+    "GroundBlockSpec": {
+      "description": "A ground block where a drop enters a home. How well the home's wiring keeps ambient signals out is the home's,\nnot the part's, so it's on the plant element. Version 2.",
+      "type": "object",
+      "properties": {
+        "insertion_loss": {
+          "description": "Input to output, dB; held flat beyond the table out to the rated band.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "insertion_loss",
+        "return_loss_db"
+      ]
+    },
+    "GroupDelayPoint": {
+      "description": "A point in a group delay table (§5.6).",
+      "type": "object",
+      "properties": {
+        "delay_ns": {
+          "description": "Group delay, ns.",
+          "type": "number",
+          "format": "double"
+        },
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "delay_ns"
+      ]
+    },
+    "LaserKind": {
+      "description": "The kind of laser in an analog transmitter.",
+      "oneOf": [
+        {
+          "description": "Distributed feedback, directly modulated.",
+          "type": "string",
+          "const": "Dfb"
+        },
+        {
+          "description": "Fabry–Perot.",
+          "type": "string",
+          "const": "FabryPerot"
+        },
+        {
+          "description": "Externally modulated.",
+          "type": "string",
+          "const": "External"
+        }
+      ]
+    },
+    "LineEqualizerSpec": {
+      "description": "An in-line equalizer in its own housing, cut into a span. Version 2.",
+      "type": "object",
+      "properties": {
+        "duplex": {
+          "description": "How it separates the two directions, when its forward equalizer sits behind a diplexer. `None` for one that\nequalizes the whole band.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Duplex"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "insertion_loss_db": {
+          "description": "Loss at its least-loss frequency on top of its value, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "loss_table": {
+          "description": "Measured loss by frequency, in place of the shape where given.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "power_passing": {
+          "description": "Whether AC passes through it.",
+          "type": "boolean"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "slope_band": {
+          "description": "The band its value is stated across.",
+          "$ref": "#/$defs/FreqRange"
+        },
+        "value_db": {
+          "description": "The difference in loss across `slope_band`, dB, more loss low in the band.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value_db",
+        "slope_band",
+        "insertion_loss_db",
+        "return_loss_db",
+        "power_passing"
+      ]
+    },
+    "LossPoint": {
+      "description": "A point in a loss table, interpolated linearly in dB (§2.1).",
+      "type": "object",
+      "properties": {
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "loss_db": {
+          "description": "Loss, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "loss_db"
+      ]
+    },
+    "MerPoint": {
+      "description": "A point in a source MER table: what a transmitter's own modulator makes, before any plant (§4.5).",
+      "type": "object",
+      "properties": {
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "mer_db": {
+          "description": "MER, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "mer_db"
+      ]
+    },
+    "ModemGeneration": {
+      "description": "A modem's DOCSIS generation.",
+      "oneOf": [
+        {
+          "description": "DOCSIS 3.0: SC-QAM only.",
+          "type": "string",
+          "const": "D30"
+        },
+        {
+          "description": "DOCSIS 3.1.",
+          "type": "string",
+          "const": "D31"
+        }
+      ]
+    },
+    "ModemSpec": {
+      "description": "A cable modem.",
+      "type": "object",
+      "properties": {
+        "capability": {
+          "description": "What this modem can report.",
+          "$ref": "#/$defs/CapabilitySet"
+        },
+        "generation": {
+          "description": "DOCSIS generation.",
+          "$ref": "#/$defs/ModemGeneration"
+        },
+        "impl_mer_db": {
+          "description": "Implementation MER ceiling, dB (§4.5).",
+          "type": "number",
+          "format": "double"
+        },
+        "nf_db": {
+          "description": "Noise figure, dB (§4.5).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its port, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss by frequency, in place of `return_loss_db` where given. Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        },
+        "tx_max_total_dbmv": {
+          "description": "`Pmax`, total transmit power, dBmV. The only stored transmit limit, because\nper-channel limits are derived (§7.2).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "generation",
+        "impl_mer_db",
+        "nf_db",
+        "return_loss_db",
+        "tx_max_total_dbmv",
+        "capability"
+      ]
+    },
+    "NodeSpec": {
+      "description": "An analog fiber node.",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "The RF module.",
+          "$ref": "#/$defs/ActiveSpec"
+        },
+        "optics_cnr_db": {
+          "description": "Forward analog optical link CNR, dB (§4.5).",
+          "type": "number",
+          "format": "double"
+        },
+        "source_mer": {
+          "description": "MER the node's own RF stages allow by frequency, before any plant (§4.5). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MerPoint"
+          }
+        },
+        "us_optics_snr_db": {
+          "description": "Return analog optical link SNR, dB (§7.3).",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "active",
+        "optics_cnr_db",
+        "us_optics_snr_db"
+      ]
+    },
+    "NoiseFigurePoint": {
+      "description": "A point in a noise figure table (§4.2).",
+      "type": "object",
+      "properties": {
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "nf_db": {
+          "description": "Noise figure, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "nf_db"
+      ]
+    },
+    "OpticalAmpSpec": {
+      "description": "An optical amplifier. Version 2.",
+      "type": "object",
+      "properties": {
+        "band_hi_nm": {
+          "description": "The band it amplifies, nm.",
+          "type": "number",
+          "format": "double"
+        },
+        "band_lo_nm": {
+          "description": "The band it amplifies, nm.",
+          "type": "number",
+          "format": "double"
+        },
+        "in_max_dbm": {
+          "description": "Highest optical input, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "in_min_dbm": {
+          "description": "Lowest optical input, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "nf_db": {
+          "description": "Noise figure, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "out_dbm": {
+          "description": "Total optical output, dBm.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "out_dbm",
+        "nf_db",
+        "in_min_dbm",
+        "in_max_dbm",
+        "band_lo_nm",
+        "band_hi_nm"
+      ]
+    },
+    "OpticalDirection": {
+      "description": "Which way light carries the signal, away from the hub or towards it.",
+      "oneOf": [
+        {
+          "description": "Hub to node: the downstream.",
+          "type": "string",
+          "const": "Forward"
+        },
+        {
+          "description": "Node to hub: the upstream.",
+          "type": "string",
+          "const": "Return"
+        },
+        {
+          "description": "Both, on one strand or one optic.",
+          "type": "string",
+          "const": "Both"
+        }
+      ]
+    },
+    "OpticalPassiveKind": {
+      "description": "The kinds of optical passive.",
+      "oneOf": [
+        {
+          "description": "A power splitter, one to many.",
+          "type": "string",
+          "const": "Splitter"
+        },
+        {
+          "description": "A wavelength multiplexer, many to one.",
+          "type": "string",
+          "const": "Mux"
+        },
+        {
+          "description": "A wavelength demultiplexer, one to many.",
+          "type": "string",
+          "const": "Demux"
+        }
+      ]
+    },
+    "OpticalPassiveSpec": {
+      "description": "An optical splitter, multiplexer or demultiplexer. Version 2.",
+      "type": "object",
+      "properties": {
+        "channels_nm": {
+          "description": "Channel wavelengths of a mux or demux, nm, in port order. Empty for a splitter.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "insertion_loss_db": {
+          "description": "Common port to any other, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "isolation_db": {
+          "description": "Isolation between adjacent channels, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "kind": {
+          "description": "What it is.",
+          "$ref": "#/$defs/OpticalPassiveKind"
+        },
+        "ports": {
+          "description": "Outputs of a splitter, or channels of a mux or demux.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "return_loss_db": {
+          "description": "Return loss, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "ports",
+        "insertion_loss_db"
+      ]
+    },
+    "OpticalRxSpec": {
+      "description": "An analog optical receiver: light in, RF out. Version 2.",
+      "type": "object",
+      "properties": {
+        "agc_range_db": {
+          "description": "Optical input range over which its AGC holds RF output, dB. `None` for none: output moves 2 dB per optical dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "direction": {
+          "description": "Forward in a node, or return at the hub.",
+          "$ref": "#/$defs/OpticalDirection"
+        },
+        "ein_pa_per_rthz": {
+          "description": "Equivalent input noise current density, pA/√Hz.",
+          "type": "number",
+          "format": "double"
+        },
+        "in_max_dbm": {
+          "description": "Highest optical input, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "in_min_dbm": {
+          "description": "Lowest optical input, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "ref_in_dbm": {
+          "description": "Optical input `rf_out_dbmv` is stated at, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "responsivity_a_per_w": {
+          "description": "Responsivity, A/W.",
+          "type": "number",
+          "format": "double"
+        },
+        "rf_out_dbmv": {
+          "description": "RF output per channel at `ref_in_dbm` and the transmitter's stated index, dBmV.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "direction",
+        "in_min_dbm",
+        "in_max_dbm",
+        "responsivity_a_per_w",
+        "ein_pa_per_rthz",
+        "rf_out_dbmv",
+        "ref_in_dbm"
+      ]
+    },
+    "OpticalTxSpec": {
+      "description": "An analog optical transmitter: RF in, light out. Version 2.",
+      "type": "object",
+      "properties": {
+        "clip_total_in_dbmv": {
+          "description": "Total RF input above which it clips, dBmV, if stated.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "direction": {
+          "description": "Forward at the hub, or return in a node.",
+          "$ref": "#/$defs/OpticalDirection"
+        },
+        "laser": {
+          "description": "The laser.",
+          "$ref": "#/$defs/LaserKind"
+        },
+        "omi_pct": {
+          "description": "Optical modulation index per channel at `ref_rf_in_dbmv`, percent.",
+          "type": "number",
+          "format": "double"
+        },
+        "out_dbm": {
+          "description": "Optical output, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "ref_rf_in_dbmv": {
+          "description": "RF input per channel the modulation index is stated at, dBmV.",
+          "type": "number",
+          "format": "double"
+        },
+        "rin_db_per_hz": {
+          "description": "Relative intensity noise, dB/Hz.",
+          "type": "number",
+          "format": "double"
+        },
+        "wavelength_nm": {
+          "description": "Wavelength, nm.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "direction",
+        "laser",
+        "wavelength_nm",
+        "out_dbm",
+        "rin_db_per_hz",
+        "omi_pct",
+        "ref_rf_in_dbmv"
+      ]
+    },
+    "OutputSpec": {
+      "description": "One RF output of an active. Version 2.",
+      "type": "object",
+      "properties": {
+        "loss_from_main_db": {
+          "description": "Its forward level below the main output, dB: 0 for the main output, more for a split or coupled one.",
+          "type": "number",
+          "format": "double"
+        },
+        "port": {
+          "description": "The output's port id, on an element built from this part.",
+          "$ref": "#/$defs/PortId"
+        },
+        "return_combining_loss_db": {
+          "description": "Return loss from this output port to the return amplifier's input, through the combiner, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "port",
+        "loss_from_main_db",
+        "return_combining_loss_db"
+      ]
+    },
+    "PatchPanelSpec": {
+      "description": "A fiber patch panel. Version 2.",
+      "type": "object",
+      "properties": {
+        "ports": {
+          "description": "Adapter ports.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "splice_loss_db": {
+          "description": "Loss of a splice made in it that has no measured value, dB (§16). Its spread is the part's `tolerance.loss_db`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ports"
+      ]
+    },
+    "PlugInKind": {
+      "description": "What a plug-in does. Forward kinds sit after the forward diplexer leg, return kinds after the return leg, and a tap\nconditioner in a tap's faceplate carries both.",
+      "oneOf": [
+        {
+          "description": "Flat forward attenuation.",
+          "type": "string",
+          "const": "Pad"
+        },
+        {
+          "description": "Forward equalizer: more loss low in the band than high, to undo cable tilt.",
+          "type": "string",
+          "const": "Equalizer"
+        },
+        {
+          "description": "Forward cable simulator: more loss high in the band than low, as cable would add.",
+          "type": "string",
+          "const": "CableSimulator"
+        },
+        {
+          "description": "Flat return attenuation.",
+          "type": "string",
+          "const": "ReturnPad"
+        },
+        {
+          "description": "Return equalizer.",
+          "type": "string",
+          "const": "ReturnEqualizer"
+        },
+        {
+          "description": "In a tap's faceplate, shaping or attenuating every port.",
+          "type": "string",
+          "const": "TapConditioner"
+        }
+      ]
+    },
+    "PlugInSpec": {
+      "description": "A plug-in: a module that fits a host of its family. Version 2.",
+      "type": "object",
+      "properties": {
+        "family": {
+          "description": "The host family it fits: an active's or tap's `plugin_family`.",
+          "type": "string"
+        },
+        "insertion_loss_db": {
+          "description": "Loss at its least-loss frequency on top of its value, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "kind": {
+          "description": "What it does.",
+          "$ref": "#/$defs/PlugInKind"
+        },
+        "loss_table": {
+          "description": "Measured loss by frequency, in place of the shape where given.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "return_loss_db": {
+          "description": "Return loss, dB (§5.1), if stated. A plug-in sits inside its host, which reflects as a whole.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "slope_band": {
+          "description": "For a shaped kind, the band its value is stated across. `None` for a flat one.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FreqRange"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "value_db": {
+          "description": "Its value, dB: the attenuation of a pad, or for a shaped kind the difference in loss across `slope_band`.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "family",
+        "value_db",
+        "insertion_loss_db"
+      ]
+    },
+    "PortId": {
+      "description": "A port on one element, such as `tap-1` or `through`.",
+      "type": "string"
+    },
+    "PortReturnLoss": {
+      "description": "Return loss by frequency at one class of port. Version 2.",
+      "type": "object",
+      "properties": {
+        "points": {
+          "description": "The table.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        },
+        "port": {
+          "description": "Which ports.",
+          "$ref": "#/$defs/TapPortClass"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "port",
+        "points"
+      ]
+    },
+    "PowerInserterSpec": {
+      "description": "A power inserter (§6.2).",
+      "type": "object",
+      "properties": {
+        "i_rated_a": {
+          "description": "Rated current, amps.",
+          "type": "number",
+          "format": "double"
+        },
+        "insertion_loss": {
+          "description": "RF input to output, dB; held flat beyond the table out to the rated band. Empty is version 1's lossless inserter\n(§14). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "port_i_rated_a": {
+          "description": "Most current through one RF port, amps, where it's less than `i_rated_a` (§6.3). Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "power_passing": {
+          "description": "Whether AC passes through it.",
+          "type": "boolean"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its RF ports, dB (§14). Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "i_rated_a",
+        "power_passing"
+      ]
+    },
+    "PowerSupplySpec": {
+      "description": "A power supply (§6.3).",
+      "type": "object",
+      "properties": {
+        "i_rated_a": {
+          "description": "Rated current, amps.",
+          "type": "number",
+          "format": "double"
+        },
+        "v_out": {
+          "description": "Output voltage, volts.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "v_out",
+        "i_rated_a"
+      ]
+    },
+    "ReturnLossPoint": {
+      "description": "A point in a return loss table (§5.1). Interpolated linearly in dB, and held flat beyond the table out to the\nrated band.",
+      "type": "object",
+      "properties": {
+        "f_mhz": {
+          "description": "Frequency, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_db": {
+          "description": "Return loss, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "f_mhz",
+        "return_loss_db"
+      ]
+    },
+    "RpdPnmTest": {
+      "description": "A PNM test an RPD can run, from its `SupportedPnmTests` bits. UTSC is reported apart\nfrom these.",
+      "oneOf": [
+        {
+          "description": "Upstream active and quiet probes.",
+          "type": "string",
+          "const": "Upc"
+        },
+        {
+          "description": "Upstream RxMER per subcarrier.",
+          "type": "string",
+          "const": "UsRxmer"
+        },
+        {
+          "description": "Upstream impulse noise.",
+          "type": "string",
+          "const": "ImpulseNoise"
+        },
+        {
+          "description": "Downstream symbol capture.",
+          "type": "string",
+          "const": "DsSymbolCapture"
+        },
+        {
+          "description": "Histogram.",
+          "type": "string",
+          "const": "Histogram"
+        }
+      ]
+    },
+    "RpdSpec": {
+      "description": "A Remote PHY device. Digital optics, so no optical noise terms (§4.5, §7.3).",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "The RF module.",
+          "$ref": "#/$defs/ActiveSpec"
+        },
+        "source_mer": {
+          "description": "MER its downstream modulators make by frequency, before any plant (§4.5). Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MerPoint"
+          }
+        },
+        "supported_pnm_tests": {
+          "description": "PNM tests it can run.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RpdPnmTest"
+          }
+        },
+        "us_rx_ceiling_db": {
+          "description": "The highest upstream RxMER its burst receivers can report, dB: the receiver's own ceiling. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "active",
+        "supported_pnm_tests"
+      ]
+    },
+    "SpecConfidence": {
+      "description": "How far to trust a component's numbers (invariant 9).",
+      "oneOf": [
+        {
+          "description": "From a published data sheet.",
+          "type": "string",
+          "const": "Datasheet"
+        },
+        {
+          "description": "Typical values or from memory.",
+          "type": "string",
+          "const": "Generic"
+        },
+        {
+          "description": "Supplied by an operator.",
+          "type": "string",
+          "const": "OperatorSupplied"
+        }
+      ]
+    },
+    "SpliceClosureSpec": {
+      "description": "A splice closure. Version 2.",
+      "type": "object",
+      "properties": {
+        "splice_capacity": {
+          "description": "Splices it holds.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "splice_loss_db": {
+          "description": "Loss of a splice made in it that has no measured value, dB (§16). Its spread is the part's `tolerance.loss_db`.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "trays": {
+          "description": "Splice trays.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "splice_capacity",
+        "trays"
+      ]
+    },
+    "Split": {
+      "description": "One diplexer setting. Group delay is here because diplex filters cause it, so it moves\nwith the split (§5.6).",
+      "type": "object",
+      "properties": {
+        "ds_lo_mhz": {
+          "description": "Bottom of the downstream band, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "group_delay_ns": {
+          "description": "Band-edge group delay at this setting, ns (§5.6).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GroupDelayPoint"
+          }
+        },
+        "us_hi_mhz": {
+          "description": "Top of the upstream band, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "us_hi_mhz",
+        "ds_lo_mhz",
+        "group_delay_ns"
+      ]
+    },
+    "SplitterSpec": {
+      "description": "A splitter (§2.2).",
+      "type": "object",
+      "properties": {
+        "leg_isolation_db": {
+          "description": "Leg to leg isolation, dB. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "leg_loss": {
+          "description": "Input to each leg, dB.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "legs": {
+          "description": "Number of output legs.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "power_passing": {
+          "description": "Whether AC passes to the legs.",
+          "type": "boolean"
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss by frequency, in place of `return_loss_db` where given. Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "legs",
+        "leg_loss",
+        "return_loss_db",
+        "power_passing"
+      ]
+    },
+    "StrandSpec": {
+      "description": "Messenger strand, counted by the foot. Nothing about it reaches the sim. Version 2.",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "StructureKind": {
+      "description": "The kinds of structure plant is mounted on or in.",
+      "oneOf": [
+        {
+          "description": "A utility pole.",
+          "type": "string",
+          "const": "Pole"
+        },
+        {
+          "description": "A pedestal at grade.",
+          "type": "string",
+          "const": "Pedestal"
+        },
+        {
+          "description": "A buried vault or handhole.",
+          "type": "string",
+          "const": "Vault"
+        },
+        {
+          "description": "A cabinet, such as a power supply's.",
+          "type": "string",
+          "const": "Cabinet"
+        }
+      ]
+    },
+    "StructureSpec": {
+      "description": "A structure. It carries no RF and no power. Version 2.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "What it is.",
+          "$ref": "#/$defs/StructureKind"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ]
+    },
+    "SwitchSpec": {
+      "description": "A switch in the converged interconnect network. Version 2.",
+      "type": "object",
+      "properties": {
+        "port_rate_gbps": {
+          "description": "Rate per port, Gbit/s.",
+          "type": "number",
+          "format": "double"
+        },
+        "ports": {
+          "description": "Optic ports.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ports",
+        "port_rate_gbps"
+      ]
+    },
+    "TapPortClass": {
+      "description": "A class of port on a tap, for a table that differs between them.",
+      "oneOf": [
+        {
+          "description": "The input.",
+          "type": "string",
+          "const": "Input"
+        },
+        {
+          "description": "The through port.",
+          "type": "string",
+          "const": "Through"
+        },
+        {
+          "description": "A tap port.",
+          "type": "string",
+          "const": "TapPort"
+        }
+      ]
+    },
+    "TapSpec": {
+      "description": "A multi-port tap (§2.1).",
+      "type": "object",
+      "properties": {
+        "insertion_loss": {
+          "description": "Input to through port, dB; held flat beyond the table out to the rated band.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "plugin_family": {
+          "description": "Which plug-ins fit its faceplate. Version 2.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "port_isolation_db": {
+          "description": "Tap port to tap port isolation, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "ports": {
+          "description": "Number of tap ports.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "power_passing": {
+          "description": "Whether AC passes from input to through.",
+          "type": "boolean"
+        },
+        "return_loss_by_port": {
+          "description": "Return loss by frequency, one table per class of port, in place of `return_loss_db` where given. Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PortReturnLoss"
+          }
+        },
+        "return_loss_db": {
+          "description": "Return loss at its ports, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "tap_loss": {
+          "description": "Input to each tap port, dB; held flat beyond the table out to the rated band.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LossPoint"
+          }
+        },
+        "tap_value_db": {
+          "description": "Nominal tap value, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "terminating": {
+          "description": "An end-of-line tap: no through port, its last leg is its own termination. Version 2.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ports",
+        "tap_value_db",
+        "insertion_loss",
+        "tap_loss",
+        "port_isolation_db",
+        "return_loss_db",
+        "power_passing"
+      ]
+    },
+    "TerminatorSpec": {
+      "description": "A terminator.",
+      "type": "object",
+      "properties": {
+        "return_loss_db": {
+          "description": "Return loss, dB (§5.1).",
+          "type": "number",
+          "format": "double"
+        },
+        "return_loss_table": {
+          "description": "Return loss by frequency, in place of `return_loss_db` where given. Version 2.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReturnLossPoint"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "return_loss_db"
+      ]
+    },
+    "TimingSourceSpec": {
+      "description": "A timing source. Version 2.",
+      "type": "object",
+      "properties": {
+        "ports": {
+          "description": "Ports it serves.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ports"
+      ]
+    },
+    "Tolerance": {
+      "description": "How far a part's stated values may stray (§8, domain randomization). Each is a ± bound. Absent means §8's default.",
+      "type": "object",
+      "properties": {
+        "gain_db": {
+          "description": "On its gain, ± dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "impl_mer_db": {
+          "description": "On a modem's implementation MER ceiling, ± dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "loss_db": {
+          "description": "On its losses, ± dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "nf_db": {
+          "description": "On its noise figure, ± dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "r_loop_pct": {
+          "description": "On its loop resistance, ± percent.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "return_loss_db": {
+          "description": "On its return loss, ± dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "TransceiverSpec": {
+      "description": "A pluggable digital optic. Version 2.",
+      "type": "object",
+      "properties": {
+        "form_factor": {
+          "description": "Its form factor, such as `SFP+`.",
+          "type": "string"
+        },
+        "rate_gbps": {
+          "description": "Line rate, Gbit/s.",
+          "type": "number",
+          "format": "double"
+        },
+        "rx_overload_dbm": {
+          "description": "Receiver overload, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "rx_sensitivity_dbm": {
+          "description": "Receiver sensitivity, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "rx_wavelength_nm": {
+          "description": "Receive wavelength of a bidirectional optic, nm. `None` receives where it transmits.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "tx_max_dbm": {
+          "description": "Highest launch power, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "tx_min_dbm": {
+          "description": "Lowest launch power, dBm.",
+          "type": "number",
+          "format": "double"
+        },
+        "wavelength_nm": {
+          "description": "Transmit wavelength, nm.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "form_factor",
+        "rate_gbps",
+        "wavelength_nm",
+        "tx_min_dbm",
+        "tx_max_dbm",
+        "rx_sensitivity_dbm",
+        "rx_overload_dbm"
+      ]
+    },
+    "WavelengthLoss": {
+      "description": "Fiber loss at one wavelength.",
+      "type": "object",
+      "properties": {
+        "loss_db_per_kft": {
+          "description": "Loss, dB per 1000 ft.",
+          "type": "number",
+          "format": "double"
+        },
+        "wavelength_nm": {
+          "description": "Wavelength, nm.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "wavelength_nm",
+        "loss_db_per_kft"
+      ]
+    }
+  }
+}

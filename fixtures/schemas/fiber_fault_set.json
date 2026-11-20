@@ -1,0 +1,81 @@
+{
+  "schema_version": "1",
+  "region": "region-1",
+  "faults": [
+    {
+      "onset": "Instant",
+      "kind": {
+        "FiberCut": {
+          "cable": "fiber-1",
+          "pos_ft": 850.0,
+          "repair_s": 14400.0
+        }
+      }
+    },
+    {
+      "onset": {
+        "Ramp": {
+          "start": 0,
+          "end": 86400
+        }
+      },
+      "kind": {
+        "EventLoss": {
+          "location": {
+            "Cable": {
+              "cable": "fiber-2",
+              "pos_ft": 400.0
+            }
+          },
+          "loss_db": 3.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "EventLoss": {
+          "location": {
+            "Splice": {
+              "element": "closure-1",
+              "strands": [
+                {
+                  "cable": "fiber-1",
+                  "strand": 2
+                },
+                {
+                  "cable": "fiber-2",
+                  "strand": 2
+                }
+              ]
+            }
+          },
+          "loss_db": 1.5
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "EventLoss": {
+          "location": {
+            "Element": {
+              "element": "panel-1"
+            }
+          },
+          "loss_db": 0.8
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "TransmitterDrift": {
+          "element": "ftx-1",
+          "power_delta_db": -2.0,
+          "rin_delta_db": 5.0
+        }
+      }
+    }
+  ]
+}

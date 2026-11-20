@@ -1,0 +1,20 @@
+[package]
+name = "ops"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "A designed region run day to day: hazards as physical faults, households that call, a call centre, trucks on real streets (task 26)."
+
+[dependencies]
+schema = { path = "../schema" }
+plant-graph = { path = "../plant-graph" }
+sim = { path = "../sim" }
+features = { path = "../features" }
+diagnosis = { path = "../diagnosis" }
+design = { path = "../design" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["float_roundtrip"] }
+thiserror = "2"

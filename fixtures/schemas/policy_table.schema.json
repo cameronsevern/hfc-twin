@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PolicyTable",
+  "description": "The operator-owned table from cause and component to fix.",
+  "type": "object",
+  "properties": {
+    "entries": {
+      "description": "The rows.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PolicyEntry"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "entries"
+  ],
+  "$defs": {
+    "CauseClass": {
+      "description": "What caused a problem: one variant per fault class in §8, plus `Unknown`.",
+      "oneOf": [
+        {
+          "description": "`FaultKind::WaterIngress`.",
+          "type": "string",
+          "const": "WaterIngress"
+        },
+        {
+          "description": "`FaultKind::ConnectorReflection`.",
+          "type": "string",
+          "const": "ConnectorReflection"
+        },
+        {
+          "description": "`FaultKind::Suckout`.",
+          "type": "string",
+          "const": "Suckout"
+        },
+        {
+          "description": "`FaultKind::FrequencySelectiveLoss`.",
+          "type": "string",
+          "const": "FrequencySelectiveLoss"
+        },
+        {
+          "description": "`FaultKind::AmpDrift`.",
+          "type": "string",
+          "const": "AmpDrift"
+        },
+        {
+          "description": "`FaultKind::UpstreamIngress`.",
+          "type": "string",
+          "const": "UpstreamIngress"
+        },
+        {
+          "description": "`FaultKind::DownstreamIngress`.",
+          "type": "string",
+          "const": "DownstreamIngress"
+        },
+        {
+          "description": "`FaultKind::PowerSupplySag`.",
+          "type": "string",
+          "const": "PowerSupplySag"
+        },
+        {
+          "description": "`FaultKind::ResonantPeak`.",
+          "type": "string",
+          "const": "ResonantPeak"
+        },
+        {
+          "description": "`FaultKind::AdjacentLevelOffset`.",
+          "type": "string",
+          "const": "AdjacentLevelOffset"
+        },
+        {
+          "description": "`FaultKind::ForwardOptics`.",
+          "type": "string",
+          "const": "ForwardOptics"
+        },
+        {
+          "description": "`FaultKind::CommonPathDistortion`.",
+          "type": "string",
+          "const": "CommonPathDistortion"
+        },
+        {
+          "description": "`FaultKind::BadDrop`.",
+          "type": "string",
+          "const": "BadDrop"
+        },
+        {
+          "description": "An RPD stopped.",
+          "type": "string",
+          "const": "RpdFailure"
+        },
+        {
+          "description": "The fiber to an RPD is cut.",
+          "type": "string",
+          "const": "CinLinkCut"
+        },
+        {
+          "description": "The control plane to an RPD is lost.",
+          "type": "string",
+          "const": "GcpLoss"
+        },
+        {
+          "description": "An RPD lost its timing.",
+          "type": "string",
+          "const": "TimingLoss"
+        },
+        {
+          "description": "An RPD's RF output is set wrong.",
+          "type": "string",
+          "const": "RfmMisalignment"
+        },
+        {
+          "description": "A fault inside one home, past its ground block: a part, a connector or the cable between them. Version 5.",
+          "type": "string",
+          "const": "InHomeWiring"
+        },
+        {
+          "description": "`FaultKind::Misalignment`: a wrong pad or equalizer at a fitted active. Version 5.",
+          "type": "string",
+          "const": "Misalignment"
+        },
+        {
+          "description": "`FiberFaultKind::FiberCut`. Version 5.",
+          "type": "string",
+          "const": "FiberCut"
+        },
+        {
+          "description": "`FiberFaultKind::EventLoss`: a lossy splice, connector or bend. Version 5.",
+          "type": "string",
+          "const": "FiberEventLoss"
+        },
+        {
+          "description": "`FiberFaultKind::TransmitterDrift`. Version 5.",
+          "type": "string",
+          "const": "OpticalTransmitterDrift"
+        },
+        {
+          "description": "No fault class explains the telemetry.",
+          "type": "string",
+          "const": "Unknown"
+        }
+      ]
+    },
+    "ComponentClass": {
+      "description": "The classes of component.",
+      "oneOf": [
+        {
+          "description": "Analog fiber node.",
+          "type": "string",
+          "const": "Node"
+        },
+        {
+          "description": "Remote PHY device.",
+          "type": "string",
+          "const": "Rpd"
+        },
+        {
+          "description": "RF amplifier.",
+          "type": "string",
+          "const": "Amp"
+        },
+        {
+          "description": "Multi-port tap.",
+          "type": "string",
+          "const": "Tap"
+        },
+        {
+          "description": "Splitter.",
+          "type": "string",
+          "const": "Splitter"
+        },
+        {
+          "description": "Directional coupler.",
+          "type": "string",
+          "const": "DirectionalCoupler"
+        },
+        {
+          "description": "Power inserter.",
+          "type": "string",
+          "const": "PowerInserter"
+        },
+        {
+          "description": "Power supply.",
+          "type": "string",
+          "const": "PowerSupply"
+        },
+        {
+          "description": "Terminator.",
+          "type": "string",
+          "const": "Terminator"
+        },
+        {
+          "description": "Hardline cable.",
+          "type": "string",
+          "const": "Cable"
+        },
+        {
+          "description": "Drop cable.",
+          "type": "string",
+          "const": "Drop"
+        },
+        {
+          "description": "Cable modem.",
+          "type": "string",
+          "const": "Modem"
+        },
+        {
+          "description": "A plug-in: pad, equalizer, cable simulator, return pad or equalizer, tap conditioner. Version 2.",
+          "type": "string",
+          "const": "PlugIn"
+        },
+        {
+          "description": "An in-line equalizer in its own housing. Version 2.",
+          "type": "string",
+          "const": "LineEqualizer"
+        },
+        {
+          "description": "A connector, splice or adapter on a cable. Version 2.",
+          "type": "string",
+          "const": "Connector"
+        },
+        {
+          "description": "A ground block where a drop enters a home. Version 2.",
+          "type": "string",
+          "const": "GroundBlock"
+        },
+        {
+          "description": "An amplifier in a home. Version 2.",
+          "type": "string",
+          "const": "DropAmp"
+        },
+        {
+          "description": "A filter on a drop or in a home. Version 2.",
+          "type": "string",
+          "const": "Filter"
+        },
+        {
+          "description": "Customer equipment that reports nothing: a set-top, a television, an adapter. Version 2.",
+          "type": "string",
+          "const": "Cpe"
+        },
+        {
+          "description": "A standby battery. Version 2.",
+          "type": "string",
+          "const": "Battery"
+        },
+        {
+          "description": "A pole, pedestal, vault or cabinet. Version 2.",
+          "type": "string",
+          "const": "Structure"
+        },
+        {
+          "description": "Messenger strand that aerial cable is lashed to. Version 2.",
+          "type": "string",
+          "const": "Strand"
+        },
+        {
+          "description": "Conduit that buried cable runs in. Version 2.",
+          "type": "string",
+          "const": "Conduit"
+        },
+        {
+          "description": "Fiber optic cable. Version 2.",
+          "type": "string",
+          "const": "FiberCable"
+        },
+        {
+          "description": "A splice closure. Version 2.",
+          "type": "string",
+          "const": "SpliceClosure"
+        },
+        {
+          "description": "A fiber patch panel. Version 2.",
+          "type": "string",
+          "const": "PatchPanel"
+        },
+        {
+          "description": "A fiber connector. Version 2.",
+          "type": "string",
+          "const": "FiberConnector"
+        },
+        {
+          "description": "An optical splitter, multiplexer or demultiplexer. Version 2.",
+          "type": "string",
+          "const": "OpticalPassive"
+        },
+        {
+          "description": "An analog optical transmitter. Version 2.",
+          "type": "string",
+          "const": "OpticalTx"
+        },
+        {
+          "description": "An analog optical receiver. Version 2.",
+          "type": "string",
+          "const": "OpticalRx"
+        },
+        {
+          "description": "An optical amplifier. Version 2.",
+          "type": "string",
+          "const": "OpticalAmp"
+        },
+        {
+          "description": "A pluggable digital optic. Version 2.",
+          "type": "string",
+          "const": "Transceiver"
+        },
+        {
+          "description": "A network switch in the converged interconnect network. Version 2.",
+          "type": "string",
+          "const": "Switch"
+        },
+        {
+          "description": "A CMTS, integrated or a Remote PHY core. Version 2.",
+          "type": "string",
+          "const": "Cmts"
+        },
+        {
+          "description": "A timing source. Version 2.",
+          "type": "string",
+          "const": "TimingSource"
+        }
+      ]
+    },
+    "PolicyEntry": {
+      "description": "One row of the policy table.",
+      "type": "object",
+      "properties": {
+        "action": {
+          "description": "What to do.",
+          "type": "string"
+        },
+        "cause": {
+          "description": "The cause this row answers.",
+          "$ref": "#/$defs/CauseClass"
+        },
+        "component_class": {
+          "description": "The component class it applies to, or `None` for any.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentClass"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "crew": {
+          "description": "Which crew does it.",
+          "type": "string"
+        },
+        "parts": {
+          "description": "Parts to bring.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cause",
+        "action",
+        "parts",
+        "crew"
+      ]
+    }
+  }
+}

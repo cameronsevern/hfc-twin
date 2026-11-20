@@ -1,0 +1,365 @@
+{
+  "schema_version": "2",
+  "components": [
+    {
+      "id": "node",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "node",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Node",
+      "spec": {
+        "active": {
+          "max_out_dbmv_at_hi": 56.0,
+          "max_gain_db": 36.0,
+          "min_in_dbmv": 15.0,
+          "nf_db": 7.0,
+          "return_nf_db": 10.0,
+          "ctb_ref_db": 70.0,
+          "cso_ref_db": 72.0,
+          "cin_ref_db": 58.0,
+          "ref_out_dbmv": 52.0,
+          "return_gain_db": 25.0,
+          "agc_range_db": 3.0,
+          "return_loss_db": 16.0,
+          "duplex": {
+            "Diplexed": {
+              "splits": [
+                {
+                  "us_hi_mhz": 204.0,
+                  "ds_lo_mhz": 258.0,
+                  "group_delay_ns": [
+                    {
+                      "f_mhz": 5.0,
+                      "delay_ns": 50.0
+                    },
+                    {
+                      "f_mhz": 1218.0,
+                      "delay_ns": 5.0
+                    }
+                  ]
+                }
+              ],
+              "remote_switchable": true
+            }
+          },
+          "power_w": 60.0,
+          "v_min": 60.0
+        },
+        "optics_cnr_db": 48.0,
+        "us_optics_snr_db": 40.0
+      }
+    },
+    {
+      "id": "rpd",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "rpd",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Rpd",
+      "spec": {
+        "active": {
+          "max_out_dbmv_at_hi": 56.0,
+          "max_gain_db": 36.0,
+          "min_in_dbmv": 15.0,
+          "nf_db": 7.0,
+          "return_nf_db": 10.0,
+          "ctb_ref_db": 70.0,
+          "cso_ref_db": 72.0,
+          "cin_ref_db": 58.0,
+          "ref_out_dbmv": 52.0,
+          "return_gain_db": 25.0,
+          "agc_range_db": 3.0,
+          "return_loss_db": 16.0,
+          "duplex": {
+            "Diplexed": {
+              "splits": [
+                {
+                  "us_hi_mhz": 204.0,
+                  "ds_lo_mhz": 258.0,
+                  "group_delay_ns": [
+                    {
+                      "f_mhz": 5.0,
+                      "delay_ns": 50.0
+                    },
+                    {
+                      "f_mhz": 1218.0,
+                      "delay_ns": 5.0
+                    }
+                  ]
+                }
+              ],
+              "remote_switchable": true
+            }
+          },
+          "power_w": 60.0,
+          "v_min": 60.0
+        },
+        "supported_pnm_tests": [
+          "Upc",
+          "UsRxmer",
+          "ImpulseNoise",
+          "DsSymbolCapture",
+          "Histogram"
+        ]
+      }
+    },
+    {
+      "id": "amp",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "amp",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Amp",
+      "spec": {
+        "max_out_dbmv_at_hi": 56.0,
+        "max_gain_db": 36.0,
+        "min_in_dbmv": 15.0,
+        "nf_db": 7.0,
+        "return_nf_db": 10.0,
+        "ctb_ref_db": 70.0,
+        "cso_ref_db": 72.0,
+        "cin_ref_db": 58.0,
+        "ref_out_dbmv": 52.0,
+        "return_gain_db": 25.0,
+        "agc_range_db": 3.0,
+        "return_loss_db": 16.0,
+        "duplex": {
+          "FullDuplexEc": {
+            "group_delay_ns": [
+              {
+                "f_mhz": 5.0,
+                "delay_ns": 50.0
+              },
+              {
+                "f_mhz": 1218.0,
+                "delay_ns": 5.0
+              }
+            ]
+          }
+        },
+        "power_w": 60.0,
+        "v_min": 60.0
+      }
+    },
+    {
+      "id": "tap",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "tap",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Tap",
+      "spec": {
+        "ports": 4,
+        "tap_value_db": 17.0,
+        "insertion_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 1.6
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 2.44
+          }
+        ],
+        "tap_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 17.0
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 17.0
+          }
+        ],
+        "port_isolation_db": 32.0,
+        "return_loss_db": 18.0,
+        "power_passing": true
+      }
+    },
+    {
+      "id": "splitter",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "splitter",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Splitter",
+      "spec": {
+        "legs": 2,
+        "leg_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 3.5
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 4.0
+          }
+        ],
+        "return_loss_db": 18.0,
+        "power_passing": true
+      }
+    },
+    {
+      "id": "coupler",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "coupler",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "DirectionalCoupler",
+      "spec": {
+        "coupled_value_db": 8.0,
+        "excess_loss_db": 0.3,
+        "return_loss_db": 18.0,
+        "power_passing": true
+      }
+    },
+    {
+      "id": "inserter",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "inserter",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "PowerInserter",
+      "spec": {
+        "i_rated_a": 15.0,
+        "power_passing": true
+      }
+    },
+    {
+      "id": "power-supply",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "power-supply",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "PowerSupply",
+      "spec": {
+        "v_out": 90.0,
+        "i_rated_a": 15.0
+      }
+    },
+    {
+      "id": "terminator",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "terminator",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Terminator",
+      "spec": {
+        "return_loss_db": 30.0
+      }
+    },
+    {
+      "id": "cable",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "cable",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Cable",
+      "spec": {
+        "atten_a": 0.0598,
+        "atten_b": 0.00046,
+        "k_temp": 0.002,
+        "v_f": 0.87,
+        "r_loop_ohm_per_kft": 1.7
+      }
+    },
+    {
+      "id": "drop",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "drop",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Drop",
+      "spec": {
+        "atten_a": 0.0598,
+        "atten_b": 0.00046,
+        "k_temp": 0.002,
+        "v_f": 0.87,
+        "r_loop_ohm_per_kft": 1.7
+      }
+    },
+    {
+      "id": "modem",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "modem",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Modem",
+      "spec": {
+        "generation": "D31",
+        "impl_mer_db": 44.0,
+        "nf_db": 10.0,
+        "return_loss_db": 18.0,
+        "tx_max_total_dbmv": 65.0,
+        "capability": {
+          "ds_rxmer_file": true,
+          "ds_rxmer_summary": true,
+          "ds_chan_est_file": true,
+          "ds_chan_est_summary": true,
+          "ofdma_preeq_file": true,
+          "ofdma_preeq_summary": true,
+          "sc_qam_preeq": true,
+          "fbc": {
+            "file": true,
+            "snmp": true,
+            "lo_mhz": 54.0,
+            "hi_mhz": 1218.0
+          },
+          "per_profile_fec": true,
+          "plc_ncp_counters": true,
+          "band_power_6mhz": true,
+          "us_rxmer_file": true,
+          "us_rxmer_summary": true,
+          "us_spectrum_capture": true,
+          "v_in": true,
+          "i_draw": true,
+          "temp_c": true,
+          "status": true,
+          "out_level": true,
+          "access": [
+            "CmSnmp",
+            "CmTftp",
+            "CmtsSnmp"
+          ]
+        }
+      }
+    }
+  ]
+}

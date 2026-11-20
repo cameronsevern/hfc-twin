@@ -1,0 +1,39 @@
+{
+  "schema_version": "3",
+  "id": "map-1",
+  "source": {
+    "Generated": {
+      "family": "UrbanGrid",
+      "seed": 7
+    }
+  },
+  "streets": [
+    {
+      "id": "street-1",
+      "points": [
+        {
+          "lon_deg": -105.1,
+          "lat_deg": 39.9
+        },
+        {
+          "lon_deg": -105.09,
+          "lat_deg": 39.9
+        }
+      ],
+      "installation": "Aerial"
+    }
+  ],
+  "homes": [
+    {
+      "id": "home-1",
+      "geo": {
+        "lon_deg": -105.095,
+        "lat_deg": 39.9001
+      }
+    }
+  ],
+  "headend": {
+    "lon_deg": -105.11,
+    "lat_deg": 39.9
+  }
+}

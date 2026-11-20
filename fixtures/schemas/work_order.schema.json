@@ -1,0 +1,1611 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WorkOrder",
+  "description": "One fix to one problem.",
+  "type": "object",
+  "properties": {
+    "action": {
+      "description": "What to do, from the policy table.",
+      "type": "string"
+    },
+    "affected_modems": {
+      "description": "Number of modems affected.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "cause": {
+      "description": "The diagnosed cause.",
+      "$ref": "#/$defs/CauseClass"
+    },
+    "confidence": {
+      "description": "Posterior probability of this cause, 0 to 1.",
+      "type": "number",
+      "format": "float"
+    },
+    "element_id": {
+      "description": "The element to go to.",
+      "$ref": "#/$defs/ElementId"
+    },
+    "explanation": {
+      "description": "Why, rendered from a template rather than generated.",
+      "type": "string"
+    },
+    "geo": {
+      "description": "Where that element is, if known.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LonLat"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "id": {
+      "description": "See [`WorkOrder::derive_id`].",
+      "type": "string",
+      "format": "uuid"
+    },
+    "parameters": {
+      "description": "The fault parameters that best explain the telemetry.",
+      "$ref": "#/$defs/Fault"
+    },
+    "parts": {
+      "description": "Parts to bring, from the policy table.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "service_group": {
+      "description": "The service group affected.",
+      "$ref": "#/$defs/ServiceGroupId"
+    },
+    "status": {
+      "description": "Where the work order is in its lifecycle.",
+      "$ref": "#/$defs/WorkOrderStatus"
+    },
+    "t": {
+      "description": "Simulated time of the diagnosis, seconds.",
+      "$ref": "#/$defs/Timestamp"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "service_group",
+    "t",
+    "element_id",
+    "cause",
+    "parameters",
+    "confidence",
+    "affected_modems",
+    "action",
+    "parts",
+    "explanation",
+    "status"
+  ],
+  "$defs": {
+    "AmpState": {
+      "description": "The state of a drifting or failed amp.",
+      "oneOf": [
+        {
+          "description": "Output and, above an onset level, distortion have moved (§4.4).",
+          "type": "object",
+          "properties": {
+            "Drift": {
+              "type": "object",
+              "properties": {
+                "compression_onset_dbmv": {
+                  "description": "Output level above which CIN degrades further, dBmV per 6 MHz at the band's\ntop frequency, or `None` for no compression.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "gain_delta_db": {
+                  "description": "Change in gain, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "tilt_delta_db": {
+                  "description": "Change in tilt, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "gain_delta_db",
+                "tilt_delta_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Drift"
+          ]
+        },
+        {
+          "description": "No output. An explicit state, because JSON cannot carry −∞.",
+          "type": "string",
+          "const": "Failed"
+        }
+      ]
+    },
+    "Burst": {
+      "description": "The time structure of bursty ingress.",
+      "type": "object",
+      "properties": {
+        "duration_ms": {
+          "description": "Length of one burst, milliseconds.",
+          "type": "number",
+          "format": "double"
+        },
+        "rate_per_s": {
+          "description": "Bursts per second.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "duration_ms",
+        "rate_per_s"
+      ]
+    },
+    "CauseClass": {
+      "description": "What caused a problem: one variant per fault class in §8, plus `Unknown`.",
+      "oneOf": [
+        {
+          "description": "`FaultKind::WaterIngress`.",
+          "type": "string",
+          "const": "WaterIngress"
+        },
+        {
+          "description": "`FaultKind::ConnectorReflection`.",
+          "type": "string",
+          "const": "ConnectorReflection"
+        },
+        {
+          "description": "`FaultKind::Suckout`.",
+          "type": "string",
+          "const": "Suckout"
+        },
+        {
+          "description": "`FaultKind::FrequencySelectiveLoss`.",
+          "type": "string",
+          "const": "FrequencySelectiveLoss"
+        },
+        {
+          "description": "`FaultKind::AmpDrift`.",
+          "type": "string",
+          "const": "AmpDrift"
+        },
+        {
+          "description": "`FaultKind::UpstreamIngress`.",
+          "type": "string",
+          "const": "UpstreamIngress"
+        },
+        {
+          "description": "`FaultKind::DownstreamIngress`.",
+          "type": "string",
+          "const": "DownstreamIngress"
+        },
+        {
+          "description": "`FaultKind::PowerSupplySag`.",
+          "type": "string",
+          "const": "PowerSupplySag"
+        },
+        {
+          "description": "`FaultKind::ResonantPeak`.",
+          "type": "string",
+          "const": "ResonantPeak"
+        },
+        {
+          "description": "`FaultKind::AdjacentLevelOffset`.",
+          "type": "string",
+          "const": "AdjacentLevelOffset"
+        },
+        {
+          "description": "`FaultKind::ForwardOptics`.",
+          "type": "string",
+          "const": "ForwardOptics"
+        },
+        {
+          "description": "`FaultKind::CommonPathDistortion`.",
+          "type": "string",
+          "const": "CommonPathDistortion"
+        },
+        {
+          "description": "`FaultKind::BadDrop`.",
+          "type": "string",
+          "const": "BadDrop"
+        },
+        {
+          "description": "An RPD stopped.",
+          "type": "string",
+          "const": "RpdFailure"
+        },
+        {
+          "description": "The fiber to an RPD is cut.",
+          "type": "string",
+          "const": "CinLinkCut"
+        },
+        {
+          "description": "The control plane to an RPD is lost.",
+          "type": "string",
+          "const": "GcpLoss"
+        },
+        {
+          "description": "An RPD lost its timing.",
+          "type": "string",
+          "const": "TimingLoss"
+        },
+        {
+          "description": "An RPD's RF output is set wrong.",
+          "type": "string",
+          "const": "RfmMisalignment"
+        },
+        {
+          "description": "A fault inside one home, past its ground block: a part, a connector or the cable between them. Version 5.",
+          "type": "string",
+          "const": "InHomeWiring"
+        },
+        {
+          "description": "`FaultKind::Misalignment`: a wrong pad or equalizer at a fitted active. Version 5.",
+          "type": "string",
+          "const": "Misalignment"
+        },
+        {
+          "description": "`FiberFaultKind::FiberCut`. Version 5.",
+          "type": "string",
+          "const": "FiberCut"
+        },
+        {
+          "description": "`FiberFaultKind::EventLoss`: a lossy splice, connector or bend. Version 5.",
+          "type": "string",
+          "const": "FiberEventLoss"
+        },
+        {
+          "description": "`FiberFaultKind::TransmitterDrift`. Version 5.",
+          "type": "string",
+          "const": "OpticalTransmitterDrift"
+        },
+        {
+          "description": "No fault class explains the telemetry.",
+          "type": "string",
+          "const": "Unknown"
+        }
+      ]
+    },
+    "ConnectorCouplings": {
+      "description": "A connector fault's couplings to the environment (§18, §19). Each absent is none. Version 4.",
+      "type": "object",
+      "properties": {
+        "ambient_coupling_db": {
+          "description": "Coupling of ambient sources in at this point, dB, where the defect has opened the shield (§18).",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "temp_db_per_c": {
+          "description": "Change in return loss per °C above 20 °C at the connector, dB: positive for a joint that loosens as it cools.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "wind_db_per_m_per_s": {
+          "description": "Change in return loss per m/s of wind, dB: negative for a joint that moves when the cable does.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CutEnd": {
+      "description": "How a cut cable's live side ends (§20.1). Version 5.",
+      "oneOf": [
+        {
+          "description": "The conductors parted: an open, reflecting in phase.",
+          "type": "string",
+          "const": "Open"
+        },
+        {
+          "description": "Center conductor against the shield: a short, reflecting inverted, and a path for the AC (§20.4).",
+          "type": "string",
+          "const": "Shorted"
+        }
+      ]
+    },
+    "EdgeId": {
+      "description": "A plant edge. A fault's `span_id` is one of these (§8).",
+      "type": "string"
+    },
+    "ElementId": {
+      "description": "A plant element or power supply, such as `amp-1`.",
+      "type": "string"
+    },
+    "Fault": {
+      "description": "One fault.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "The fault class and its parameters.",
+          "$ref": "#/$defs/FaultKind"
+        },
+        "onset": {
+          "description": "When the fault appears.",
+          "$ref": "#/$defs/Onset"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "onset",
+        "kind"
+      ]
+    },
+    "FaultKind": {
+      "description": "The fault classes of §8.",
+      "oneOf": [
+        {
+          "description": "Water in a span: added loss and non-periodic impedance variation.",
+          "type": "object",
+          "properties": {
+            "WaterIngress": {
+              "type": "object",
+              "properties": {
+                "affected_len_ft": {
+                  "description": "Affected length, feet.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "impedance_variation_pct": {
+                  "description": "Size of the seeded impedance variation, percent.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "k_w_db_per_100ft": {
+                  "description": "`k_w`: added loss at 1 GHz, dB per 100 ft.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "pos_ft": {
+                  "description": "Where the affected length starts, feet from the span's upstream end.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "rain_coupling_per_mm_per_hr": {
+                  "description": "Rise in `k_w` per unit of rainfall, per mm per hour.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "span_id": {
+                  "description": "The span.",
+                  "$ref": "#/$defs/EdgeId"
+                }
+              },
+              "required": [
+                "span_id",
+                "pos_ft",
+                "affected_len_ft",
+                "k_w_db_per_100ft",
+                "rain_coupling_per_mm_per_hr",
+                "impedance_variation_pct"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "WaterIngress"
+          ]
+        },
+        {
+          "description": "A mismatch at a connector; echoes follow from §5.1.",
+          "type": "object",
+          "properties": {
+            "ConnectorReflection": {
+              "type": "object",
+              "properties": {
+                "couplings": {
+                  "description": "How the mismatch moves with the environment, and whether it lets ambient in (§18, §19). Version 4.",
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/ConnectorCouplings"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "location": {
+                  "description": "Where the mismatch is.",
+                  "$ref": "#/$defs/Location"
+                },
+                "return_loss_db": {
+                  "description": "Return loss of the mismatch, dB, at 20 °C and calm.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "location",
+                "return_loss_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "ConnectorReflection"
+          ]
+        },
+        {
+          "description": "A narrow minimum-phase loss.",
+          "type": "object",
+          "properties": {
+            "Suckout": {
+              "type": "object",
+              "properties": {
+                "depth_db": {
+                  "description": "Loss at the centre, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "f0_mhz": {
+                  "description": "Centre frequency, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "location": {
+                  "description": "Where the loss is.",
+                  "$ref": "#/$defs/Location"
+                },
+                "width_mhz": {
+                  "description": "Offset from centre at which the dB depth falls to 1/e, MHz.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "location",
+                "f0_mhz",
+                "depth_db",
+                "width_mhz"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Suckout"
+          ]
+        },
+        {
+          "description": "Shaped minimum-phase loss: traps, filters, pullout and under-rated parts.",
+          "type": "object",
+          "properties": {
+            "FrequencySelectiveLoss": {
+              "type": "object",
+              "properties": {
+                "depth_db": {
+                  "description": "Loss in the stop band, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "f_hi_mhz": {
+                  "description": "Upper edge, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "f_lo_mhz": {
+                  "description": "Lower edge, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "location": {
+                  "description": "Where the loss is.",
+                  "$ref": "#/$defs/Location"
+                },
+                "shape": {
+                  "description": "The shape of the loss.",
+                  "$ref": "#/$defs/LossShape"
+                },
+                "skirt_mhz": {
+                  "description": "Width over which the loss ramps in, MHz, or `None` for a sharp edge.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double",
+                  "default": null
+                },
+                "stop_return_loss_db": {
+                  "description": "Return loss in the stop band, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "location",
+                "shape",
+                "f_lo_mhz",
+                "f_hi_mhz",
+                "depth_db",
+                "stop_return_loss_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "FrequencySelectiveLoss"
+          ]
+        },
+        {
+          "description": "An amp drifting out of alignment or failing.",
+          "type": "object",
+          "properties": {
+            "AmpDrift": {
+              "type": "object",
+              "properties": {
+                "amp_id": {
+                  "description": "The amp.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "state": {
+                  "description": "What has happened to it.",
+                  "$ref": "#/$defs/AmpState"
+                }
+              },
+              "required": [
+                "amp_id",
+                "state"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "AmpDrift"
+          ]
+        },
+        {
+          "description": "Noise injected into the return path; funnels per §7.3.",
+          "type": "object",
+          "properties": {
+            "UpstreamIngress": {
+              "type": "object",
+              "properties": {
+                "burst": {
+                  "description": "Burst structure, or `None` for continuous noise.",
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/Burst"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bw_mhz": {
+                  "description": "Bandwidth, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "entry_location": {
+                  "description": "Where the noise enters.",
+                  "$ref": "#/$defs/Location"
+                },
+                "f_mhz": {
+                  "description": "Centre frequency, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "power_dbmv": {
+                  "description": "Total power in `bw_mhz`, dBmV.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "schedule": {
+                  "description": "Time-of-day profile.",
+                  "$ref": "#/$defs/Schedule"
+                }
+              },
+              "required": [
+                "entry_location",
+                "f_mhz",
+                "bw_mhz",
+                "power_dbmv",
+                "schedule"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "UpstreamIngress"
+          ]
+        },
+        {
+          "description": "Noise injected into the forward path (§4.5).",
+          "type": "object",
+          "properties": {
+            "DownstreamIngress": {
+              "type": "object",
+              "properties": {
+                "bw_mhz": {
+                  "description": "Bandwidth, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "entry_location": {
+                  "description": "Where the noise enters.",
+                  "$ref": "#/$defs/Location"
+                },
+                "f_mhz": {
+                  "description": "Centre frequency, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "power_dbmv": {
+                  "description": "Total power in `bw_mhz`, dBmV.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "schedule": {
+                  "description": "Time-of-day profile.",
+                  "$ref": "#/$defs/Schedule"
+                }
+              },
+              "required": [
+                "entry_location",
+                "f_mhz",
+                "bw_mhz",
+                "power_dbmv",
+                "schedule"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "DownstreamIngress"
+          ]
+        },
+        {
+          "description": "A power supply running low; brownouts follow per §6.3.",
+          "type": "object",
+          "properties": {
+            "PowerSupplySag": {
+              "type": "object",
+              "properties": {
+                "psu_id": {
+                  "description": "The power supply.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "schedule": {
+                  "description": "Time-of-day profile.",
+                  "$ref": "#/$defs/Schedule"
+                },
+                "v_delta": {
+                  "description": "Fall in supply voltage, volts.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "psu_id",
+                "v_delta",
+                "schedule"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "PowerSupplySag"
+          ]
+        },
+        {
+          "description": "Loss on one drop only.",
+          "type": "object",
+          "properties": {
+            "BadDrop": {
+              "type": "object",
+              "properties": {
+                "extra_loss_db": {
+                  "description": "Added loss, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "modem_id": {
+                  "description": "The modem at the end of the drop.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "return_loss_db": {
+                  "description": "Return loss of an added mismatch, dB, or `None` for no mismatch.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                }
+              },
+              "required": [
+                "modem_id",
+                "extra_loss_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "BadDrop"
+          ]
+        },
+        {
+          "description": "Frequency-specific gain from feedback inside an amp [PNM-HFC §7.1.5].",
+          "type": "object",
+          "properties": {
+            "ResonantPeak": {
+              "type": "object",
+              "properties": {
+                "amp_id": {
+                  "description": "The amp.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "f0_mhz": {
+                  "description": "Centre frequency, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "gain_db": {
+                  "description": "Rise at the centre, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "width_mhz": {
+                  "description": "Offset from centre at which the dB rise falls to 1/e, MHz.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "amp_id",
+                "f0_mhz",
+                "gain_db",
+                "width_mhz"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "ResonantPeak"
+          ]
+        },
+        {
+          "description": "A block of channels combined at the wrong level at the head end or node [PNM-HFC §7.1.1].",
+          "type": "object",
+          "properties": {
+            "AdjacentLevelOffset": {
+              "type": "object",
+              "properties": {
+                "f_hi_mhz": {
+                  "description": "Upper edge, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "f_lo_mhz": {
+                  "description": "Lower edge, MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "offset_db": {
+                  "description": "Level change, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "f_lo_mhz",
+                "f_hi_mhz",
+                "offset_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "AdjacentLevelOffset"
+          ]
+        },
+        {
+          "description": "A worse forward optical link: laser, connector or clipping, seen as noise (§8).",
+          "type": "object",
+          "properties": {
+            "ForwardOptics": {
+              "type": "object",
+              "properties": {
+                "cnr_loss_db": {
+                  "description": "Fall in `CNR_opt`, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "cnr_loss_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "ForwardOptics"
+          ]
+        },
+        {
+          "description": "A corroded contact mixing the forward signals into the return path [PNM-HFC §8.16.1.1].",
+          "type": "object",
+          "properties": {
+            "CommonPathDistortion": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "description": "Where the contact is.",
+                  "$ref": "#/$defs/Location"
+                },
+                "schedule": {
+                  "description": "Time-of-day profile.",
+                  "$ref": "#/$defs/Schedule"
+                },
+                "second_order_dbmv_per_mhz": {
+                  "description": "Second-order product density at its largest, dBmV per MHz.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "third_over_second_db": {
+                  "description": "Third-order density at its largest against the second order's, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "location",
+                "second_order_dbmv_per_mhz",
+                "third_over_second_db",
+                "schedule"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "CommonPathDistortion"
+          ]
+        },
+        {
+          "description": "An RPD stopped: power, crash or reset [R-PHY §6.3, §8].",
+          "type": "object",
+          "properties": {
+            "RpdFailure": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "description": "How it failed.",
+                  "$ref": "#/$defs/RpdFailureMode"
+                },
+                "rpd_id": {
+                  "description": "The RPD.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "rpd_id",
+                "mode"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "RpdFailure"
+          ]
+        },
+        {
+          "description": "The fiber to an RPD is cut. It stays alive and powered, and its RF stops.",
+          "type": "object",
+          "properties": {
+            "CinLinkCut": {
+              "type": "object",
+              "properties": {
+                "repair_s": {
+                  "description": "Seconds until it's repaired, or `None` if it isn't.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "rpd_id": {
+                  "description": "The RPD.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "rpd_id"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "CinLinkCut"
+          ]
+        },
+        {
+          "description": "The control plane to an RPD is lost. No RF effect until retries run out [R-PHY §7.1.3].",
+          "type": "object",
+          "properties": {
+            "GcpLoss": {
+              "type": "object",
+              "properties": {
+                "duration_s": {
+                  "description": "How long it lasts, seconds.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "rpd_id": {
+                  "description": "The RPD.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "rpd_id",
+                "duration_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "GcpLoss"
+          ]
+        },
+        {
+          "description": "An RPD loses its PTP sync and runs on holdover [R-PHY §6.9].",
+          "type": "object",
+          "properties": {
+            "TimingLoss": {
+              "type": "object",
+              "properties": {
+                "duration_s": {
+                  "description": "How long it lasts, seconds.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "rpd_id": {
+                  "description": "The RPD.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "rpd_id",
+                "duration_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "TimingLoss"
+          ]
+        },
+        {
+          "description": "A wrong pad or equalizer at a fitted active, as its difference from what's fitted (§15): more pad is more loss, more\nequalizer more loss at the bottom of its slope. Version 4.",
+          "type": "object",
+          "properties": {
+            "Misalignment": {
+              "type": "object",
+              "properties": {
+                "active_id": {
+                  "description": "The active.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "eq_delta_db": {
+                  "description": "Forward input equalizer, dB more than fitted.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "pad_delta_db": {
+                  "description": "Forward input pad, dB more than fitted.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "return_pad_delta_db": {
+                  "description": "Return pad, dB more than fitted.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "active_id",
+                "pad_delta_db",
+                "eq_delta_db",
+                "return_pad_delta_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Misalignment"
+          ]
+        },
+        {
+          "description": "An RPD's RF output is set wrong, as can happen at cutover.",
+          "type": "object",
+          "properties": {
+            "RfmMisalignment": {
+              "type": "object",
+              "properties": {
+                "ds_gain_delta_db": {
+                  "description": "Output change at the band's top, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "rpd_id": {
+                  "description": "The RPD.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "tilt_delta_db": {
+                  "description": "Added tilt across the band, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "rpd_id",
+                "ds_gain_delta_db",
+                "tilt_delta_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "RfmMisalignment"
+          ]
+        },
+        {
+          "description": "§20.1: a span or drop cut through at a point. Nothing passes it, RF or AC, and the live side ends in an open or a\nshort. Version 5.",
+          "type": "object",
+          "properties": {
+            "SpanCut": {
+              "type": "object",
+              "properties": {
+                "end": {
+                  "description": "How the live side ends.",
+                  "$ref": "#/$defs/CutEnd"
+                },
+                "pos_ft": {
+                  "description": "Where, feet from its upstream end.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "repair_s": {
+                  "description": "Seconds from the onset until it's spliced, or `None` while it stays cut.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "span_id": {
+                  "description": "The span or drop.",
+                  "$ref": "#/$defs/EdgeId"
+                }
+              },
+              "required": [
+                "span_id",
+                "pos_ft",
+                "end"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "SpanCut"
+          ]
+        },
+        {
+          "description": "§20.2: an analog node stops. Version 5.",
+          "type": "object",
+          "properties": {
+            "AnalogNodeFailure": {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "description": "What stops.",
+                  "$ref": "#/$defs/NodeFailureMode"
+                },
+                "node_id": {
+                  "description": "The node.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "repair_s": {
+                  "description": "Seconds from the onset until it's repaired, or `None` while it stays down.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                }
+              },
+              "required": [
+                "node_id",
+                "mode"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "AnalogNodeFailure"
+          ]
+        },
+        {
+          "description": "§20.3: water inside a device: loss and a mismatch at its input, and, after a while, the device fails. Version 5.",
+          "type": "object",
+          "properties": {
+            "WaterInDevice": {
+              "type": "object",
+              "properties": {
+                "element_id": {
+                  "description": "The device.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "failed_after_s": {
+                  "description": "Seconds from the onset until it fails outright, or `None` if it doesn't.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "loss_db_at_1ghz": {
+                  "description": "Added loss at 1 GHz, dB, at full severity and no rain; it goes as √f.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "rain_coupling_per_mm_per_hr": {
+                  "description": "Rise in the loss per unit of rainfall, per mm per hour, as §8's water in a span.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "return_loss_db": {
+                  "description": "Return loss at its input, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "element_id",
+                "loss_db_at_1ghz",
+                "return_loss_db",
+                "rain_coupling_per_mm_per_hr"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "WaterInDevice"
+          ]
+        },
+        {
+          "description": "§20.4: a low-resistance path from center conductor to shield on a span. Version 5.",
+          "type": "object",
+          "properties": {
+            "PowerShort": {
+              "type": "object",
+              "properties": {
+                "fault_resistance_ohm": {
+                  "description": "The path's resistance, ohms.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "pos_ft": {
+                  "description": "Where, feet from its upstream end.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "repair_s": {
+                  "description": "Seconds from the onset until it's repaired, or `None`.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "span_id": {
+                  "description": "The span.",
+                  "$ref": "#/$defs/EdgeId"
+                }
+              },
+              "required": [
+                "span_id",
+                "pos_ft",
+                "fault_resistance_ohm"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "PowerShort"
+          ]
+        },
+        {
+          "description": "§20.5: one blow to a device, as a car into a tap: its through path loses, its input mismatches, some of its ports\nare lost, and its opened housing lets ingress and corrosion's CPD in, all at once. Version 5.",
+          "type": "object",
+          "properties": {
+            "DamagedDevice": {
+              "type": "object",
+              "properties": {
+                "cpd_second_order_dbmv_per_mhz": {
+                  "description": "Second-order CPD density entering there, dBmV per MHz; `None` for none.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "element_id": {
+                  "description": "The device.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "ingress_power_dbmv": {
+                  "description": "Upstream ingress entering there, total in the return band, dBmV; `None` for none.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                },
+                "ports_lost": {
+                  "description": "Ports cut off, each as an open.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/PortId"
+                  }
+                },
+                "return_loss_db": {
+                  "description": "Return loss at its input, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "through_loss_db": {
+                  "description": "Added through loss, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "element_id",
+                "through_loss_db",
+                "return_loss_db",
+                "ports_lost"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "DamagedDevice"
+          ]
+        },
+        {
+          "description": "§20.6: the utility fails over an area. Supplies inside it run on their batteries for as long as §20.6 says, then\nstop; homes inside it lose house power, and their modems with it. Version 5.",
+          "type": "object",
+          "properties": {
+            "UtilityOutage": {
+              "type": "object",
+              "properties": {
+                "center": {
+                  "description": "The area's centre.",
+                  "$ref": "#/$defs/LonLat"
+                },
+                "radius_ft": {
+                  "description": "Its radius, feet.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "repair_s": {
+                  "description": "Seconds from the onset until power is back, or `None`.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                }
+              },
+              "required": [
+                "center",
+                "radius_ft"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "UtilityOutage"
+          ]
+        }
+      ]
+    },
+    "Location": {
+      "description": "A point in the plant (§8).",
+      "oneOf": [
+        {
+          "description": "A point along a cabled edge, either a span or a drop.",
+          "type": "object",
+          "properties": {
+            "Span": {
+              "type": "object",
+              "properties": {
+                "pos_ft": {
+                  "description": "Distance from the edge's upstream end, feet.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "span_id": {
+                  "description": "The edge.",
+                  "$ref": "#/$defs/EdgeId"
+                }
+              },
+              "required": [
+                "span_id",
+                "pos_ft"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Span"
+          ]
+        },
+        {
+          "description": "A device port.",
+          "type": "object",
+          "properties": {
+            "Port": {
+              "type": "object",
+              "properties": {
+                "element_id": {
+                  "description": "The device.",
+                  "$ref": "#/$defs/ElementId"
+                },
+                "port": {
+                  "description": "The port on it.",
+                  "$ref": "#/$defs/PortId"
+                }
+              },
+              "required": [
+                "element_id",
+                "port"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Port"
+          ]
+        }
+      ]
+    },
+    "LonLat": {
+      "description": "A geographic position.",
+      "type": "object",
+      "properties": {
+        "lat_deg": {
+          "description": "Latitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        },
+        "lon_deg": {
+          "description": "Longitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lon_deg",
+        "lat_deg"
+      ]
+    },
+    "LossShape": {
+      "description": "The shape of a frequency-selective loss.",
+      "oneOf": [
+        {
+          "description": "Loss between the edges.",
+          "type": "string",
+          "const": "BandStop"
+        },
+        {
+          "description": "Loss below the lower edge.",
+          "type": "string",
+          "const": "HighPass"
+        },
+        {
+          "description": "Loss above the upper edge.",
+          "type": "string",
+          "const": "LowPass"
+        }
+      ]
+    },
+    "NodeFailureMode": {
+      "description": "What stops when an analog node fails (§20.2). Version 5.",
+      "oneOf": [
+        {
+          "description": "It loses power: no RF either way, and nothing it powers runs.",
+          "type": "string",
+          "const": "Power"
+        },
+        {
+          "description": "Its RF section fails: powered, and no forward out and no return in.",
+          "type": "string",
+          "const": "RfSection"
+        }
+      ]
+    },
+    "Onset": {
+      "description": "How a fault appears over time.",
+      "oneOf": [
+        {
+          "description": "Present at full severity from the start of the run.",
+          "type": "string",
+          "const": "Instant"
+        },
+        {
+          "description": "Severity rises linearly from zero to full.",
+          "type": "object",
+          "properties": {
+            "Ramp": {
+              "type": "object",
+              "properties": {
+                "end": {
+                  "description": "Simulated time severity reaches full, seconds.",
+                  "$ref": "#/$defs/Timestamp"
+                },
+                "start": {
+                  "description": "Simulated time severity starts rising, seconds.",
+                  "$ref": "#/$defs/Timestamp"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Ramp"
+          ]
+        }
+      ]
+    },
+    "PortId": {
+      "description": "A port on one element, such as `tap-1` or `through`.",
+      "type": "string"
+    },
+    "RpdFailureMode": {
+      "description": "How an RPD failed.",
+      "oneOf": [
+        {
+          "description": "Hard reset: full init from local boot.",
+          "type": "object",
+          "properties": {
+            "HardReset": {
+              "type": "object",
+              "properties": {
+                "recovery_s": {
+                  "description": "Seconds to come back.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "recovery_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "HardReset"
+          ]
+        },
+        {
+          "description": "Soft reset: it keeps its frequency and warm-starts PTP.",
+          "type": "object",
+          "properties": {
+            "SoftReset": {
+              "type": "object",
+              "properties": {
+                "recovery_s": {
+                  "description": "Seconds to come back.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "recovery_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "SoftReset"
+          ]
+        },
+        {
+          "description": "Doesn't come back.",
+          "type": "string",
+          "const": "Dead"
+        }
+      ]
+    },
+    "Schedule": {
+      "description": "A time-of-day profile on a fault's severity (§8).",
+      "type": "object",
+      "properties": {
+        "hourly_multipliers": {
+          "description": "Severity multiplier per hour, dimensionless, with hour = (t / 3600) mod 24.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxItems": 24,
+          "minItems": 24
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "hourly_multipliers"
+      ]
+    },
+    "ServiceGroupId": {
+      "description": "A service group: one node's tree.",
+      "type": "string"
+    },
+    "Timestamp": {
+      "description": "Simulated time in seconds, passed in and never read from the system clock\n(invariant 4). t = 0 is midnight on the simulated day (§8).",
+      "type": "integer",
+      "format": "int64"
+    },
+    "WorkOrderStatus": {
+      "description": "Where a work order is in its lifecycle.",
+      "oneOf": [
+        {
+          "description": "Issued by diagnosis, not yet sent.",
+          "type": "string",
+          "const": "Proposed"
+        },
+        {
+          "description": "Sent to a crew.",
+          "type": "string",
+          "const": "Dispatched"
+        },
+        {
+          "description": "The crew reports it done.",
+          "type": "string",
+          "const": "Completed"
+        },
+        {
+          "description": "Telemetry shows the symptoms cleared.",
+          "type": "string",
+          "const": "Verified"
+        },
+        {
+          "description": "Telemetry shows the symptoms did not clear.",
+          "type": "string",
+          "const": "NotVerified"
+        }
+      ]
+    }
+  }
+}

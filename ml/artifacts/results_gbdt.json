@@ -1,0 +1,91 @@
+{
+ "origin": "Synthetic",
+ "rows": 5560,
+ "folds": {
+  "family:UrbanGrid": {
+   "train_rows": 3400,
+   "gbdt": {
+    "rows": 1520,
+    "placeable": 1256,
+    "top1": 0.6902866242038217,
+    "top3": 0.8312101910828026,
+    "healthy_false_alarm": 0.17763157894736842,
+    "ece": 0.057496645265681455,
+    "class_given_place": 0.9298245614035088,
+    "temperature": 0.7711054127039704,
+    "fit_s": 6.771668195724487
+   },
+   "gbdt_on_floor_rows": null,
+   "floor": null,
+   "floor_sims_per_run": null
+  },
+  "family:Suburban": {
+   "train_rows": 3320,
+   "gbdt": {
+    "rows": 1600,
+    "placeable": 1320,
+    "top1": 0.6977272727272728,
+    "top3": 0.8916666666666667,
+    "healthy_false_alarm": 0.0,
+    "ece": 0.03843659322797967,
+    "class_given_place": 0.9256944444444445,
+    "temperature": 0.8408964152537145,
+    "fit_s": 6.54029655456543
+   },
+   "gbdt_on_floor_rows": null,
+   "floor": null,
+   "floor_sims_per_run": null
+  },
+  "family:Rural": {
+   "train_rows": 2480,
+   "gbdt": {
+    "rows": 2440,
+    "placeable": 2012,
+    "top1": 0.55168986083499,
+    "top3": 0.8081510934393639,
+    "healthy_false_alarm": 0.11065573770491803,
+    "ece": 0.06034459520983695,
+    "class_given_place": 0.906648451730419,
+    "temperature": 0.8408964152537145,
+    "fit_s": 6.299610614776611
+   },
+   "gbdt_on_floor_rows": null,
+   "floor": null,
+   "floor_sims_per_run": null
+  },
+  "profile:lowsplit (legacy)": {
+   "train_rows": 1682,
+   "gbdt": {
+    "rows": 2760,
+    "placeable": 2208,
+    "top1": 0.5561594202898551,
+    "top3": 0.823822463768116,
+    "healthy_false_alarm": 0.0036231884057971015,
+    "ece": 0.06269986977493554,
+    "class_given_place": 0.927536231884058,
+    "temperature": 0.9170040432046712,
+    "fit_s": 11.803775787353516
+   },
+   "gbdt_on_floor_rows": null,
+   "floor": null,
+   "floor_sims_per_run": null
+  },
+  "profile:highsplit (DAA)": {
+   "train_rows": 2280,
+   "gbdt": {
+    "rows": 2030,
+    "placeable": 1610,
+    "top1": 0.6124223602484472,
+    "top3": 0.8478260869565217,
+    "healthy_false_alarm": 0.03571428571428571,
+    "ece": 0.04673548821985336,
+    "class_given_place": 0.9325714285714286,
+    "temperature": 0.7711054127039704,
+    "fit_s": 18.087643146514893
+   },
+   "gbdt_on_floor_rows": null,
+   "floor": null,
+   "floor_sims_per_run": null
+  }
+ }
+}

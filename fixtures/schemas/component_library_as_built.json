@@ -1,0 +1,978 @@
+{
+  "schema_version": "2",
+  "components": [
+    {
+      "id": "amp-multi",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "amp-multi",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "tolerance": {
+        "loss_db": 0.5,
+        "gain_db": 1.0,
+        "r_loop_pct": 10.0,
+        "return_loss_db": 2.0,
+        "nf_db": 1.0,
+        "impl_mer_db": 1.5
+      },
+      "class": "Amp",
+      "spec": {
+        "max_out_dbmv_at_hi": 56.0,
+        "max_gain_db": 36.0,
+        "min_in_dbmv": 15.0,
+        "nf_db": 7.0,
+        "return_nf_db": 10.0,
+        "ctb_ref_db": 70.0,
+        "cso_ref_db": 72.0,
+        "cin_ref_db": 58.0,
+        "ref_out_dbmv": 52.0,
+        "return_gain_db": 25.0,
+        "agc_range_db": 3.0,
+        "return_loss_db": 16.0,
+        "duplex": {
+          "Diplexed": {
+            "splits": [
+              {
+                "us_hi_mhz": 204.0,
+                "ds_lo_mhz": 258.0,
+                "group_delay_ns": [
+                  {
+                    "f_mhz": 5.0,
+                    "delay_ns": 50.0
+                  },
+                  {
+                    "f_mhz": 1218.0,
+                    "delay_ns": 5.0
+                  }
+                ]
+              }
+            ],
+            "remote_switchable": true
+          }
+        },
+        "power_w": 60.0,
+        "v_min": 60.0,
+        "outputs": [
+          {
+            "port": "out-1",
+            "loss_from_main_db": 0.0,
+            "return_combining_loss_db": 3.5
+          },
+          {
+            "port": "out-2",
+            "loss_from_main_db": 4.0,
+            "return_combining_loss_db": 7.0
+          }
+        ],
+        "plugin_family": "family-a",
+        "nf_table": [
+          {
+            "f_mhz": 1218.0,
+            "nf_db": 8.0
+          }
+        ],
+        "cin_table": [
+          {
+            "f_mhz": 1218.0,
+            "cin_db": 56.0
+          }
+        ],
+        "ref_composite_dbmv": 70.0,
+        "gain_flatness_db": 0.75,
+        "gain_table": [
+          {
+            "f_mhz": 258.0,
+            "gain_db": 26.0
+          },
+          {
+            "f_mhz": 1218.0,
+            "gain_db": 36.0
+          }
+        ],
+        "agc_pilots_mhz": [
+          99.0,
+          1100.0
+        ],
+        "return_loss_table": [
+          {
+            "f_mhz": 5.0,
+            "return_loss_db": 16.0
+          },
+          {
+            "f_mhz": 1218.0,
+            "return_loss_db": 14.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "node",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "node",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Node",
+      "spec": {
+        "active": {
+          "max_out_dbmv_at_hi": 56.0,
+          "max_gain_db": 36.0,
+          "min_in_dbmv": 15.0,
+          "nf_db": 7.0,
+          "return_nf_db": 10.0,
+          "ctb_ref_db": 70.0,
+          "cso_ref_db": 72.0,
+          "cin_ref_db": 58.0,
+          "ref_out_dbmv": 52.0,
+          "return_gain_db": 25.0,
+          "agc_range_db": 3.0,
+          "return_loss_db": 16.0,
+          "duplex": {
+            "Diplexed": {
+              "splits": [
+                {
+                  "us_hi_mhz": 204.0,
+                  "ds_lo_mhz": 258.0,
+                  "group_delay_ns": [
+                    {
+                      "f_mhz": 5.0,
+                      "delay_ns": 50.0
+                    },
+                    {
+                      "f_mhz": 1218.0,
+                      "delay_ns": 5.0
+                    }
+                  ]
+                }
+              ],
+              "remote_switchable": true
+            }
+          },
+          "power_w": 60.0,
+          "v_min": 60.0
+        },
+        "optics_cnr_db": 48.0,
+        "us_optics_snr_db": 40.0,
+        "source_mer": [
+          {
+            "f_mhz": 1218.0,
+            "mer_db": 48.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "rpd",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "rpd",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Rpd",
+      "spec": {
+        "active": {
+          "max_out_dbmv_at_hi": 56.0,
+          "max_gain_db": 36.0,
+          "min_in_dbmv": 15.0,
+          "nf_db": 7.0,
+          "return_nf_db": 10.0,
+          "ctb_ref_db": 70.0,
+          "cso_ref_db": 72.0,
+          "cin_ref_db": 58.0,
+          "ref_out_dbmv": 52.0,
+          "return_gain_db": 25.0,
+          "agc_range_db": 3.0,
+          "return_loss_db": 16.0,
+          "duplex": {
+            "Diplexed": {
+              "splits": [
+                {
+                  "us_hi_mhz": 204.0,
+                  "ds_lo_mhz": 258.0,
+                  "group_delay_ns": [
+                    {
+                      "f_mhz": 5.0,
+                      "delay_ns": 50.0
+                    },
+                    {
+                      "f_mhz": 1218.0,
+                      "delay_ns": 5.0
+                    }
+                  ]
+                }
+              ],
+              "remote_switchable": true
+            }
+          },
+          "power_w": 60.0,
+          "v_min": 60.0
+        },
+        "supported_pnm_tests": [
+          "UsRxmer"
+        ],
+        "source_mer": [
+          {
+            "f_mhz": 1218.0,
+            "mer_db": 48.0
+          }
+        ],
+        "us_rx_ceiling_db": 45.0
+      }
+    },
+    {
+      "id": "tap-terminating",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "tap-terminating",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Tap",
+      "spec": {
+        "ports": 2,
+        "tap_value_db": 8.0,
+        "insertion_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 0.0
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 0.0
+          }
+        ],
+        "tap_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 8.0
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 8.5
+          }
+        ],
+        "port_isolation_db": 25.0,
+        "return_loss_db": 18.0,
+        "power_passing": false,
+        "terminating": true,
+        "plugin_family": "faceplate-a",
+        "return_loss_by_port": [
+          {
+            "port": "TapPort",
+            "points": [
+              {
+                "f_mhz": 5.0,
+                "return_loss_db": 20.0
+              },
+              {
+                "f_mhz": 1218.0,
+                "return_loss_db": 16.0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "splitter-home",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "splitter-home",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Splitter",
+      "spec": {
+        "legs": 2,
+        "leg_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 3.5
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 4.0
+          }
+        ],
+        "return_loss_db": 18.0,
+        "power_passing": false,
+        "leg_isolation_db": 22.0,
+        "return_loss_table": [
+          {
+            "f_mhz": 5.0,
+            "return_loss_db": 20.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "coupler-12",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "coupler-12",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "DirectionalCoupler",
+      "spec": {
+        "coupled_value_db": 12.0,
+        "excess_loss_db": 0.3,
+        "return_loss_db": 18.0,
+        "power_passing": true,
+        "return_loss_table": [
+          {
+            "f_mhz": 5.0,
+            "return_loss_db": 20.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "terminator-rl",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "terminator-rl",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Terminator",
+      "spec": {
+        "return_loss_db": 30.0,
+        "return_loss_table": [
+          {
+            "f_mhz": 1218.0,
+            "return_loss_db": 25.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "modem-rl",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "modem-rl",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Modem",
+      "spec": {
+        "generation": "D31",
+        "impl_mer_db": 44.0,
+        "nf_db": 10.0,
+        "return_loss_db": 18.0,
+        "tx_max_total_dbmv": 65.0,
+        "capability": {
+          "ds_rxmer_file": true,
+          "ds_rxmer_summary": true,
+          "ds_chan_est_file": true,
+          "ds_chan_est_summary": true,
+          "ofdma_preeq_file": true,
+          "ofdma_preeq_summary": true,
+          "sc_qam_preeq": true,
+          "fbc": {
+            "file": true,
+            "snmp": true,
+            "lo_mhz": 54.0,
+            "hi_mhz": 1218.0
+          },
+          "per_profile_fec": true,
+          "plc_ncp_counters": true,
+          "band_power_6mhz": true,
+          "us_rxmer_file": true,
+          "us_rxmer_summary": true,
+          "us_spectrum_capture": true,
+          "v_in": true,
+          "i_draw": true,
+          "temp_c": true,
+          "status": true,
+          "out_level": true,
+          "access": [
+            "CmSnmp",
+            "CmTftp",
+            "CmtsSnmp"
+          ]
+        },
+        "return_loss_table": [
+          {
+            "f_mhz": 1218.0,
+            "return_loss_db": 12.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "cable-500",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "cable-500",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Cable",
+      "spec": {
+        "atten_a": 0.0598,
+        "atten_b": 0.00046,
+        "k_temp": 0.002,
+        "v_f": 0.87,
+        "r_loop_ohm_per_kft": 1.7,
+        "family": "500",
+        "ampacity_a": 43.0,
+        "r_loop_k_temp": 0.004
+      }
+    },
+    {
+      "id": "inserter-lossy",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "inserter-lossy",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "PowerInserter",
+      "spec": {
+        "i_rated_a": 20.0,
+        "power_passing": true,
+        "insertion_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 0.9
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 1.6
+          }
+        ],
+        "return_loss_db": 16.0,
+        "port_i_rated_a": 15.0
+      }
+    },
+    {
+      "id": "pad-6",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "pad-6",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "PlugIn",
+      "spec": {
+        "kind": "Pad",
+        "family": "family-a",
+        "value_db": 6.0,
+        "insertion_loss_db": 0.3,
+        "return_loss_db": 25.0
+      }
+    },
+    {
+      "id": "eq-10",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "eq-10",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "PlugIn",
+      "spec": {
+        "kind": "Equalizer",
+        "family": "family-a",
+        "value_db": 10.0,
+        "slope_band": {
+          "lo_mhz": 258.0,
+          "hi_mhz": 1218.0
+        },
+        "insertion_loss_db": 1.0,
+        "loss_table": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 10.5
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "line-eq",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "line-eq",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "LineEqualizer",
+      "spec": {
+        "value_db": 8.0,
+        "slope_band": {
+          "lo_mhz": 54.0,
+          "hi_mhz": 1002.0
+        },
+        "insertion_loss_db": 1.0,
+        "return_loss_db": 18.0,
+        "power_passing": true,
+        "duplex": {
+          "Diplexed": {
+            "splits": [
+              {
+                "us_hi_mhz": 204.0,
+                "ds_lo_mhz": 258.0,
+                "group_delay_ns": [
+                  {
+                    "f_mhz": 5.0,
+                    "delay_ns": 50.0
+                  },
+                  {
+                    "f_mhz": 1218.0,
+                    "delay_ns": 5.0
+                  }
+                ]
+              }
+            ],
+            "remote_switchable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "pin",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "pin",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Connector",
+      "spec": {
+        "kind": "HardlinePin",
+        "cable_family": "500",
+        "insertion_loss_db": 0.05,
+        "return_loss_db": 30.0,
+        "return_loss_table": [
+          {
+            "f_mhz": 1218.0,
+            "return_loss_db": 26.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "ground-block",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "ground-block",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "GroundBlock",
+      "spec": {
+        "insertion_loss": [
+          {
+            "f_mhz": 55.0,
+            "loss_db": 0.2
+          },
+          {
+            "f_mhz": 1000.0,
+            "loss_db": 0.4
+          }
+        ],
+        "return_loss_db": 20.0
+      }
+    },
+    {
+      "id": "drop-amp",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "drop-amp",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "DropAmp",
+      "spec": {
+        "outputs": 4,
+        "gain_db": 10.0,
+        "return_passive_loss_db": 1.5,
+        "nf_db": 5.0,
+        "return_nf_db": 8.0,
+        "max_out_dbmv_at_hi": 30.0,
+        "return_loss_db": 16.0,
+        "duplex": {
+          "Diplexed": {
+            "splits": [
+              {
+                "us_hi_mhz": 204.0,
+                "ds_lo_mhz": 258.0,
+                "group_delay_ns": [
+                  {
+                    "f_mhz": 5.0,
+                    "delay_ns": 50.0
+                  },
+                  {
+                    "f_mhz": 1218.0,
+                    "delay_ns": 5.0
+                  }
+                ]
+              }
+            ],
+            "remote_switchable": true
+          }
+        }
+      }
+    },
+    {
+      "id": "filter",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "filter",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Filter",
+      "spec": {
+        "shape": "BandStop",
+        "stop_bands": [
+          {
+            "lo_mhz": 1125.0,
+            "hi_mhz": 1675.0
+          }
+        ],
+        "transition_mhz": 123.0,
+        "stop_depth_db": 40.0,
+        "pass_loss_db": 1.0,
+        "return_loss_db": 18.0,
+        "stop_return_loss_db": 1.0
+      }
+    },
+    {
+      "id": "set-top",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "set-top",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Cpe",
+      "spec": {
+        "device": "SetTop",
+        "return_loss_db": 10.0
+      }
+    },
+    {
+      "id": "battery",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "battery",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Battery",
+      "spec": {
+        "v_nominal": 12.0,
+        "capacity_ah": 100.0,
+        "v_end_discharge": 10.2
+      }
+    },
+    {
+      "id": "pole",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "pole",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Structure",
+      "spec": {
+        "kind": "Pole"
+      }
+    },
+    {
+      "id": "strand",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "strand",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Strand",
+      "spec": {}
+    },
+    {
+      "id": "conduit",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "conduit",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Conduit",
+      "spec": {}
+    },
+    {
+      "id": "fiber-48",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "fiber-48",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "FiberCable",
+      "spec": {
+        "fiber_count": 48,
+        "fibers_per_tube": 12,
+        "fiber_type": "G652D",
+        "construction": "LooseTube",
+        "loss": [
+          {
+            "wavelength_nm": 1310.0,
+            "loss_db_per_kft": 0.107
+          }
+        ]
+      }
+    },
+    {
+      "id": "closure",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "closure",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "SpliceClosure",
+      "spec": {
+        "splice_capacity": 144,
+        "trays": 6,
+        "splice_loss_db": 0.05
+      }
+    },
+    {
+      "id": "panel",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "panel",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "PatchPanel",
+      "spec": {
+        "ports": 48,
+        "splice_loss_db": 0.05
+      }
+    },
+    {
+      "id": "sc-apc",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "sc-apc",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "FiberConnector",
+      "spec": {
+        "style": "SC",
+        "polish": "Apc",
+        "insertion_loss_db": 0.3,
+        "return_loss_db": 60.0
+      }
+    },
+    {
+      "id": "mux",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "mux",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "OpticalPassive",
+      "spec": {
+        "kind": "Mux",
+        "ports": 2,
+        "insertion_loss_db": 1.0,
+        "channels_nm": [
+          1310.0,
+          1550.0
+        ],
+        "isolation_db": 30.0,
+        "return_loss_db": 45.0
+      }
+    },
+    {
+      "id": "forward-tx",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "forward-tx",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "OpticalTx",
+      "spec": {
+        "direction": "Forward",
+        "laser": "Dfb",
+        "wavelength_nm": 1310.0,
+        "out_dbm": 10.0,
+        "rin_db_per_hz": -160.0,
+        "omi_pct": 3.0,
+        "ref_rf_in_dbmv": 20.0,
+        "clip_total_in_dbmv": 40.0
+      }
+    },
+    {
+      "id": "forward-rx",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "forward-rx",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "OpticalRx",
+      "spec": {
+        "direction": "Forward",
+        "in_min_dbm": -6.0,
+        "in_max_dbm": 2.0,
+        "responsivity_a_per_w": 0.85,
+        "ein_pa_per_rthz": 7.0,
+        "rf_out_dbmv": 30.0,
+        "ref_in_dbm": 0.0,
+        "agc_range_db": 6.0
+      }
+    },
+    {
+      "id": "edfa",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "edfa",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "OpticalAmp",
+      "spec": {
+        "out_dbm": 20.0,
+        "nf_db": 5.0,
+        "in_min_dbm": -5.0,
+        "in_max_dbm": 10.0,
+        "band_lo_nm": 1530.0,
+        "band_hi_nm": 1565.0
+      }
+    },
+    {
+      "id": "sfp-lr",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "sfp-lr",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Transceiver",
+      "spec": {
+        "form_factor": "SFP+",
+        "rate_gbps": 10.0,
+        "wavelength_nm": 1310.0,
+        "rx_wavelength_nm": 1270.0,
+        "tx_min_dbm": -8.2,
+        "tx_max_dbm": 0.5,
+        "rx_sensitivity_dbm": -14.4,
+        "rx_overload_dbm": 0.5
+      }
+    },
+    {
+      "id": "switch",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "switch",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Switch",
+      "spec": {
+        "ports": 48,
+        "port_rate_gbps": 10.0
+      }
+    },
+    {
+      "id": "cmts",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "cmts",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": 5.0,
+      "rated_hi_mhz": 1218.0,
+      "class": "Cmts",
+      "spec": {
+        "kind": "Integrated",
+        "ports": 16,
+        "source_mer": [
+          {
+            "f_mhz": 1218.0,
+            "mer_db": 48.0
+          }
+        ],
+        "us_rx_ceiling_db": 45.0
+      }
+    },
+    {
+      "id": "core",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "core",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "Cmts",
+      "spec": {
+        "kind": "Core",
+        "ports": 64
+      }
+    },
+    {
+      "id": "grandmaster",
+      "version": 1,
+      "vendor": "Generic",
+      "model": "grandmaster",
+      "source_url": "https://example.com/datasheet",
+      "spec_confidence": "Generic",
+      "rated_lo_mhz": null,
+      "rated_hi_mhz": null,
+      "class": "TimingSource",
+      "spec": {
+        "ports": 4
+      }
+    }
+  ]
+}

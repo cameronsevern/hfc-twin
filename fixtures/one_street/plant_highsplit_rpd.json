@@ -1,0 +1,640 @@
+{
+  "schema_version": "1",
+  "service_group": "sg-one-street",
+  "profile_ref": "d31_highsplit_1218_rpd",
+  "origin": "Synthetic",
+  "elements": [
+    {
+      "id": "rpd-1",
+      "kind": {
+        "Rpd": {
+          "return_atten_db": 0.0
+        }
+      },
+      "component_ref": "rpd-generic-1218",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "rf-1",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "amp-1",
+      "kind": {
+        "Amp": {
+          "return_atten_db": 0.0
+        }
+      },
+      "component_ref": "amp-generic-1218",
+      "geo": {
+        "lon_deg": -105.095718,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "tap-1",
+      "kind": "Tap",
+      "component_ref": "tap-generic-23db-4p",
+      "geo": {
+        "lon_deg": -105.09429,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "tap-1",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-2",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-3",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-4",
+          "role": "TapPort"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "tap-2",
+      "kind": "Tap",
+      "component_ref": "tap-generic-17db-4p",
+      "geo": {
+        "lon_deg": -105.09322,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "tap-1",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-2",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-3",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-4",
+          "role": "TapPort"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "amp-2",
+      "kind": {
+        "Amp": {
+          "return_atten_db": 0.0
+        }
+      },
+      "component_ref": "amp-generic-1218",
+      "geo": {
+        "lon_deg": -105.092863,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "tap-3",
+      "kind": "Tap",
+      "component_ref": "tap-generic-23db-4p",
+      "geo": {
+        "lon_deg": -105.091435,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "tap-1",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-2",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-3",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-4",
+          "role": "TapPort"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "tap-4",
+      "kind": "Tap",
+      "component_ref": "tap-generic-17db-4p",
+      "geo": {
+        "lon_deg": -105.090365,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "tap-1",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-2",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-3",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-4",
+          "role": "TapPort"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "term-1",
+      "kind": "Terminator",
+      "component_ref": "term-generic",
+      "geo": {
+        "lon_deg": -105.090365,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-1",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d30",
+      "geo": {
+        "lon_deg": -105.09429,
+        "lat_deg": 39.90022
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-2",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d31",
+      "geo": {
+        "lon_deg": -105.09429,
+        "lat_deg": 39.899588
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-3",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d30",
+      "geo": {
+        "lon_deg": -105.09322,
+        "lat_deg": 39.90022
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-4",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d31",
+      "geo": {
+        "lon_deg": -105.09322,
+        "lat_deg": 39.89967
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-5",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d30",
+      "geo": {
+        "lon_deg": -105.091435,
+        "lat_deg": 39.90022
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-6",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d31",
+      "geo": {
+        "lon_deg": -105.091435,
+        "lat_deg": 39.899588
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-7",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d30",
+      "geo": {
+        "lon_deg": -105.090365,
+        "lat_deg": 39.90022
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem-8",
+      "kind": "Modem",
+      "component_ref": "modem-generic-d31",
+      "geo": {
+        "lon_deg": -105.090365,
+        "lat_deg": 39.89967
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    }
+  ],
+  "edges": [
+    {
+      "id": "span-1",
+      "from": {
+        "element_id": "rpd-1",
+        "port": "rf-1"
+      },
+      "to": {
+        "element_id": "amp-1",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500-p3",
+          "len_ft": 1200.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-2",
+      "from": {
+        "element_id": "amp-1",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "tap-1",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500-p3",
+          "len_ft": 400.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-3",
+      "from": {
+        "element_id": "tap-1",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "tap-2",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500-p3",
+          "len_ft": 300.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-4",
+      "from": {
+        "element_id": "tap-2",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "amp-2",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500-p3",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-5",
+      "from": {
+        "element_id": "amp-2",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "tap-3",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500-p3",
+          "len_ft": 400.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-6",
+      "from": {
+        "element_id": "tap-3",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "tap-4",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500-p3",
+          "len_ft": 300.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "direct-1",
+      "from": {
+        "element_id": "tap-4",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "term-1",
+        "port": "in"
+      },
+      "kind": "Direct"
+    },
+    {
+      "id": "drop-1",
+      "from": {
+        "element_id": "tap-1",
+        "port": "tap-1"
+      },
+      "to": {
+        "element_id": "modem-1",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 80.0
+        }
+      }
+    },
+    {
+      "id": "drop-2",
+      "from": {
+        "element_id": "tap-1",
+        "port": "tap-2"
+      },
+      "to": {
+        "element_id": "modem-2",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 150.0
+        }
+      }
+    },
+    {
+      "id": "drop-3",
+      "from": {
+        "element_id": "tap-2",
+        "port": "tap-1"
+      },
+      "to": {
+        "element_id": "modem-3",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 80.0
+        }
+      }
+    },
+    {
+      "id": "drop-4",
+      "from": {
+        "element_id": "tap-2",
+        "port": "tap-2"
+      },
+      "to": {
+        "element_id": "modem-4",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 120.0
+        }
+      }
+    },
+    {
+      "id": "drop-5",
+      "from": {
+        "element_id": "tap-3",
+        "port": "tap-1"
+      },
+      "to": {
+        "element_id": "modem-5",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 80.0
+        }
+      }
+    },
+    {
+      "id": "drop-6",
+      "from": {
+        "element_id": "tap-3",
+        "port": "tap-2"
+      },
+      "to": {
+        "element_id": "modem-6",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 150.0
+        }
+      }
+    },
+    {
+      "id": "drop-7",
+      "from": {
+        "element_id": "tap-4",
+        "port": "tap-1"
+      },
+      "to": {
+        "element_id": "modem-7",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 80.0
+        }
+      }
+    },
+    {
+      "id": "drop-8",
+      "from": {
+        "element_id": "tap-4",
+        "port": "tap-2"
+      },
+      "to": {
+        "element_id": "modem-8",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop-rg6",
+          "len_ft": 120.0
+        }
+      }
+    }
+  ],
+  "power_supplies": [
+    {
+      "id": "psu-1",
+      "component_ref": "psu-generic-90v",
+      "feeds": "rpd-1",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.900055
+      }
+    }
+  ],
+  "modem_bindings": []
+}

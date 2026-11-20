@@ -1,0 +1,587 @@
+{
+  "schema_version": "2",
+  "id": "sample-rules",
+  "tap_port": [
+    {
+      "profile_ref": "sample-profile",
+      "at_hi_dbmv": {
+        "value": 14.0,
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §1"
+          }
+        }
+      },
+      "at_lo_dbmv": {
+        "value": 4.0,
+        "basis": "Generic"
+      },
+      "tolerance_db": {
+        "value": 2.0,
+        "basis": "Generic"
+      },
+      "tilt_tolerance_db": {
+        "value": 2.0,
+        "basis": "Generic"
+      }
+    }
+  ],
+  "premises_allowance": {
+    "drop_loss_db": {
+      "value": 7.0,
+      "basis": "Generic"
+    },
+    "house_loss_db": {
+      "value": 8.0,
+      "basis": "Generic"
+    }
+  },
+  "end_of_line": {
+    "last_tap_terminating": {
+      "value": true,
+      "basis": "Generic"
+    },
+    "min_port_dbmv_at_hi": {
+      "value": 12.0,
+      "basis": "Generic"
+    }
+  },
+  "tap_families": [
+    {
+      "ports": 4,
+      "values_db": {
+        "value": [
+          11.0,
+          14.0,
+          17.0
+        ],
+        "basis": "Generic"
+      },
+      "terminating_values_db": {
+        "value": [
+          8.0,
+          11.0
+        ],
+        "basis": "Generic"
+      },
+      "parts": {
+        "value": [
+          "tap",
+          "tap-terminating"
+        ],
+        "basis": "Generic"
+      }
+    }
+  ],
+  "roles": [
+    {
+      "role": "Express",
+      "cable_ref": {
+        "value": "cable",
+        "basis": "Generic"
+      },
+      "amp_ref": {
+        "value": "amp",
+        "basis": "Generic"
+      }
+    },
+    {
+      "role": "Feeder",
+      "cable_ref": {
+        "value": "cable",
+        "basis": "Generic"
+      },
+      "amp_ref": {
+        "value": "amp",
+        "basis": "Generic"
+      }
+    }
+  ],
+  "drops": [
+    {
+      "max_len_ft": {
+        "value": 150.0,
+        "basis": "Generic"
+      },
+      "cable_ref": {
+        "value": "drop",
+        "basis": "Generic"
+      }
+    }
+  ],
+  "node": {
+    "max_homes": {
+      "value": 500,
+      "basis": "Generic"
+    },
+    "rf_ports": {
+      "value": 4,
+      "basis": "Generic"
+    },
+    "max_cascade": {
+      "value": 5,
+      "basis": "Generic"
+    },
+    "max_actives": {
+      "value": 20,
+      "basis": "Generic"
+    }
+  },
+  "powering": {
+    "supply_ref": {
+      "value": "power-supply",
+      "basis": "Generic"
+    },
+    "design_load_pct": {
+      "value": 80.0,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §1"
+        }
+      }
+    },
+    "port_max_a": {
+      "value": 15.0,
+      "basis": "Generic"
+    },
+    "battery_ref": {
+      "value": "battery",
+      "basis": "Generic"
+    },
+    "batteries_per_string": {
+      "value": 3,
+      "basis": "Generic"
+    },
+    "battery_strings": {
+      "value": 1,
+      "basis": "Generic"
+    },
+    "inserter_ref": {
+      "value": "inserter",
+      "basis": "Generic"
+    },
+    "min_margin_v": {
+      "value": 5.0,
+      "basis": "Generic"
+    }
+  },
+  "structures": {
+    "pole_spacing_ft": {
+      "value": 150.0,
+      "basis": "Generic"
+    },
+    "pedestal_spacing_ft": {
+      "value": 300.0,
+      "basis": "Generic"
+    },
+    "expansion_loop_each_pole": {
+      "value": true,
+      "basis": "Generic"
+    },
+    "strand_ref": {
+      "value": "strand",
+      "basis": "Generic"
+    },
+    "conduit_ref": {
+      "value": "conduit",
+      "basis": "Generic"
+    },
+    "side": {
+      "value": "Right",
+      "basis": "Generic"
+    },
+    "setback_ft": {
+      "value": 10.0,
+      "basis": "Generic"
+    },
+    "pole_ref": {
+      "value": "pole",
+      "basis": "Generic"
+    },
+    "pedestal_ref": {
+      "value": "pedestal",
+      "basis": "Generic"
+    }
+  },
+  "premises": [
+    {
+      "id": "bare",
+      "share": {
+        "value": 1.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "ground-block",
+      "drop_amp_ref": "drop-amp",
+      "filter_ref": "filter",
+      "splitter_ref": "splitter",
+      "house_cable_ft": 40.0,
+      "modems": 1,
+      "cpe": [
+        "SetTop",
+        "Television",
+        "MocaAdapter",
+        "Other"
+      ]
+    }
+  ],
+  "fiber": {
+    "fibers_per_analog_node": {
+      "value": 2,
+      "basis": "Generic"
+    },
+    "fibers_per_rpd": {
+      "value": 2,
+      "basis": "Generic"
+    },
+    "cable_counts": {
+      "value": [
+        12,
+        24,
+        48
+      ],
+      "basis": "Generic"
+    },
+    "reel_len_ft": {
+      "value": 20000.0,
+      "basis": "Generic"
+    },
+    "link_margin_db": {
+      "value": 3.0,
+      "basis": "Generic"
+    },
+    "splice_loss_db": {
+      "value": 0.1,
+      "basis": "Generic"
+    },
+    "connector_loss_db": {
+      "value": 0.5,
+      "basis": "Generic"
+    },
+    "cable_refs": {
+      "value": [
+        "fiber-12"
+      ],
+      "basis": "Generic"
+    },
+    "closure_ref": {
+      "value": "closure",
+      "basis": "Generic"
+    },
+    "panel_ref": {
+      "value": "panel",
+      "basis": "Generic"
+    },
+    "connector_ref": {
+      "value": "fiber-connector",
+      "basis": "Generic"
+    },
+    "jumper_ref": {
+      "value": "jumper",
+      "basis": "Generic"
+    },
+    "duplex_jumper_ref": {
+      "value": "jumper-duplex",
+      "basis": "Generic"
+    },
+    "jumper_len_ft": {
+      "value": 15.0,
+      "basis": "Generic"
+    },
+    "composite_index_max": {
+      "value": 0.3,
+      "basis": "Generic"
+    }
+  },
+  "costs": {
+    "parts": [
+      {
+        "component_ref": "amp",
+        "usd": {
+          "value": 1500.0,
+          "basis": "Generic"
+        }
+      }
+    ],
+    "construction": [
+      {
+        "kind": "AerialCoax",
+        "usd_per_ft": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "UndergroundCoax",
+        "usd_per_ft": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "AerialFiber",
+        "usd_per_ft": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "UndergroundFiber",
+        "usd_per_ft": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "AerialDrop",
+        "usd_per_ft": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "BuriedDrop",
+        "usd_per_ft": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      }
+    ],
+    "plug_in_families": [
+      {
+        "family": "pads",
+        "usd": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      }
+    ],
+    "ceiling_usd_per_home": {
+      "value": 2500.0,
+      "basis": "Generic"
+    }
+  },
+  "profiles": [
+    {
+      "profile_ref": "sample-profile",
+      "root_ref": {
+        "value": "node",
+        "basis": "Generic"
+      },
+      "station": {
+        "out_dbmv_at_hi": {
+          "value": 50.0,
+          "basis": "Generic"
+        },
+        "min_out_dbmv_at_hi": {
+          "value": 44.0,
+          "basis": "Generic"
+        },
+        "tilt_db": {
+          "value": 14.0,
+          "basis": "Generic"
+        },
+        "min_tilt_db": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      "premises": {
+        "value": [
+          "bare"
+        ],
+        "basis": "Generic"
+      },
+      "optics": {
+        "value": {
+          "Analog": {
+            "cmts_ref": "cmts",
+            "forward_tx": [
+              "forward-tx"
+            ],
+            "hub_couplers": [
+              "coupler"
+            ],
+            "node_rx": [
+              "node-rx"
+            ],
+            "return_tx": [
+              "return-tx"
+            ],
+            "hub_rx": [
+              "hub-rx"
+            ]
+          }
+        },
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "another-profile",
+      "root_ref": {
+        "value": "rpd",
+        "basis": "Generic"
+      },
+      "station": {
+        "out_dbmv_at_hi": {
+          "value": 50.0,
+          "basis": "Generic"
+        },
+        "min_out_dbmv_at_hi": {
+          "value": 44.0,
+          "basis": "Generic"
+        },
+        "tilt_db": {
+          "value": 14.0,
+          "basis": "Generic"
+        },
+        "min_tilt_db": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      "premises": {
+        "value": [
+          "bare"
+        ],
+        "basis": "Generic"
+      },
+      "optics": {
+        "value": {
+          "Digital": {
+            "core_ref": "core",
+            "switch_ref": "switch",
+            "transceivers": [
+              "sfp"
+            ],
+            "timing_ref": "timing"
+          }
+        },
+        "basis": "Generic"
+      }
+    }
+  ],
+  "conditioning": {
+    "conditioners": {
+      "value": [
+        "conditioner"
+      ],
+      "basis": "Generic"
+    },
+    "line_equalizers": {
+      "value": [
+        "line-equalizer"
+      ],
+      "basis": "Generic"
+    }
+  },
+  "branching": {
+    "splitter_ref": {
+      "value": "splitter",
+      "basis": "Generic"
+    },
+    "couplers": {
+      "value": [
+        "coupler-8",
+        "coupler-12"
+      ],
+      "basis": "Generic"
+    }
+  },
+  "premises_parts": {
+    "modem_d30_ref": {
+      "value": "modem-d30",
+      "basis": "Generic"
+    },
+    "modem_d31_ref": {
+      "value": "modem-d31",
+      "basis": "Generic"
+    },
+    "cpe_refs": {
+      "value": [
+        {
+          "device": "SetTop",
+          "component_ref": "set-top"
+        }
+      ],
+      "basis": "Generic"
+    },
+    "house_cable_ref": {
+      "value": "drop",
+      "basis": "Generic"
+    },
+    "unused_port": {
+      "value": "Terminated",
+      "basis": "Generic"
+    },
+    "terminator_ref": {
+      "value": "terminator",
+      "basis": "Generic"
+    },
+    "drop_amp_below_dbmv": {
+      "value": -6.0,
+      "basis": "Generic"
+    }
+  },
+  "fittings": {
+    "connectors": {
+      "value": [
+        "pin",
+        "f"
+      ],
+      "basis": "Generic"
+    },
+    "hardline_reel_len_ft": {
+      "value": 2000.0,
+      "basis": "Generic"
+    },
+    "jumper_len_ft": {
+      "value": 3.0,
+      "basis": "Generic"
+    }
+  },
+  "candidates": {
+    "node_count_steps": {
+      "value": [
+        -1,
+        0,
+        1
+      ],
+      "basis": "Generic"
+    },
+    "express_cables": {
+      "value": [
+        "cable"
+      ],
+      "basis": "Generic"
+    }
+  },
+  "upgrade": {
+    "moves": [
+      {
+        "value": "SwapActiveModules",
+        "basis": "Generic"
+      },
+      {
+        "value": "SwapTapFaceplates",
+        "basis": "Generic"
+      },
+      {
+        "value": "SwapPassives",
+        "basis": "Generic"
+      },
+      {
+        "value": "ChangePlugIns",
+        "basis": "Generic"
+      },
+      {
+        "value": "RemovePremisesParts",
+        "basis": "Generic"
+      },
+      {
+        "value": "SwapModems",
+        "basis": "Generic"
+      }
+    ]
+  }
+}

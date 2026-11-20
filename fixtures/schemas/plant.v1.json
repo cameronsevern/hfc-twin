@@ -1,0 +1,331 @@
+{
+  "schema_version": "1",
+  "service_group": "sg-1",
+  "profile_ref": "sample-profile",
+  "origin": "Synthetic",
+  "elements": [
+    {
+      "id": "rpd",
+      "kind": {
+        "Rpd": {
+          "return_atten_db": 0.0
+        }
+      },
+      "component_ref": "rpd",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "inserter",
+      "kind": "PowerInserter",
+      "component_ref": "inserter",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "amp",
+      "kind": {
+        "Amp": {
+          "return_atten_db": 6.0
+        }
+      },
+      "component_ref": "amp",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "splitter",
+      "kind": "Splitter",
+      "component_ref": "splitter",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "leg-1",
+          "role": "Leg"
+        },
+        {
+          "id": "leg-2",
+          "role": "Leg"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "coupler",
+      "kind": "DirectionalCoupler",
+      "component_ref": "coupler",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "coupled",
+          "role": "Coupled"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "tap",
+      "kind": "Tap",
+      "component_ref": "tap",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "tap-1",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-2",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-3",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-4",
+          "role": "TapPort"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "terminator",
+      "kind": "Terminator",
+      "component_ref": "terminator",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem",
+      "kind": "Modem",
+      "component_ref": "modem",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    }
+  ],
+  "edges": [
+    {
+      "id": "span-1",
+      "from": {
+        "element_id": "rpd",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "inserter",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-2",
+      "from": {
+        "element_id": "inserter",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "amp",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Underground",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-3",
+      "from": {
+        "element_id": "amp",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "splitter",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-4",
+      "from": {
+        "element_id": "splitter",
+        "port": "leg-1"
+      },
+      "to": {
+        "element_id": "coupler",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-5",
+      "from": {
+        "element_id": "coupler",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "tap",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "direct-1",
+      "from": {
+        "element_id": "tap",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "terminator",
+        "port": "in"
+      },
+      "kind": "Direct"
+    },
+    {
+      "id": "drop-1",
+      "from": {
+        "element_id": "tap",
+        "port": "tap-1"
+      },
+      "to": {
+        "element_id": "modem",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop",
+          "len_ft": 80.0
+        }
+      }
+    }
+  ],
+  "power_supplies": [
+    {
+      "id": "power-supply",
+      "component_ref": "power-supply",
+      "feeds": "rpd",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      }
+    }
+  ],
+  "modem_bindings": [
+    {
+      "element_id": "modem",
+      "pseudonym": "3f2a9c"
+    }
+  ]
+}

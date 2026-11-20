@@ -1,0 +1,35 @@
+{
+  "schema_version": "2",
+  "t": 300,
+  "origin": "Synthetic",
+  "service_group": "sg-1",
+  "us_snr": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "us_snr_db": 39.74
+    }
+  ],
+  "us_spectrum": [
+    {
+      "port": "out",
+      "profile_ref": "sample-profile",
+      "first_bin_center_mhz": 5.0,
+      "bin_width_khz": 100.0,
+      "noise_bandwidth_khz": 150.0,
+      "us_spectrum_dbmv": [
+        -40.5,
+        -40.25
+      ]
+    }
+  ],
+  "us_codewords": [
+    {
+      "channel_id": "us-sc-1",
+      "profile_ref": "sample-profile",
+      "total": 500,
+      "corrected": 2,
+      "uncorrectable": 0
+    }
+  ]
+}

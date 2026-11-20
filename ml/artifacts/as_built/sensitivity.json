@@ -1,0 +1,206 @@
+{
+  "origin": "Synthetic",
+  "plant": "fixtures/one_street_as_built, both nodes, with the region's fiber",
+  "draws": 880,
+  "whole_draws": 40,
+  "draws_asked": 40,
+  "method": "One estimate moved in the world at a time, with the diagnoser on nominal values. Same faults and seeds at every point. Draw by draw, so the report rests on whole draws.",
+  "lines": [
+    {
+      "estimate": "Hardline and drop loss, share",
+      "from": "step 12",
+      "low": -0.1,
+      "high": 0.1,
+      "answer_changed": 0.6096590909090909,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.35875
+    },
+    {
+      "estimate": "Active return loss, dB change",
+      "from": "step 12",
+      "low": -4.0,
+      "high": 6.0,
+      "answer_changed": 0.5806818181818182,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.32125
+    },
+    {
+      "estimate": "Tap return loss, dB change",
+      "from": "step 12",
+      "low": -4.0,
+      "high": 6.0,
+      "answer_changed": 0.3659090909090909,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.43875
+    },
+    {
+      "estimate": "Modem implementation MER, dB change",
+      "from": "step 12",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.26534090909090907,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.48875
+    },
+    {
+      "estimate": "AGC range, dB change",
+      "from": "step 12",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.1590909090909091,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.53875
+    },
+    {
+      "estimate": "Cable temperature coefficient, per °C change",
+      "from": "step 12",
+      "low": -0.0005,
+      "high": 0.0005,
+      "answer_changed": 0.10909090909090909,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.565
+    },
+    {
+      "estimate": "Modem return loss, dB change",
+      "from": "step 12",
+      "low": -4.0,
+      "high": 6.0,
+      "answer_changed": 0.07386363636363637,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.5575
+    },
+    {
+      "estimate": "CIN at reference, dB change (BLE120 suggests about −10)",
+      "from": "step 12",
+      "low": -10.0,
+      "high": 4.0,
+      "answer_changed": 0.07215909090909091,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.56375
+    },
+    {
+      "estimate": "Modem noise figure, dB change (task 22's four generic modems)",
+      "from": "task 22 approx",
+      "low": -2.0,
+      "high": 3.0,
+      "answer_changed": 0.061931818181818185,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.565
+    },
+    {
+      "estimate": "Tap port isolation, dB change",
+      "from": "step 12",
+      "low": -6.0,
+      "high": 6.0,
+      "answer_changed": 0.024431818181818183,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.56125
+    },
+    {
+      "estimate": "Forward noise figure, dB change",
+      "from": "step 12",
+      "low": -2.0,
+      "high": 3.0,
+      "answer_changed": 0.01818181818181818,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.57
+    },
+    {
+      "estimate": "Transmitter modulation index, share (rtx-generic-1310-npr's fit)",
+      "from": "task 22 approx",
+      "low": -0.2,
+      "high": 0.2,
+      "answer_changed": 0.010227272727272727,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.57125
+    },
+    {
+      "estimate": "Transmitter RIN, dB change (rtx-generic-1310-npr's fit)",
+      "from": "task 22 approx",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.005113636363636364,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.5725
+    },
+    {
+      "estimate": "Modem transmit ceiling, dB change (task 22's four generic modems)",
+      "from": "task 22 approx",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.0011363636363636363,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.57375
+    },
+    {
+      "estimate": "Return noise figure, dB change",
+      "from": "step 12",
+      "low": -4.0,
+      "high": 2.0,
+      "answer_changed": 0.0011363636363636363,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.575
+    },
+    {
+      "estimate": "Active power draw, share (BLE120 suggests −60 %)",
+      "from": "step 12",
+      "low": -0.6,
+      "high": 0.2,
+      "answer_changed": 0.0005681818181818182,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.575
+    },
+    {
+      "estimate": "Loop resistance, share",
+      "from": "step 12",
+      "low": -0.1,
+      "high": 0.25,
+      "answer_changed": 0.0005681818181818182,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.575
+    },
+    {
+      "estimate": "A home's coupling, dB change (the fixture's 60 dB is generic)",
+      "from": "task 22 approx",
+      "low": -20.0,
+      "high": 20.0,
+      "answer_changed": 0.0,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.575
+    },
+    {
+      "estimate": "Ambient level, dB change",
+      "from": "task 22 approx",
+      "low": -10.0,
+      "high": 10.0,
+      "answer_changed": 0.0,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.575
+    },
+    {
+      "estimate": "Return receiver's lowest input, dB change (rrx-generic-hfc)",
+      "from": "task 22 approx",
+      "low": -3.0,
+      "high": 3.0,
+      "answer_changed": 0.0,
+      "accuracy_nominal": 0.575,
+      "accuracy_worst": 0.575
+    }
+  ],
+  "not_moved": [
+    "INDOOR_TEMP_C 20 °C (sim::cable)",
+    "Open port return loss 0 dB (sim::walk)",
+    "Filter edge 2 MHz without transition_mhz (sim::passive)",
+    "A fitted root holds its set point (sim::walk)",
+    "√f plug-in shape (sim::passive)",
+    "Fiber loss held flat past a cable's stated wavelengths (sim::optics)",
+    "EDFA at constant output (sim::optics)",
+    "A pluggable launches mid-range (sim::optics)",
+    "Transmitters driven at their reference per 6 MHz; clipping power all in band (sim::optics)",
+    "Node RF output held whatever the received power; the composite read at design tilt (sim::walk)",
+    "No pickup without a fitted ground block (sim::walk)",
+    "SOLAR_GAIN_C_PER_W_M2 0.02; no conductor self-heating; connector couplings linear (sim)",
+    "A modem's highest transmit read at the tuner band's bottom; chunked echo synthesis (sim)",
+    "Fiber faults read once per scenario (twin)"
+  ]
+}

@@ -1,0 +1,323 @@
+{
+ "origin": "Synthetic",
+ "note": "Read after the frozen model was scored. Nothing here feeds back.",
+ "recall_by_own_fall": {
+  "Ingress": {
+   "3-6": {
+    "captures": 52,
+    "named": 0.7307692307692307
+   },
+   "6-10": {
+    "captures": 52,
+    "named": 0.8076923076923077
+   },
+   "10-20": {
+    "captures": 194,
+    "named": 0.9690721649484536
+   },
+   "20-1000": {
+    "captures": 1034,
+    "named": 0.9874274661508704
+   }
+  },
+  "Spike": {
+   "3-6": {
+    "captures": 49,
+    "named": 0.7142857142857143
+   },
+   "6-10": {
+    "captures": 100,
+    "named": 0.98
+   },
+   "10-20": {
+    "captures": 180,
+    "named": 0.9777777777777777
+   },
+   "20-1000": {
+    "captures": 952,
+    "named": 0.9926470588235294
+   }
+  },
+  "Dip": {
+   "3-6": {
+    "captures": 106,
+    "named": 0.6415094339622641
+   },
+   "6-10": {
+    "captures": 140,
+    "named": 0.8285714285714286
+   },
+   "10-20": {
+    "captures": 278,
+    "named": 0.9100719424460432
+   },
+   "20-1000": {
+    "captures": 716,
+    "named": 0.9846368715083799
+   }
+  },
+  "RollOff": {
+   "3-6": {
+    "captures": 98,
+    "named": 0.6326530612244898
+   },
+   "6-10": {
+    "captures": 130,
+    "named": 0.7923076923076923
+   },
+   "10-20": {
+    "captures": 324,
+    "named": 0.8919753086419753
+   },
+   "20-1000": {
+    "captures": 623,
+    "named": 0.9518459069020867
+   }
+  },
+  "BandLoss": {
+   "3-6": {
+    "captures": 58,
+    "named": 0.7068965517241379
+   },
+   "6-10": {
+    "captures": 119,
+    "named": 0.8739495798319328
+   },
+   "10-20": {
+    "captures": 309,
+    "named": 0.970873786407767
+   },
+   "20-1000": {
+    "captures": 724,
+    "named": 0.9779005524861878
+   }
+  },
+  "Ripple": {
+   "3-6": {
+    "captures": 122,
+    "named": 0.9098360655737705
+   },
+   "6-10": {
+    "captures": 4,
+    "named": 0.75
+   },
+   "10-20": {
+    "captures": 0,
+    "named": null
+   },
+   "20-1000": {
+    "captures": 0,
+    "named": null
+   }
+  },
+  "Wave": {
+   "3-6": {
+    "captures": 171,
+    "named": 0.5730994152046783
+   },
+   "6-10": {
+    "captures": 229,
+    "named": 0.7991266375545851
+   },
+   "10-20": {
+    "captures": 524,
+    "named": 0.933206106870229
+   },
+   "20-1000": {
+    "captures": 364,
+    "named": 0.9945054945054945
+   }
+  },
+  "LowMer": {
+   "3-6": {
+    "captures": 293,
+    "named": 0.03754266211604096
+   },
+   "6-10": {
+    "captures": 390,
+    "named": 0.2717948717948718
+   },
+   "10-20": {
+    "captures": 685,
+    "named": 0.9182481751824818
+   },
+   "20-1000": {
+    "captures": 122,
+    "named": 0.9262295081967213
+   }
+  },
+  "Edge": {
+   "3-6": {
+    "captures": 432,
+    "named": 0.8310185185185185
+   },
+   "6-10": {
+    "captures": 288,
+    "named": 0.8888888888888888
+   },
+   "10-20": {
+    "captures": 459,
+    "named": 0.9498910675381264
+   },
+   "20-1000": {
+    "captures": 0,
+    "named": null
+   }
+  }
+ },
+ "healthy_channel_mean_db": {
+  "p5": 35.27647368421053,
+  "under_35": 0.043812563470187145,
+  "under_30": 0.0010638812321678997,
+  "lowest": 26.66184210526316
+ },
+ "fall_error": {
+  "all": 2.2054662704467773,
+  "by_shape": {
+   "Ingress": {
+    "bins": 115241,
+    "mae_db": 2.491724967956543,
+    "signed_db": -0.8136487007141113,
+    "share_of_error": 0.038678623735904694
+   },
+   "Spike": {
+    "bins": 18467,
+    "mae_db": 3.0028724670410156,
+    "signed_db": -0.6776708364486694,
+    "share_of_error": 0.007469596806913614
+   },
+   "Dip": {
+    "bins": 165162,
+    "mae_db": 0.8869527578353882,
+    "signed_db": -0.16701966524124146,
+    "share_of_error": 0.01973215490579605
+   },
+   "RollOff": {
+    "bins": 379511,
+    "mae_db": 1.4036810398101807,
+    "signed_db": -0.33032065629959106,
+    "share_of_error": 0.07175574451684952
+   },
+   "BandLoss": {
+    "bins": 184838,
+    "mae_db": 1.2019034624099731,
+    "signed_db": -0.05555431544780731,
+    "share_of_error": 0.02992434985935688
+   },
+   "Ripple": {
+    "bins": 15420,
+    "mae_db": 1.3000911474227905,
+    "signed_db": -0.05466105043888092,
+    "share_of_error": 0.0027003625873476267
+   },
+   "Wave": {
+    "bins": 1144339,
+    "mae_db": 1.9532119035720825,
+    "signed_db": -0.3464593291282654,
+    "share_of_error": 0.30107033252716064
+   },
+   "LowMer": {
+    "bins": 1402754,
+    "mae_db": 2.9295589923858643,
+    "signed_db": -1.879618763923645,
+    "share_of_error": 0.5535383224487305
+   },
+   "Edge": {
+    "bins": 4351,
+    "mae_db": 0.7992724180221558,
+    "signed_db": -0.311735600233078,
+    "share_of_error": 0.00046843336895108223
+   }
+  },
+  "by_fall": {
+   "3-6": {
+    "bins": 546260,
+    "mae_db": 2.6687510013580322,
+    "signed_db": -1.9330540895462036
+   },
+   "6-10": {
+    "bins": 690265,
+    "mae_db": 3.734708309173584,
+    "signed_db": -2.3348886966705322
+   },
+   "10-20": {
+    "bins": 1382364,
+    "mae_db": 1.562729001045227,
+    "signed_db": -0.05935995280742645
+   },
+   "20-1000": {
+    "bins": 747278,
+    "mae_db": 1.6432132720947266,
+    "signed_db": -0.5868015885353088
+   }
+  },
+  "without_lowmer_bins": 1.6881405115127563,
+  "bins_read_at_0_db": {
+   "bins": 70596,
+   "mae_db": 5.059500217437744
+  }
+ },
+ "several_at_once": {
+  "captures": 555,
+  "shapes_visible": 1121,
+  "share_of_those_named": 0.7074041034790366
+ },
+ "worst": [
+  {
+   "title": "Deepest fall called normal",
+   "true": "LowMer 12 dB",
+   "read": "normal",
+   "worst_fall_db": 11.5,
+   "map": "lexington_ky"
+  },
+  {
+   "title": "Deepest fall called normal",
+   "true": "LowMer 10 dB",
+   "read": "normal",
+   "worst_fall_db": 10.5,
+   "map": "lexington_ky"
+  },
+  {
+   "title": "Deepest LowMer not named",
+   "true": "LowMer 30 dB",
+   "read": "RollOff",
+   "worst_fall_db": 30.0,
+   "map": "albuquerque_nm"
+  },
+  {
+   "title": "Deepest Wave not named",
+   "true": "Wave 28 dB",
+   "read": "RollOff",
+   "worst_fall_db": 28.0,
+   "map": "lexington_ky"
+  },
+  {
+   "title": "Deepest RollOff not named",
+   "true": "RollOff 48 dB",
+   "read": "Dip",
+   "worst_fall_db": 47.5,
+   "map": "culver_city_ca"
+  },
+  {
+   "title": "Deepest Dip not named",
+   "true": "Dip 34 dB",
+   "read": "RollOff",
+   "worst_fall_db": 34.25,
+   "map": "culver_city_ca"
+  },
+  {
+   "title": "Healthy, worst false alarm",
+   "true": "nothing",
+   "read": "Wave, LowMer",
+   "worst_fall_db": 1.0,
+   "map": "wauwatosa_wi"
+  },
+  {
+   "title": "Several faults, most missed",
+   "true": "Spike 49 dB, Wave 16 dB, Edge 15 dB",
+   "read": "Spike, LowMer",
+   "worst_fall_db": 63.5,
+   "map": "albany_ny"
+  }
+ ]
+}

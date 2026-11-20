@@ -1,0 +1,844 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpsRecords",
+  "description": "What a world's call centre and field crews keep, for a reader or a feed.",
+  "type": "object",
+  "properties": {
+    "calls": {
+      "description": "Calls.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Call"
+      }
+    },
+    "counters": {
+      "description": "The counts.",
+      "$ref": "#/$defs/Counters"
+    },
+    "jobs": {
+      "description": "Jobs.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Job"
+      }
+    },
+    "origin": {
+      "description": "Always `Synthetic` from a world (invariant 11).",
+      "$ref": "#/$defs/Origin"
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "tickets": {
+      "description": "Tickets.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Ticket"
+      }
+    },
+    "trucks": {
+      "description": "Trucks.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Truck"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "origin",
+    "calls",
+    "tickets",
+    "jobs",
+    "trucks",
+    "counters"
+  ],
+  "$defs": {
+    "Call": {
+      "description": "One call to the call centre.",
+      "type": "object",
+      "properties": {
+        "abandoned_t_s": {
+          "description": "When the caller gave up waiting, if they did.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "answered_t_s": {
+          "description": "When an agent answered it.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "home": {
+          "description": "The home, by its modem's plant location (invariant 10).",
+          "$ref": "#/$defs/ElementId"
+        },
+        "id": {
+          "description": "Its number in the world.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "reason": {
+          "description": "What the caller says.",
+          "$ref": "#/$defs/CallReason"
+        },
+        "service_group": {
+          "description": "The node the home is on.",
+          "$ref": "#/$defs/ServiceGroupId"
+        },
+        "t_s": {
+          "description": "When it came in, seconds of world time.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "ticket": {
+          "description": "The ticket it opened or joined.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "t_s",
+        "home",
+        "service_group",
+        "reason"
+      ]
+    },
+    "CallReason": {
+      "description": "What a caller says. It isn't a diagnosis.",
+      "oneOf": [
+        {
+          "description": "Nothing works.",
+          "type": "string",
+          "const": "NoService"
+        },
+        {
+          "description": "It works, badly: slow, or dropping in and out.",
+          "type": "string",
+          "const": "Slow"
+        }
+      ]
+    },
+    "Counters": {
+      "description": "What a world has counted.",
+      "type": "object",
+      "properties": {
+        "calls": {
+          "description": "Calls.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "calls_abandoned": {
+          "description": "Of those, abandoned.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "calls_answered": {
+          "description": "Of those, answered.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "calls_told_of_outage": {
+          "description": "Of those, told by the phone line that the outage is known, with no agent needed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "customer_minutes_out": {
+          "description": "Minutes summed over every home with no service, house power aside.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "fixes": {
+          "description": "Faults fixed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "homes_out_now": {
+          "description": "Homes with no service now.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "no_trouble_found": {
+          "description": "Jobs that found nothing.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "onset_to_dispatch": {
+          "description": "From a fault's start to the first truck sent to it, minutes, summed, and how many.",
+          "type": "array",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          ]
+        },
+        "onset_to_first_call": {
+          "description": "From a fault's start to its node's first call, minutes, summed, and how many.",
+          "type": "array",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          ]
+        },
+        "onset_to_fix": {
+          "description": "From a fault's start to its fix, minutes, summed, and how many.",
+          "type": "array",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            },
+            {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          ]
+        },
+        "repeat_rolls": {
+          "description": "Trucks sent again to a node that a truck had already been sent to for the same trouble.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tickets": {
+          "description": "Tickets opened.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "truck_rolls": {
+          "description": "Trucks sent.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "customer_minutes_out",
+        "homes_out_now",
+        "calls",
+        "calls_answered",
+        "calls_abandoned",
+        "calls_told_of_outage",
+        "tickets",
+        "truck_rolls",
+        "repeat_rolls",
+        "no_trouble_found",
+        "fixes",
+        "onset_to_first_call",
+        "onset_to_dispatch",
+        "onset_to_fix"
+      ]
+    },
+    "Crew": {
+      "description": "Who a job needs.",
+      "oneOf": [
+        {
+          "description": "A service tech: homes, drops, taps on the ground.",
+          "type": "string",
+          "const": "Service"
+        },
+        {
+          "description": "A line crew with a bucket truck: aerial plant, actives, hardline.",
+          "type": "string",
+          "const": "Line"
+        },
+        {
+          "description": "A fiber splicing crew.",
+          "type": "string",
+          "const": "Splicer"
+        }
+      ]
+    },
+    "ElementId": {
+      "description": "A plant element or power supply, such as `amp-1`.",
+      "type": "string"
+    },
+    "Job": {
+      "description": "One job.",
+      "type": "object",
+      "properties": {
+        "arrived_t_s": {
+          "description": "When that truck got there.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "created_t_s": {
+          "description": "When it was made, seconds of world time.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "crew": {
+          "description": "Who it needs.",
+          "$ref": "#/$defs/Crew"
+        },
+        "done_t_s": {
+          "description": "When the work ended.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "geo": {
+          "description": "Where it stands, on the map.",
+          "$ref": "#/$defs/LonLat"
+        },
+        "id": {
+          "description": "Its number in the world.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "outcome": {
+          "description": "What it came to.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Outcome"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "service_group": {
+          "description": "The node.",
+          "$ref": "#/$defs/ServiceGroupId"
+        },
+        "source": {
+          "description": "Why.",
+          "$ref": "#/$defs/JobSource"
+        },
+        "target": {
+          "description": "Where it goes.",
+          "$ref": "#/$defs/JobTarget"
+        },
+        "truck": {
+          "description": "The truck that has it.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "created_t_s",
+        "service_group",
+        "target",
+        "geo",
+        "source",
+        "crew"
+      ]
+    },
+    "JobSource": {
+      "description": "Why a job exists.",
+      "oneOf": [
+        {
+          "description": "A ticket, as dispatch works from calls.",
+          "type": "object",
+          "properties": {
+            "Ticket": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Ticket"
+          ]
+        },
+        {
+          "description": "The twin's reading of telemetry, before or without a call.",
+          "type": "string",
+          "const": "Telemetry"
+        },
+        {
+          "description": "An earlier job that found nothing, sent on.",
+          "type": "object",
+          "properties": {
+            "Escalation": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Escalation"
+          ]
+        }
+      ]
+    },
+    "JobTarget": {
+      "description": "Where a job sends a truck.",
+      "oneOf": [
+        {
+          "description": "A home, by its modem.",
+          "type": "object",
+          "properties": {
+            "Home": {
+              "type": "object",
+              "properties": {
+                "modem": {
+                  "description": "The modem.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "modem"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Home"
+          ]
+        },
+        {
+          "description": "A point in the plant.",
+          "type": "object",
+          "properties": {
+            "Plant": {
+              "type": "object",
+              "properties": {
+                "element": {
+                  "description": "The element.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "element"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Plant"
+          ]
+        },
+        {
+          "description": "A plant supply.",
+          "type": "object",
+          "properties": {
+            "Supply": {
+              "type": "object",
+              "properties": {
+                "supply": {
+                  "description": "The supply.",
+                  "$ref": "#/$defs/ElementId"
+                }
+              },
+              "required": [
+                "supply"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Supply"
+          ]
+        },
+        {
+          "description": "The fiber to a node.",
+          "type": "object",
+          "properties": {
+            "Fiber": {
+              "type": "object",
+              "properties": {
+                "service_group": {
+                  "description": "The node.",
+                  "$ref": "#/$defs/ServiceGroupId"
+                }
+              },
+              "required": [
+                "service_group"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Fiber"
+          ]
+        }
+      ]
+    },
+    "LonLat": {
+      "description": "A geographic position.",
+      "type": "object",
+      "properties": {
+        "lat_deg": {
+          "description": "Latitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        },
+        "lon_deg": {
+          "description": "Longitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lon_deg",
+        "lat_deg"
+      ]
+    },
+    "Origin": {
+      "description": "Whether a plant or observation is simulated or measured (invariant 11).",
+      "oneOf": [
+        {
+          "description": "Generated by this project; never to be presented as real.",
+          "type": "string",
+          "const": "Synthetic"
+        },
+        {
+          "description": "Measured on, or imported from, a real network.",
+          "type": "string",
+          "const": "Field"
+        }
+      ]
+    },
+    "Outcome": {
+      "description": "What a job came to.",
+      "oneOf": [
+        {
+          "description": "Found and fixed, with what it was in words.",
+          "type": "object",
+          "properties": {
+            "Fixed": {
+              "type": "object",
+              "properties": {
+                "what": {
+                  "description": "What was found.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "what"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Fixed"
+          ]
+        },
+        {
+          "description": "Nothing wrong within reach.",
+          "type": "string",
+          "const": "NoTroubleFound"
+        },
+        {
+          "description": "The homes have no house power: the power company's to fix.",
+          "type": "string",
+          "const": "PowerCompany"
+        },
+        {
+          "description": "Called off before the work: the homes it was for came back.",
+          "type": "string",
+          "const": "Cancelled"
+        }
+      ]
+    },
+    "ServiceGroupId": {
+      "description": "A service group: one node's tree.",
+      "type": "string"
+    },
+    "Ticket": {
+      "description": "A trouble ticket: one or more calls about one node.",
+      "type": "object",
+      "properties": {
+        "calls": {
+          "description": "Its calls.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        },
+        "closed_t_s": {
+          "description": "When it closed.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int64"
+        },
+        "first_home": {
+          "description": "The first caller's home.",
+          "$ref": "#/$defs/ElementId"
+        },
+        "id": {
+          "description": "Its number in the world.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "jobs": {
+          "description": "The jobs it has sent.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        },
+        "opened_t_s": {
+          "description": "When it opened, seconds of world time.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "service_group": {
+          "description": "The node.",
+          "$ref": "#/$defs/ServiceGroupId"
+        },
+        "status": {
+          "description": "Where it stands.",
+          "$ref": "#/$defs/TicketStatus"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "service_group",
+        "opened_t_s",
+        "first_home",
+        "calls",
+        "status",
+        "jobs"
+      ]
+    },
+    "TicketStatus": {
+      "description": "Where a ticket stands.",
+      "oneOf": [
+        {
+          "description": "Waiting for a truck.",
+          "type": "string",
+          "const": "Open"
+        },
+        {
+          "description": "A truck has the job.",
+          "type": "string",
+          "const": "Dispatched"
+        },
+        {
+          "description": "Telemetry says the homes on it are back.",
+          "type": "string",
+          "const": "Closed"
+        }
+      ]
+    },
+    "Truck": {
+      "description": "One truck and its crew.",
+      "type": "object",
+      "properties": {
+        "crew": {
+          "description": "Its crew.",
+          "$ref": "#/$defs/Crew"
+        },
+        "geo": {
+          "description": "Where it is when last placed.",
+          "$ref": "#/$defs/LonLat"
+        },
+        "id": {
+          "description": "Its number.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "on_shift": {
+          "description": "Whether its shift is on.",
+          "type": "boolean"
+        },
+        "state": {
+          "description": "What it's doing.",
+          "$ref": "#/$defs/TruckState"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "crew",
+        "geo",
+        "state",
+        "on_shift"
+      ]
+    },
+    "TruckState": {
+      "description": "What a truck is doing.",
+      "oneOf": [
+        {
+          "description": "At the hub, free.",
+          "type": "string",
+          "const": "Idle"
+        },
+        {
+          "description": "On the way to a job, along `path`, leaving and arriving at these times.",
+          "type": "object",
+          "properties": {
+            "Driving": {
+              "type": "object",
+              "properties": {
+                "arrive_t_s": {
+                  "description": "When it gets there.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "depart_t_s": {
+                  "description": "When it left.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "job": {
+                  "description": "The job.",
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0
+                },
+                "path": {
+                  "description": "The route, street by street.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/LonLat"
+                  }
+                }
+              },
+              "required": [
+                "job",
+                "path",
+                "depart_t_s",
+                "arrive_t_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Driving"
+          ]
+        },
+        {
+          "description": "On site.",
+          "type": "object",
+          "properties": {
+            "Working": {
+              "type": "object",
+              "properties": {
+                "job": {
+                  "description": "The job.",
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0
+                },
+                "until_t_s": {
+                  "description": "When the work ends.",
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "required": [
+                "job",
+                "until_t_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Working"
+          ]
+        },
+        {
+          "description": "Going back to the hub.",
+          "type": "object",
+          "properties": {
+            "Returning": {
+              "type": "object",
+              "properties": {
+                "arrive_t_s": {
+                  "description": "When it gets there.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "depart_t_s": {
+                  "description": "When it left.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "path": {
+                  "description": "The route.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/LonLat"
+                  }
+                }
+              },
+              "required": [
+                "path",
+                "depart_t_s",
+                "arrive_t_s"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Returning"
+          ]
+        }
+      ]
+    }
+  }
+}

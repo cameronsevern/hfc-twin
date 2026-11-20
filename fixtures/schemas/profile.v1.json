@@ -1,0 +1,148 @@
+{
+  "schema_version": "1",
+  "id": "sample-profile",
+  "docsis": "D31",
+  "band_plan": [
+    {
+      "lo_mhz": 5.0,
+      "hi_mhz": 204.0,
+      "direction": "Us"
+    },
+    {
+      "lo_mhz": 258.0,
+      "hi_mhz": 1218.0,
+      "direction": "Ds"
+    }
+  ],
+  "channel_plan": {
+    "ds_sc_qam": [
+      {
+        "channel_id": "ds-sc-01",
+        "center_mhz": 603.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      }
+    ],
+    "ofdm": [
+      {
+        "channel_id": "ofdm-1",
+        "first_active_mhz": 835.0,
+        "last_active_mhz": 1024.95,
+        "fft_size": 4096,
+        "subcarrier_spacing_khz": 50.0,
+        "cp_us": 2.5,
+        "rolloff_us": 1.25,
+        "data_profiles": [
+          {
+            "data_profile_id": 0,
+            "modulation": "Qam256"
+          },
+          {
+            "data_profile_id": 1,
+            "modulation": "Qam4096"
+          }
+        ],
+        "ncp_modulation": "Qam16"
+      }
+    ],
+    "us_sc_qam": [
+      {
+        "channel_id": "us-sc-1",
+        "center_mhz": 16.4,
+        "width_mhz": 6.4,
+        "symbol_rate_msym_per_s": 5.12,
+        "modulation": "Qam64"
+      }
+    ],
+    "ofdma": [
+      {
+        "channel_id": "ofdma-1",
+        "first_active_mhz": 108.5,
+        "last_active_mhz": 203.45,
+        "fft_size": 2048,
+        "subcarrier_spacing_khz": 50.0,
+        "cp_us": 2.5,
+        "rolloff_us": 1.25,
+        "data_profiles": [
+          {
+            "data_profile_id": 13,
+            "modulation": "Qam256"
+          }
+        ]
+      }
+    ]
+  },
+  "max_cascade": 6,
+  "max_homes_passed": 500,
+  "design_levels": {
+    "out_dbmv_at_hi": 52.0,
+    "tilt_db": 12.1,
+    "psd_spread_max_db": 10.0,
+    "modem_in_min_dbmv_by_qam": [
+      {
+        "qam": "Qam256",
+        "min_dbmv": -15.0
+      },
+      {
+        "qam": "Qam4096",
+        "min_dbmv": -6.0
+      }
+    ],
+    "modem_in_max_dbmv": 15.0,
+    "modem_in_total_max_dbmv": 40.0,
+    "us_node_in_target_dbmv": 10.0
+  },
+  "fec": [
+    {
+      "qam": "Qam256",
+      "thr_db": 24.0,
+      "req_cnr_db": 27.0,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": 26.0
+    },
+    {
+      "qam": "Qam4096",
+      "thr_db": 35.0,
+      "req_cnr_db": 41.0,
+      "req_cnr_above_1002_db": 41.5,
+      "sc_qam_thr_db": null
+    }
+  ],
+  "modem_behavior": {
+    "tx_saturation": "Clamp",
+    "ranging_spacing_s": 15.0,
+    "reregistration_s": 60.0
+  },
+  "node_kind": "Rpd",
+  "capability": {
+    "ds_rxmer_file": true,
+    "ds_rxmer_summary": true,
+    "ds_chan_est_file": true,
+    "ds_chan_est_summary": true,
+    "ofdma_preeq_file": true,
+    "ofdma_preeq_summary": true,
+    "sc_qam_preeq": true,
+    "fbc": {
+      "file": true,
+      "snmp": true,
+      "lo_mhz": 54.0,
+      "hi_mhz": 1218.0
+    },
+    "per_profile_fec": true,
+    "plc_ncp_counters": true,
+    "band_power_6mhz": true,
+    "us_rxmer_file": true,
+    "us_rxmer_summary": true,
+    "us_spectrum_capture": true,
+    "v_in": true,
+    "i_draw": true,
+    "temp_c": true,
+    "status": true,
+    "out_level": true,
+    "access": [
+      "CmSnmp",
+      "CmTftp",
+      "CmtsSnmp"
+    ]
+  }
+}

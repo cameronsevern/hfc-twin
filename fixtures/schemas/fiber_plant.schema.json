@@ -1,0 +1,707 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FiberPlant",
+  "description": "One region's fiber plant.",
+  "type": "object",
+  "properties": {
+    "bindings": {
+      "description": "Which CMTS port serves each service group.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ServiceGroupBinding"
+      }
+    },
+    "cables": {
+      "description": "Cables, between two elements.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FiberCable"
+      }
+    },
+    "elements": {
+      "description": "Everything that isn't cable.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FiberElement"
+      }
+    },
+    "hubs": {
+      "description": "Hubs.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Hub"
+      }
+    },
+    "id": {
+      "description": "Stable id, which a region's `fiber_ref` names.",
+      "type": "string"
+    },
+    "links": {
+      "description": "Optical links, each a path of hops.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/OpticalLink"
+      }
+    },
+    "origin": {
+      "description": "Whether it's simulated or real (invariant 11).",
+      "$ref": "#/$defs/Origin"
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "structures": {
+      "description": "Poles, pedestals, vaults and cabinets the fiber plant uses.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Structure"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "origin",
+    "hubs",
+    "elements",
+    "cables",
+    "links",
+    "bindings",
+    "structures"
+  ],
+  "$defs": {
+    "ComponentId": {
+      "description": "A component library entry.",
+      "type": "string"
+    },
+    "FiberCable": {
+      "description": "A fiber cable between two elements.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The cable, a `FiberCable` part, which gives its fiber count.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "from": {
+          "description": "One end.",
+          "$ref": "#/$defs/FiberElementId"
+        },
+        "id": {
+          "description": "Stable id.",
+          "$ref": "#/$defs/FiberCableId"
+        },
+        "installation": {
+          "description": "How it's installed.",
+          "$ref": "#/$defs/Installation"
+        },
+        "len_ft": {
+          "description": "Sheath length, feet, slack included.",
+          "type": "number",
+          "format": "double"
+        },
+        "path": {
+          "description": "The points it passes between its ends, in order from `from`.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoutePoint"
+          }
+        },
+        "record_status": {
+          "description": "Where this record came from.",
+          "$ref": "#/$defs/RecordStatus"
+        },
+        "support": {
+          "description": "The strand it's lashed to or the conduit it's in, by the foot.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "to": {
+          "description": "The other end.",
+          "$ref": "#/$defs/FiberElementId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "component_ref",
+        "from",
+        "to",
+        "len_ft",
+        "installation",
+        "record_status"
+      ]
+    },
+    "FiberCableId": {
+      "description": "A fiber cable.",
+      "type": "string"
+    },
+    "FiberElement": {
+      "description": "Anything in the fiber plant that isn't cable.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The part it's built from.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "geo": {
+          "description": "Where it is, if known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LonLat"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hub": {
+          "description": "The hub it's in, if it's in one.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HubId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "description": "Stable id.",
+          "$ref": "#/$defs/FiberElementId"
+        },
+        "kind": {
+          "description": "What it is.",
+          "$ref": "#/$defs/FiberElementKind"
+        },
+        "ports": {
+          "description": "The ports a link passes through or a binding names. An element no link passes through needs none.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PortId"
+          }
+        },
+        "record_status": {
+          "description": "Where this record came from.",
+          "$ref": "#/$defs/RecordStatus"
+        },
+        "structure": {
+          "description": "The structure it's on or in.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "component_ref",
+        "record_status"
+      ]
+    },
+    "FiberElementId": {
+      "description": "An element of a fiber plant.",
+      "type": "string"
+    },
+    "FiberElementKind": {
+      "description": "The kinds of fiber plant element.",
+      "oneOf": [
+        {
+          "description": "A CMTS or Remote PHY core.",
+          "type": "string",
+          "const": "Cmts"
+        },
+        {
+          "description": "An analog optical transmitter.",
+          "type": "string",
+          "const": "OpticalTx"
+        },
+        {
+          "description": "An analog optical receiver.",
+          "type": "string",
+          "const": "OpticalRx"
+        },
+        {
+          "description": "An optical amplifier.",
+          "type": "string",
+          "const": "OpticalAmp"
+        },
+        {
+          "description": "A splitter, multiplexer or demultiplexer.",
+          "type": "string",
+          "const": "OpticalPassive"
+        },
+        {
+          "description": "A switch in the converged interconnect network.",
+          "type": "string",
+          "const": "Switch"
+        },
+        {
+          "description": "A pluggable digital optic in the hub.",
+          "type": "string",
+          "const": "Transceiver"
+        },
+        {
+          "description": "A timing source.",
+          "type": "string",
+          "const": "TimingSource"
+        },
+        {
+          "description": "A patch panel.",
+          "type": "string",
+          "const": "PatchPanel"
+        },
+        {
+          "description": "A splice closure.",
+          "type": "string",
+          "const": "SpliceClosure"
+        },
+        {
+          "description": "Where a link meets one node's coax plant. Its part is the node's or RPD's, and its optics are fitted on the\nplant's root.",
+          "type": "object",
+          "properties": {
+            "NodeEnd": {
+              "type": "object",
+              "properties": {
+                "service_group": {
+                  "description": "The node's service group.",
+                  "$ref": "#/$defs/ServiceGroupId"
+                }
+              },
+              "required": [
+                "service_group"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "NodeEnd"
+          ]
+        }
+      ]
+    },
+    "Hop": {
+      "description": "One step of a link's path.",
+      "oneOf": [
+        {
+          "description": "Along one strand of a cable, from the end the link is at to the other.",
+          "type": "object",
+          "properties": {
+            "Fiber": {
+              "type": "object",
+              "properties": {
+                "cable": {
+                  "description": "The cable.",
+                  "$ref": "#/$defs/FiberCableId"
+                },
+                "strand": {
+                  "description": "The strand, numbered from 1.",
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "cable",
+                "strand"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Fiber"
+          ]
+        },
+        {
+          "description": "A fusion or mechanical splice joining two strands, in a closure or a panel.",
+          "type": "object",
+          "properties": {
+            "Splice": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "description": "Where.",
+                  "$ref": "#/$defs/FiberElementId"
+                },
+                "loss_db": {
+                  "description": "Its measured loss, dB, if known. `None` takes the design allowance.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                }
+              },
+              "required": [
+                "at"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Splice"
+          ]
+        },
+        {
+          "description": "A mated connector pair, at an element.",
+          "type": "object",
+          "properties": {
+            "Connector": {
+              "type": "object",
+              "properties": {
+                "at": {
+                  "description": "Where.",
+                  "$ref": "#/$defs/FiberElementId"
+                },
+                "component_ref": {
+                  "description": "The connector, a `FiberConnector`.",
+                  "$ref": "#/$defs/ComponentId"
+                }
+              },
+              "required": [
+                "at",
+                "component_ref"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Connector"
+          ]
+        },
+        {
+          "description": "Through an element, from one of its ports to another.",
+          "type": "object",
+          "properties": {
+            "Through": {
+              "type": "object",
+              "properties": {
+                "element": {
+                  "description": "The element.",
+                  "$ref": "#/$defs/FiberElementId"
+                },
+                "port_in": {
+                  "description": "Where light goes in.",
+                  "$ref": "#/$defs/PortId"
+                },
+                "port_out": {
+                  "description": "Where it comes out.",
+                  "$ref": "#/$defs/PortId"
+                }
+              },
+              "required": [
+                "element",
+                "port_in",
+                "port_out"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Through"
+          ]
+        }
+      ]
+    },
+    "Hub": {
+      "description": "A hub or headend.",
+      "type": "object",
+      "properties": {
+        "geo": {
+          "description": "Where it is.",
+          "$ref": "#/$defs/LonLat"
+        },
+        "id": {
+          "description": "Stable id.",
+          "$ref": "#/$defs/HubId"
+        },
+        "record_status": {
+          "description": "Where this record came from.",
+          "$ref": "#/$defs/RecordStatus"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "geo",
+        "record_status"
+      ]
+    },
+    "HubId": {
+      "description": "A hub in a fiber plant.",
+      "type": "string"
+    },
+    "Installation": {
+      "description": "How a span is installed; it selects the §1.2 temperature.",
+      "oneOf": [
+        {
+          "description": "Strung on poles: follows `temp_c`.",
+          "type": "string",
+          "const": "Aerial"
+        },
+        {
+          "description": "Buried: follows `ground_temp_c`.",
+          "type": "string",
+          "const": "Underground"
+        }
+      ]
+    },
+    "LinkId": {
+      "description": "An optical link.",
+      "type": "string"
+    },
+    "LonLat": {
+      "description": "A geographic position.",
+      "type": "object",
+      "properties": {
+        "lat_deg": {
+          "description": "Latitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        },
+        "lon_deg": {
+          "description": "Longitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lon_deg",
+        "lat_deg"
+      ]
+    },
+    "OpticalDirection": {
+      "description": "Which way light carries the signal, away from the hub or towards it.",
+      "oneOf": [
+        {
+          "description": "Hub to node: the downstream.",
+          "type": "string",
+          "const": "Forward"
+        },
+        {
+          "description": "Node to hub: the upstream.",
+          "type": "string",
+          "const": "Return"
+        },
+        {
+          "description": "Both, on one strand or one optic.",
+          "type": "string",
+          "const": "Both"
+        }
+      ]
+    },
+    "OpticalLink": {
+      "description": "One optical link: a wavelength from a transmitter to a receiver.",
+      "type": "object",
+      "properties": {
+        "direction": {
+          "description": "Which way it carries signal.",
+          "$ref": "#/$defs/OpticalDirection"
+        },
+        "hops": {
+          "description": "Its path, in order from the transmitting end.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hop"
+          }
+        },
+        "id": {
+          "description": "Stable id.",
+          "$ref": "#/$defs/LinkId"
+        },
+        "service_group": {
+          "description": "The service group it serves.",
+          "$ref": "#/$defs/ServiceGroupId"
+        },
+        "wavelength_nm": {
+          "description": "Wavelength, nm.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "service_group",
+        "direction",
+        "wavelength_nm",
+        "hops"
+      ]
+    },
+    "Origin": {
+      "description": "Whether a plant or observation is simulated or measured (invariant 11).",
+      "oneOf": [
+        {
+          "description": "Generated by this project; never to be presented as real.",
+          "type": "string",
+          "const": "Synthetic"
+        },
+        {
+          "description": "Measured on, or imported from, a real network.",
+          "type": "string",
+          "const": "Field"
+        }
+      ]
+    },
+    "PortId": {
+      "description": "A port on one element, such as `tap-1` or `through`.",
+      "type": "string"
+    },
+    "RecordStatus": {
+      "description": "Where a plant element came from.",
+      "oneOf": [
+        {
+          "description": "Output of a design; not in the field.",
+          "type": "string",
+          "const": "Designed"
+        },
+        {
+          "description": "Recorded as built.",
+          "type": "string",
+          "const": "Built"
+        },
+        {
+          "description": "Imported from an outside system.",
+          "type": "string",
+          "const": "Imported"
+        }
+      ]
+    },
+    "RoutePoint": {
+      "description": "A point a cable passes. Version 2.",
+      "type": "object",
+      "properties": {
+        "geo": {
+          "description": "Where.",
+          "$ref": "#/$defs/LonLat"
+        },
+        "structure": {
+          "description": "The structure there, such as the pole it's attached at.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "geo"
+      ]
+    },
+    "ServiceGroupBinding": {
+      "description": "Which CMTS port serves a service group.",
+      "type": "object",
+      "properties": {
+        "cmts": {
+          "description": "The CMTS, a `Cmts` element.",
+          "$ref": "#/$defs/FiberElementId"
+        },
+        "port": {
+          "description": "The port on it.",
+          "$ref": "#/$defs/PortId"
+        },
+        "service_group": {
+          "description": "The service group.",
+          "$ref": "#/$defs/ServiceGroupId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "service_group",
+        "cmts",
+        "port"
+      ]
+    },
+    "ServiceGroupId": {
+      "description": "A service group: one node's tree.",
+      "type": "string"
+    },
+    "Structure": {
+      "description": "A pole, pedestal, vault or cabinet. No RF and no power: a record and a parts-list line. Version 2.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The part, a `Structure`.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "geo": {
+          "description": "Where it is, if known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LonLat"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "description": "Stable id.",
+          "$ref": "#/$defs/StructureId"
+        },
+        "kind": {
+          "description": "What it is. Must be its part's kind.",
+          "$ref": "#/$defs/StructureKind"
+        },
+        "record_status": {
+          "description": "Where this record came from.",
+          "$ref": "#/$defs/RecordStatus"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "component_ref",
+        "record_status"
+      ]
+    },
+    "StructureId": {
+      "description": "A pole, pedestal, vault or cabinet, in a coax or a fiber plant. Version 2.",
+      "type": "string"
+    },
+    "StructureKind": {
+      "description": "The kinds of structure plant is mounted on or in.",
+      "oneOf": [
+        {
+          "description": "A utility pole.",
+          "type": "string",
+          "const": "Pole"
+        },
+        {
+          "description": "A pedestal at grade.",
+          "type": "string",
+          "const": "Pedestal"
+        },
+        {
+          "description": "A buried vault or handhole.",
+          "type": "string",
+          "const": "Vault"
+        },
+        {
+          "description": "A cabinet, such as a power supply's.",
+          "type": "string",
+          "const": "Cabinet"
+        }
+      ]
+    }
+  }
+}

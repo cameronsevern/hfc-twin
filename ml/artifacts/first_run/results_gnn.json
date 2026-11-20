@@ -1,0 +1,110 @@
+{
+ "origin": "Synthetic",
+ "folds": {
+  "family:UrbanGrid": {
+   "gnn": {
+    "rows": 1600,
+    "placeable": 1180,
+    "top1": 0.7567796610169492,
+    "top3": 0.9440677966101695,
+    "healthy_false_alarm": 0.23,
+    "ece": 0.03076020929962396,
+    "temperature": 1.0905077326652577,
+    "fit_s": 50.85115337371826,
+    "per_group_ms": 0.5154943466186523
+   },
+   "gnn_on_floor_rows": {
+    "rows": 222,
+    "placeable": 174,
+    "top1": 0.7471264367816092,
+    "top3": 0.9310344827586207,
+    "healthy_false_alarm": 0.38235294117647056,
+    "ece": 0.05449678178306097
+   }
+  },
+  "family:Suburban": {
+   "gnn": {
+    "rows": 1600,
+    "placeable": 1257,
+    "top1": 0.7756563245823389,
+    "top3": 0.960222752585521,
+    "healthy_false_alarm": 0.1031390134529148,
+    "ece": 0.017410271931439656,
+    "temperature": 1.0,
+    "fit_s": 51.67930245399475,
+    "per_group_ms": 0.5154085159301758
+   },
+   "gnn_on_floor_rows": {
+    "rows": 237,
+    "placeable": 190,
+    "top1": 0.7578947368421053,
+    "top3": 0.9526315789473684,
+    "healthy_false_alarm": 0.1875,
+    "ece": 0.04028408537434127
+   }
+  },
+  "family:Rural": {
+   "gnn": {
+    "rows": 1960,
+    "placeable": 1602,
+    "top1": 0.6067415730337079,
+    "top3": 0.8308364544319601,
+    "healthy_false_alarm": 0.45714285714285713,
+    "ece": 0.0759154857041276,
+    "temperature": 1.0,
+    "fit_s": 44.55292224884033,
+    "per_group_ms": 0.5569314956665039
+   },
+   "gnn_on_floor_rows": {
+    "rows": 300,
+    "placeable": 250,
+    "top1": 0.62,
+    "top3": 0.828,
+    "healthy_false_alarm": 0.6060606060606061,
+    "ece": 0.11202940195798876
+   }
+  },
+  "profile:lowsplit (legacy)": {
+   "gnn": {
+    "rows": 2600,
+    "placeable": 1956,
+    "top1": 0.5904907975460123,
+    "top3": 0.8302658486707567,
+    "healthy_false_alarm": 0.0,
+    "ece": 0.13787584117971932,
+    "temperature": 0.9170040432046712,
+    "fit_s": 29.6458899974823,
+    "per_group_ms": 0.6252813339233398
+   },
+   "gnn_on_floor_rows": {
+    "rows": 387,
+    "placeable": 304,
+    "top1": 0.5921052631578947,
+    "top3": 0.8388157894736842,
+    "healthy_false_alarm": 0.0,
+    "ece": 0.13233880036407045
+   }
+  },
+  "profile:highsplit (DAA)": {
+   "gnn": {
+    "rows": 1856,
+    "placeable": 1379,
+    "top1": 0.6860043509789703,
+    "top3": 0.8905003625815808,
+    "healthy_false_alarm": 0.10601719197707736,
+    "ece": 0.024831114200361316,
+    "temperature": 1.0,
+    "fit_s": 39.441481828689575,
+    "per_group_ms": 0.5245351791381836
+   },
+   "gnn_on_floor_rows": {
+    "rows": 255,
+    "placeable": 193,
+    "top1": 0.6994818652849741,
+    "top3": 0.8601036269430051,
+    "healthy_false_alarm": 0.20833333333333334,
+    "ece": 0.07766822196689303
+   }
+  }
+ }
+}

@@ -1,0 +1,161 @@
+{
+ "origin": "Synthetic",
+ "rows": 5160,
+ "folds": {
+  "family:UrbanGrid": {
+   "train_rows": 3000,
+   "gbdt": {
+    "rows": 1600,
+    "placeable": 1180,
+    "top1": 0.7067796610169491,
+    "top3": 0.9432203389830508,
+    "healthy_false_alarm": 0.013333333333333334,
+    "ece": 0.02727260591784989,
+    "class_given_place": 0.8853846153846154,
+    "temperature": 0.8408964152537145,
+    "fit_s": 20.202568292617798
+   },
+   "gbdt_on_floor_rows": {
+    "rows": 222,
+    "placeable": 174,
+    "top1": 0.6781609195402298,
+    "top3": 0.9080459770114943,
+    "healthy_false_alarm": 0.0,
+    "ece": 0.053333188423661054
+   },
+   "floor": {
+    "rows": 222,
+    "placeable": 174,
+    "top1": 0.7758620689655172,
+    "top3": 0.8045977011494253,
+    "healthy_false_alarm": 0.08823529411764706,
+    "ece": 0.18166721698251004
+   },
+   "floor_sims_per_run": 59.729729729729726
+  },
+  "family:Suburban": {
+   "train_rows": 3000,
+   "gbdt": {
+    "rows": 1600,
+    "placeable": 1257,
+    "top1": 0.7088305489260143,
+    "top3": 0.9419252187748608,
+    "healthy_false_alarm": 0.02242152466367713,
+    "ece": 0.018719919138075088,
+    "class_given_place": 0.9019607843137255,
+    "temperature": 0.9170040432046712,
+    "fit_s": 8.84947419166565
+   },
+   "gbdt_on_floor_rows": {
+    "rows": 237,
+    "placeable": 190,
+    "top1": 0.6526315789473685,
+    "top3": 0.9157894736842105,
+    "healthy_false_alarm": 0.03125,
+    "ece": 0.05328484454241101
+   },
+   "floor": {
+    "rows": 237,
+    "placeable": 190,
+    "top1": 0.7,
+    "top3": 0.7789473684210526,
+    "healthy_false_alarm": 0.09375,
+    "ece": 0.21572789147085053
+   },
+   "floor_sims_per_run": 59.78481012658228
+  },
+  "family:Rural": {
+   "train_rows": 2560,
+   "gbdt": {
+    "rows": 1960,
+    "placeable": 1602,
+    "top1": 0.5243445692883895,
+    "top3": 0.799625468164794,
+    "healthy_false_alarm": 0.3904761904761905,
+    "ece": 0.08262029041453187,
+    "class_given_place": 0.8651428571428571,
+    "temperature": 1.0,
+    "fit_s": 6.806988000869751
+   },
+   "gbdt_on_floor_rows": {
+    "rows": 300,
+    "placeable": 250,
+    "top1": 0.54,
+    "top3": 0.796,
+    "healthy_false_alarm": 0.48484848484848486,
+    "ece": 0.10146935236968446
+   },
+   "floor": {
+    "rows": 300,
+    "placeable": 250,
+    "top1": 0.608,
+    "top3": 0.724,
+    "healthy_false_alarm": 0.21212121212121213,
+    "ece": 0.2132692831488262
+   },
+   "floor_sims_per_run": 83.91
+  },
+  "profile:lowsplit (legacy)": {
+   "train_rows": 1537,
+   "gbdt": {
+    "rows": 2600,
+    "placeable": 1956,
+    "top1": 0.6523517382413088,
+    "top3": 0.8844580777096115,
+    "healthy_false_alarm": 0.010416666666666666,
+    "ece": 0.03711141181869658,
+    "class_given_place": 0.9268953068592057,
+    "temperature": 1.0,
+    "fit_s": 5.392542839050293
+   },
+   "gbdt_on_floor_rows": {
+    "rows": 387,
+    "placeable": 304,
+    "top1": 0.6282894736842105,
+    "top3": 0.8848684210526315,
+    "healthy_false_alarm": 0.0392156862745098,
+    "ece": 0.07643792278228234
+   },
+   "floor": {
+    "rows": 387,
+    "placeable": 304,
+    "top1": 0.694078947368421,
+    "top3": 0.7993421052631579,
+    "healthy_false_alarm": 0.0784313725490196,
+    "ece": 0.17703572027084297
+   },
+   "floor_sims_per_run": 73.68733850129199
+  },
+  "profile:highsplit (DAA)": {
+   "train_rows": 2160,
+   "gbdt": {
+    "rows": 1856,
+    "placeable": 1379,
+    "top1": 0.6954314720812182,
+    "top3": 0.9035532994923858,
+    "healthy_false_alarm": 0.03151862464183381,
+    "ece": 0.03008178131205175,
+    "class_given_place": 0.9256801592568016,
+    "temperature": 0.9170040432046712,
+    "fit_s": 6.277715444564819
+   },
+   "gbdt_on_floor_rows": {
+    "rows": 255,
+    "placeable": 193,
+    "top1": 0.6735751295336787,
+    "top3": 0.8756476683937824,
+    "healthy_false_alarm": 0.0625,
+    "ece": 0.06808448730398327
+   },
+   "floor": {
+    "rows": 255,
+    "placeable": 193,
+    "top1": 0.7253886010362695,
+    "top3": 0.8082901554404145,
+    "healthy_false_alarm": 0.1875,
+    "ece": 0.16709312713618044
+   },
+   "floor_sims_per_run": 75.52549019607844
+  }
+ }
+}

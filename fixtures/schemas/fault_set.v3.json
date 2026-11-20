@@ -1,0 +1,274 @@
+{
+  "schema_version": "3",
+  "seed": 7,
+  "faults": [
+    {
+      "onset": {
+        "Ramp": {
+          "start": 0,
+          "end": 3600
+        }
+      },
+      "kind": {
+        "WaterIngress": {
+          "span_id": "span-1",
+          "pos_ft": 10.0,
+          "affected_len_ft": 40.0,
+          "k_w_db_per_100ft": 2.0,
+          "rain_coupling_per_mm_per_hr": 0.05,
+          "impedance_variation_pct": 5.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "ConnectorReflection": {
+          "location": {
+            "Span": {
+              "span_id": "span-1",
+              "pos_ft": 50.0
+            }
+          },
+          "return_loss_db": 10.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "Suckout": {
+          "location": {
+            "Port": {
+              "element_id": "tap",
+              "port": "through"
+            }
+          },
+          "f0_mhz": 450.0,
+          "depth_db": 6.0,
+          "width_mhz": 30.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "FrequencySelectiveLoss": {
+          "location": {
+            "Port": {
+              "element_id": "tap",
+              "port": "through"
+            }
+          },
+          "shape": "BandStop",
+          "f_lo_mhz": 300.0,
+          "f_hi_mhz": 400.0,
+          "depth_db": 20.0,
+          "stop_return_loss_db": 6.0,
+          "skirt_mhz": null
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "FrequencySelectiveLoss": {
+          "location": {
+            "Port": {
+              "element_id": "tap",
+              "port": "through"
+            }
+          },
+          "shape": "HighPass",
+          "f_lo_mhz": 54.0,
+          "f_hi_mhz": 54.0,
+          "depth_db": 20.0,
+          "stop_return_loss_db": 6.0,
+          "skirt_mhz": null
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "FrequencySelectiveLoss": {
+          "location": {
+            "Port": {
+              "element_id": "tap",
+              "port": "through"
+            }
+          },
+          "shape": "LowPass",
+          "f_lo_mhz": 1002.0,
+          "f_hi_mhz": 1002.0,
+          "depth_db": 20.0,
+          "stop_return_loss_db": 6.0,
+          "skirt_mhz": null
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "AmpDrift": {
+          "amp_id": "amp",
+          "state": {
+            "Drift": {
+              "gain_delta_db": -2.0,
+              "tilt_delta_db": 1.0,
+              "compression_onset_dbmv": 54.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "AmpDrift": {
+          "amp_id": "amp",
+          "state": "Failed"
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "UpstreamIngress": {
+          "entry_location": {
+            "Span": {
+              "span_id": "span-1",
+              "pos_ft": 50.0
+            }
+          },
+          "f_mhz": 20.0,
+          "bw_mhz": 2.0,
+          "power_dbmv": -20.0,
+          "schedule": {
+            "hourly_multipliers": [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          "burst": {
+            "duration_ms": 10.0,
+            "rate_per_s": 5.0
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "DownstreamIngress": {
+          "entry_location": {
+            "Port": {
+              "element_id": "tap",
+              "port": "through"
+            }
+          },
+          "f_mhz": 700.0,
+          "bw_mhz": 10.0,
+          "power_dbmv": -30.0,
+          "schedule": {
+            "hourly_multipliers": [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "PowerSupplySag": {
+          "psu_id": "power-supply",
+          "v_delta": 12.0,
+          "schedule": {
+            "hourly_multipliers": [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "BadDrop": {
+          "modem_id": "modem",
+          "extra_loss_db": 6.0,
+          "return_loss_db": 12.0
+        }
+      }
+    }
+  ]
+}

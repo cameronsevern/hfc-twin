@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DesignControls",
+  "description": "What a designer can turn (`docs/DESIGN.md`, \"Reactivity\").",
+  "type": "object",
+  "properties": {
+    "build_over_ceiling": {
+      "description": "Build the nodes the rules' cost ceiling puts over it, and still mark them and their homes as over it. Off, a\nnode over the ceiling isn't built. Version 3.",
+      "type": "boolean"
+    },
+    "cascade_limit": {
+      "description": "Cascade limit, if tighter than the profile's.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint8",
+      "maximum": 255,
+      "minimum": 0
+    },
+    "d30_share": {
+      "description": "Share of modems that are D3.0, 0 to 1.",
+      "type": "number",
+      "format": "double"
+    },
+    "homes_per_node": {
+      "description": "Target homes per node. Never above the profile's `max_homes_passed`.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "max_drop_ft": {
+      "description": "Longest drop, feet.",
+      "type": "number",
+      "format": "double"
+    },
+    "mode": {
+      "description": "How the version 2 designer works. Absent is `Greenfield`. Version 3.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DesignMode"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pinned_nodes": {
+      "description": "Nodes held in place. Their service groups are numbered from these first.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PinnedNode"
+      }
+    },
+    "rules_id": {
+      "description": "The design rules to design by, by id. Given, the version 2 designer runs; absent, version 1's. Version 3.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "seed": {
+      "description": "Seed for take rate and generation draws.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "take_rate": {
+      "description": "Share of homes with a modem, 0 to 1.",
+      "type": "number",
+      "format": "double"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "homes_per_node",
+    "take_rate",
+    "d30_share",
+    "max_drop_ft",
+    "pinned_nodes",
+    "seed"
+  ],
+  "$defs": {
+    "DesignMode": {
+      "description": "How the version 2 designer works (`docs/tasks/23-as-built-designer.md`). Version 3.",
+      "oneOf": [
+        {
+          "description": "Designed new, to the target profile under the rules.",
+          "type": "string",
+          "const": "Greenfield"
+        },
+        {
+          "description": "Designed under legacy rules and a legacy profile, then upgraded in place to the target profile under the rules'\nupgrade moves (`design::migrate`).",
+          "type": "object",
+          "properties": {
+            "LegacyThenUpgrade": {
+              "type": "object",
+              "properties": {
+                "legacy_profile_ref": {
+                  "description": "The legacy profile.",
+                  "$ref": "#/$defs/ProfileId"
+                },
+                "legacy_rules_id": {
+                  "description": "The legacy rules, by id.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "legacy_rules_id",
+                "legacy_profile_ref"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "LegacyThenUpgrade"
+          ]
+        }
+      ]
+    },
+    "LonLat": {
+      "description": "A geographic position.",
+      "type": "object",
+      "properties": {
+        "lat_deg": {
+          "description": "Latitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        },
+        "lon_deg": {
+          "description": "Longitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lon_deg",
+        "lat_deg"
+      ]
+    },
+    "PinnedNode": {
+      "description": "A node held where the user put it. The optimizer re-solves around it (`docs/DESIGN.md`, \"Reactivity\").",
+      "type": "object",
+      "properties": {
+        "geo": {
+          "description": "Where it goes.",
+          "$ref": "#/$defs/LonLat"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "geo"
+      ]
+    },
+    "ProfileId": {
+      "description": "An architecture profile.",
+      "type": "string"
+    }
+  }
+}

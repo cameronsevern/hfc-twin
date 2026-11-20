@@ -1,0 +1,1674 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DesignRules",
+  "description": "One design specification.",
+  "type": "object",
+  "properties": {
+    "branching": {
+      "description": "How a line branches away from an active. Version 2.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BranchRules"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "candidates": {
+      "description": "The alternatives a design's candidate set tries. Version 2.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CandidateRules"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conditioning": {
+      "description": "Tap conditioners and line equalizers. Version 2.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ConditioningRules"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "costs": {
+      "description": "What things cost.",
+      "$ref": "#/$defs/CostTable"
+    },
+    "drops": {
+      "description": "Drop cable by length, shortest reach first.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DropRule"
+      }
+    },
+    "end_of_line": {
+      "description": "How a line ends.",
+      "$ref": "#/$defs/EndOfLine"
+    },
+    "fiber": {
+      "description": "Fiber.",
+      "$ref": "#/$defs/FiberRules"
+    },
+    "fittings": {
+      "description": "Connectors and splices on cable. Version 2.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FittingRules"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "id": {
+      "description": "Stable id.",
+      "type": "string"
+    },
+    "node": {
+      "description": "Node size and port use.",
+      "$ref": "#/$defs/NodeRules"
+    },
+    "powering": {
+      "description": "Powering.",
+      "$ref": "#/$defs/PoweringRules"
+    },
+    "premises": {
+      "description": "What's in a home, and how often.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PremisesTemplate"
+      }
+    },
+    "premises_allowance": {
+      "description": "What the design leaves for the drop and the home.",
+      "$ref": "#/$defs/PremisesAllowance"
+    },
+    "premises_parts": {
+      "description": "The parts in a home, and what an unused tap port gets. Version 2.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PremisesParts"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "profiles": {
+      "description": "What the rules say per profile: the root, station levels, premises allowed and optics. Version 2.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/ProfileRules"
+      }
+    },
+    "roles": {
+      "description": "Cable and amp by the role of the line.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RoleRule"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "structures": {
+      "description": "Structures along routes.",
+      "$ref": "#/$defs/StructureRules"
+    },
+    "tap_families": {
+      "description": "The taps a design may place, by port count.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TapFamily"
+      }
+    },
+    "tap_port": {
+      "description": "Level at the tap port, per profile.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TapPortTarget"
+      }
+    },
+    "upgrade": {
+      "description": "The moves an upgrade in place may make. Version 2.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UpgradeRules"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "tap_port",
+    "premises_allowance",
+    "end_of_line",
+    "tap_families",
+    "roles",
+    "drops",
+    "node",
+    "powering",
+    "structures",
+    "premises",
+    "fiber",
+    "costs"
+  ],
+  "$defs": {
+    "Basis": {
+      "description": "Where a rule's value comes from (invariant 9, for rules).",
+      "oneOf": [
+        {
+          "description": "A reference note that cites a public document: `file.md §section`.",
+          "type": "object",
+          "properties": {
+            "Sourced": {
+              "type": "object",
+              "properties": {
+                "note": {
+                  "description": "The note and section, such as `design-practice.md §2`.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "note"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Sourced"
+          ]
+        },
+        {
+          "description": "Typical, or from memory. To confirm.",
+          "type": "string",
+          "const": "Generic"
+        }
+      ]
+    },
+    "BranchRules": {
+      "description": "How a line branches away from an active. Version 2.",
+      "type": "object",
+      "properties": {
+        "couplers": {
+          "description": "Couplers for an unequal one, `DirectionalCoupler`.",
+          "$ref": "#/$defs/Ruled4"
+        },
+        "splitter_ref": {
+          "description": "The splitter for an equal branch, a two-leg `Splitter`.",
+          "$ref": "#/$defs/Ruled5"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "splitter_ref",
+        "couplers"
+      ]
+    },
+    "CandidateRules": {
+      "description": "The alternatives a design's candidate set tries. Version 2.",
+      "type": "object",
+      "properties": {
+        "express_cables": {
+          "description": "Express cables tried, `Cable`. The express role's own is always tried.",
+          "$ref": "#/$defs/Ruled4"
+        },
+        "node_count_steps": {
+          "description": "Node counts tried, as steps from the count the homes per node target gives.",
+          "$ref": "#/$defs/Ruled14"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "node_count_steps",
+        "express_cables"
+      ]
+    },
+    "ComponentId": {
+      "description": "A component library entry.",
+      "type": "string"
+    },
+    "ConditioningRules": {
+      "description": "Tap conditioners and line equalizers. Version 2.",
+      "type": "object",
+      "properties": {
+        "conditioners": {
+          "description": "Tap conditioners, `PlugIn` parts of kind `TapConditioner`, any value.",
+          "$ref": "#/$defs/Ruled4"
+        },
+        "line_equalizers": {
+          "description": "Line equalizers, `LineEqualizer`.",
+          "$ref": "#/$defs/Ruled4"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conditioners",
+        "line_equalizers"
+      ]
+    },
+    "ConstructionCost": {
+      "description": "One kind of construction's cost.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "What's built.",
+          "$ref": "#/$defs/ConstructionKind"
+        },
+        "usd_per_ft": {
+          "description": "Per foot, US dollars.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "usd_per_ft"
+      ]
+    },
+    "ConstructionKind": {
+      "description": "The kinds of construction priced by the foot.",
+      "oneOf": [
+        {
+          "description": "Lashing hardline to strand.",
+          "type": "string",
+          "const": "AerialCoax"
+        },
+        {
+          "description": "Burying hardline in conduit.",
+          "type": "string",
+          "const": "UndergroundCoax"
+        },
+        {
+          "description": "Lashing fiber to strand.",
+          "type": "string",
+          "const": "AerialFiber"
+        },
+        {
+          "description": "Burying fiber in conduit.",
+          "type": "string",
+          "const": "UndergroundFiber"
+        },
+        {
+          "description": "An aerial drop.",
+          "type": "string",
+          "const": "AerialDrop"
+        },
+        {
+          "description": "A buried drop.",
+          "type": "string",
+          "const": "BuriedDrop"
+        }
+      ]
+    },
+    "CostTable": {
+      "description": "What things cost, in US dollars.",
+      "type": "object",
+      "properties": {
+        "ceiling_usd_per_home": {
+          "description": "The most a design spends per home passed before it says coax isn't the answer for those homes, US dollars.\nVersion 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "construction": {
+          "description": "Per foot of construction.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConstructionCost"
+          }
+        },
+        "parts": {
+          "description": "Per part, installed.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PartCost"
+          }
+        },
+        "plug_in_families": {
+          "description": "Plug-ins, by family. Version 2.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/FamilyCost"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "parts",
+        "construction"
+      ]
+    },
+    "CpeDevice": {
+      "description": "What a piece of customer equipment is.",
+      "oneOf": [
+        {
+          "description": "A set-top box.",
+          "type": "string",
+          "const": "SetTop"
+        },
+        {
+          "description": "A television tuned directly from the coax.",
+          "type": "string",
+          "const": "Television"
+        },
+        {
+          "description": "An in-home network adapter.",
+          "type": "string",
+          "const": "MocaAdapter"
+        },
+        {
+          "description": "Anything else on a port.",
+          "type": "string",
+          "const": "Other"
+        }
+      ]
+    },
+    "CpeRef": {
+      "description": "The part for one kind of customer device. Version 2.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The part, a `Cpe`.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "device": {
+          "description": "The device.",
+          "$ref": "#/$defs/CpeDevice"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "device",
+        "component_ref"
+      ]
+    },
+    "DropRule": {
+      "description": "Drop cable up to a length.",
+      "type": "object",
+      "properties": {
+        "cable_ref": {
+          "description": "The cable, a `Drop`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "max_len_ft": {
+          "description": "Longest drop this cable is used for, feet.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "max_len_ft",
+        "cable_ref"
+      ]
+    },
+    "EndOfLine": {
+      "description": "How a line ends.",
+      "type": "object",
+      "properties": {
+        "last_tap_terminating": {
+          "description": "Whether the last tap on a line is a terminating tap.",
+          "$ref": "#/$defs/Ruled2"
+        },
+        "min_port_dbmv_at_hi": {
+          "description": "The lowest a last tap's port may be at the top forward frequency, dBmV per 6 MHz.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "last_tap_terminating",
+        "min_port_dbmv_at_hi"
+      ]
+    },
+    "FamilyCost": {
+      "description": "What a plug-in of one family costs, any value. Version 2.",
+      "type": "object",
+      "properties": {
+        "family": {
+          "description": "The family, as a `PlugIn` part states it.",
+          "type": "string"
+        },
+        "usd": {
+          "description": "Each, US dollars.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "family",
+        "usd"
+      ]
+    },
+    "FiberRules": {
+      "description": "Fiber.",
+      "type": "object",
+      "properties": {
+        "cable_counts": {
+          "description": "Fiber counts cable comes in.",
+          "$ref": "#/$defs/Ruled9"
+        },
+        "cable_refs": {
+          "description": "Outside fiber cable by count, each a `FiberCable` whose count is one of `cable_counts`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled4"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "closure_ref": {
+          "description": "The splice closure, a `SpliceClosure`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "composite_index_max": {
+          "description": "The most an analog forward link's per-channel modulation index may be, times the square root of the channels\nloaded: the composite a transmitter is chosen to stay under, clear of clipping. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "connector_loss_db": {
+          "description": "Allowance per mated connector pair, dB.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "connector_ref": {
+          "description": "The connector on every mated pair, a `FiberConnector`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duplex_jumper_ref": {
+          "description": "A two-fiber jumper in the hub, for a duplex optic, a `FiberCable`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fibers_per_analog_node": {
+          "description": "Fibers per analog node.",
+          "$ref": "#/$defs/Ruled6"
+        },
+        "fibers_per_rpd": {
+          "description": "Fibers per RPD.",
+          "$ref": "#/$defs/Ruled6"
+        },
+        "jumper_len_ft": {
+          "description": "A jumper's length, feet. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "jumper_ref": {
+          "description": "A one-fiber jumper in the hub, a `FiberCable`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "link_margin_db": {
+          "description": "Margin a link budget keeps, dB.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "panel_ref": {
+          "description": "The hub's patch panel, a `PatchPanel`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reel_len_ft": {
+          "description": "Longest continuous cable, feet: a splice closure at least this often.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "splice_loss_db": {
+          "description": "Allowance per fusion splice, dB.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fibers_per_analog_node",
+        "fibers_per_rpd",
+        "cable_counts",
+        "reel_len_ft",
+        "link_margin_db",
+        "splice_loss_db",
+        "connector_loss_db"
+      ]
+    },
+    "FittingRules": {
+      "description": "Connectors and splices on cable. Version 2.",
+      "type": "object",
+      "properties": {
+        "connectors": {
+          "description": "Connectors and splices, `Connector` parts. A cable takes the one whose family is its own, and a drop the `DropF`.",
+          "$ref": "#/$defs/Ruled4"
+        },
+        "hardline_reel_len_ft": {
+          "description": "Longest hardline between splices, feet.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "jumper_len_ft": {
+          "description": "The hardline jumper between two housings at one structure, feet: the one span a design lays shorter than a run.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "connectors",
+        "hardline_reel_len_ft",
+        "jumper_len_ft"
+      ]
+    },
+    "LineRole": {
+      "description": "The role of a line.",
+      "oneOf": [
+        {
+          "description": "Carries signal to amps, with no taps.",
+          "type": "string",
+          "const": "Express"
+        },
+        {
+          "description": "Feeds taps.",
+          "type": "string",
+          "const": "Feeder"
+        }
+      ]
+    },
+    "NodeOptics": {
+      "description": "A node's optics and what serves it in the hub. Each list is in order of preference: the designer takes the first\ncombination that `sim::optics` passes with the rules' margin. Version 2.",
+      "oneOf": [
+        {
+          "description": "An analog node behind an integrated CMTS.",
+          "type": "object",
+          "properties": {
+            "Analog": {
+              "type": "object",
+              "properties": {
+                "cmts_ref": {
+                  "description": "The CMTS, a `Cmts`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "forward_tx": {
+                  "description": "Forward transmitters in the hub, `OpticalTx`.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                },
+                "hub_amps": {
+                  "description": "Optical amplifiers in the hub after a 1550 nm forward transmitter, `OpticalAmp`, tried after none: links\nbeyond about 25 km need one (fiber-optics.md §7).",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                },
+                "hub_couplers": {
+                  "description": "Hub couplers between a forward transmitter and its fiber, `OpticalPassive`, tried after none.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                },
+                "hub_rx": {
+                  "description": "Return receivers in the hub, `OpticalRx`.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                },
+                "node_rx": {
+                  "description": "The node's forward receiver, `OpticalRx`.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                },
+                "return_tx": {
+                  "description": "The node's return laser, `OpticalTx`.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                }
+              },
+              "required": [
+                "cmts_ref",
+                "forward_tx",
+                "hub_couplers",
+                "node_rx",
+                "return_tx",
+                "hub_rx"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Analog"
+          ]
+        },
+        {
+          "description": "A Remote PHY device on the converged interconnect network.",
+          "type": "object",
+          "properties": {
+            "Digital": {
+              "type": "object",
+              "properties": {
+                "core_ref": {
+                  "description": "The Remote PHY core, a `Cmts`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "switch_ref": {
+                  "description": "The switch, a `Switch`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "timing_ref": {
+                  "description": "The timing source, a `TimingSource`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "transceivers": {
+                  "description": "The optic at both ends, `Transceiver`.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/ComponentId"
+                  }
+                }
+              },
+              "required": [
+                "core_ref",
+                "switch_ref",
+                "transceivers",
+                "timing_ref"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Digital"
+          ]
+        }
+      ]
+    },
+    "NodeRules": {
+      "description": "Node size and port use.",
+      "type": "object",
+      "properties": {
+        "max_actives": {
+          "description": "Actives below the node, at most, the node not counted. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled6"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_cascade": {
+          "description": "Amps in cascade below the node, at most.",
+          "$ref": "#/$defs/Ruled7"
+        },
+        "max_homes": {
+          "description": "Homes passed per node, at most.",
+          "$ref": "#/$defs/Ruled6"
+        },
+        "rf_ports": {
+          "description": "RF ports used.",
+          "$ref": "#/$defs/Ruled7"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "max_homes",
+        "rf_ports",
+        "max_cascade"
+      ]
+    },
+    "PartCost": {
+      "description": "One part's cost.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The part.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "usd": {
+          "description": "Each, US dollars.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "component_ref",
+        "usd"
+      ]
+    },
+    "PoweringRules": {
+      "description": "Powering.",
+      "type": "object",
+      "properties": {
+        "batteries_per_string": {
+          "description": "Batteries in series per string.",
+          "$ref": "#/$defs/Ruled7"
+        },
+        "battery_ref": {
+          "description": "The battery, a `Battery`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "battery_strings": {
+          "description": "Strings per supply.",
+          "$ref": "#/$defs/Ruled7"
+        },
+        "design_load_pct": {
+          "description": "Share of a supply's rating a design may load it to, percent.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "inserter_ref": {
+          "description": "The power inserter a supply feeds, a `PowerInserter`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "min_margin_v": {
+          "description": "Volts each active keeps above its part's minimum input, at both temperatures. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "port_max_a": {
+          "description": "Most current through one power inserter or active port, amps.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "supply_ref": {
+          "description": "The supply, a `PowerSupply`.",
+          "$ref": "#/$defs/Ruled5"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "supply_ref",
+        "design_load_pct",
+        "port_max_a",
+        "battery_ref",
+        "batteries_per_string",
+        "battery_strings"
+      ]
+    },
+    "PremisesAllowance": {
+      "description": "The loss the design leaves between the tap port and the device, at the top forward frequency.",
+      "type": "object",
+      "properties": {
+        "drop_loss_db": {
+          "description": "For the drop, dB.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "house_loss_db": {
+          "description": "For the ground block, in-home splitting and cable, dB.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "drop_loss_db",
+        "house_loss_db"
+      ]
+    },
+    "PremisesParts": {
+      "description": "The parts in a home, and what an unused tap port gets. Version 2.",
+      "type": "object",
+      "properties": {
+        "cpe_refs": {
+          "description": "The part for each kind of device a template names.",
+          "$ref": "#/$defs/Ruled12"
+        },
+        "drop_amp_below_dbmv": {
+          "description": "A template with a drop amp is drawn only for a home whose modem would otherwise sit below this at the top forward\nfrequency, dBmV per 6 MHz.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "house_cable_ref": {
+          "description": "In-home cable, a `Drop`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "modem_d30_ref": {
+          "description": "A DOCSIS 3.0 modem, a `Modem`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "modem_d31_ref": {
+          "description": "A DOCSIS 3.1 modem, a `Modem`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "terminator_ref": {
+          "description": "The terminator, a `Terminator`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "unused_port": {
+          "description": "What an unused tap port gets.",
+          "$ref": "#/$defs/Ruled13"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "modem_d30_ref",
+        "modem_d31_ref",
+        "cpe_refs",
+        "house_cable_ref",
+        "unused_port",
+        "terminator_ref",
+        "drop_amp_below_dbmv"
+      ]
+    },
+    "PremisesTemplate": {
+      "description": "One kind of home: what's between the drop and the devices.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where the template's parts come from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "cpe": {
+          "description": "Other devices.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CpeDevice"
+          }
+        },
+        "drop_amp_ref": {
+          "description": "A drop amp, a `DropAmp`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "filter_ref": {
+          "description": "A filter, a `Filter`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ground_block_ref": {
+          "description": "The ground block, a `GroundBlock`, or `None` for a modem straight on the drop.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "house_cable_ft": {
+          "description": "In-home cable to each device, feet.",
+          "type": "number",
+          "format": "double"
+        },
+        "id": {
+          "description": "Stable id.",
+          "type": "string"
+        },
+        "modems": {
+          "description": "Modems.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "share": {
+          "description": "Share of homes with a modem that look like this, 0 to 1.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "splitter_ref": {
+          "description": "The in-home splitter, a `Splitter`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "share",
+        "basis",
+        "house_cable_ft",
+        "modems",
+        "cpe"
+      ]
+    },
+    "ProfileId": {
+      "description": "An architecture profile.",
+      "type": "string"
+    },
+    "ProfileRules": {
+      "description": "What the rules say for one profile. Version 2.",
+      "type": "object",
+      "properties": {
+        "optics": {
+          "description": "The hub and node optics.",
+          "$ref": "#/$defs/Ruled11"
+        },
+        "premises": {
+          "description": "The premises templates a design may draw on this profile, by id.",
+          "$ref": "#/$defs/Ruled10"
+        },
+        "profile_ref": {
+          "description": "The profile.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "root_ref": {
+          "description": "The node or RPD, a `Node` or `Rpd` part that qualifies for the profile.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "station": {
+          "description": "The levels a station is set to.",
+          "$ref": "#/$defs/StationLevels"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "profile_ref",
+        "root_ref",
+        "station",
+        "premises",
+        "optics"
+      ]
+    },
+    "RoleRule": {
+      "description": "Cable and amp for one role.",
+      "type": "object",
+      "properties": {
+        "amp_ref": {
+          "description": "The amp, an `Amp`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "cable_ref": {
+          "description": "The hardline, a `Cable`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "role": {
+          "description": "The role.",
+          "$ref": "#/$defs/LineRole"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "cable_ref",
+        "amp_ref"
+      ]
+    },
+    "Ruled": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled10": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled11": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "$ref": "#/$defs/NodeOptics"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled12": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CpeRef"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled13": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "$ref": "#/$defs/UnusedPort"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled14": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled15": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "$ref": "#/$defs/UpgradeMove"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled2": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled3": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled4": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ComponentId"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled5": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "$ref": "#/$defs/ComponentId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled6": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled7": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled8": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "$ref": "#/$defs/StreetSide"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "Ruled9": {
+      "description": "A value and its basis.",
+      "type": "object",
+      "properties": {
+        "basis": {
+          "description": "Where it comes from.",
+          "$ref": "#/$defs/Basis"
+        },
+        "value": {
+          "description": "The value.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "basis"
+      ]
+    },
+    "StationLevels": {
+      "description": "The output a station is set to, at the top forward frequency, and its tilt across the forward band. A design sets each\nstation within these, so the taps nearest it fit (`SetPoint`, `docs/physics.md` §15). Version 2.",
+      "type": "object",
+      "properties": {
+        "min_out_dbmv_at_hi": {
+          "description": "The lowest, dBmV per 6 MHz.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "min_tilt_db": {
+          "description": "The least tilt, dB.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "out_dbmv_at_hi": {
+          "description": "The highest output a station is set to, dBmV per 6 MHz.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "tilt_db": {
+          "description": "The most tilt, dB.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "out_dbmv_at_hi",
+        "min_out_dbmv_at_hi",
+        "tilt_db",
+        "min_tilt_db"
+      ]
+    },
+    "StreetSide": {
+      "description": "A side of a street, facing the way its points are drawn. Version 2.",
+      "oneOf": [
+        {
+          "description": "To the left.",
+          "type": "string",
+          "const": "Left"
+        },
+        {
+          "description": "To the right.",
+          "type": "string",
+          "const": "Right"
+        }
+      ]
+    },
+    "StructureRules": {
+      "description": "Structures along routes.",
+      "type": "object",
+      "properties": {
+        "conduit_ref": {
+          "description": "The conduit, a `Conduit`.",
+          "$ref": "#/$defs/Ruled5"
+        },
+        "expansion_loop_each_pole": {
+          "description": "Whether aerial hardline takes an expansion loop at each pole.",
+          "$ref": "#/$defs/Ruled2"
+        },
+        "pedestal_ref": {
+          "description": "The pedestal, a `Structure` of kind `Pedestal`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pedestal_spacing_ft": {
+          "description": "Longest buried run between pedestals or vaults, feet.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "pole_ref": {
+          "description": "The pole, a `Structure` of kind `Pole`. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled5"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pole_spacing_ft": {
+          "description": "Span between poles, feet.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "setback_ft": {
+          "description": "How far from the street's centerline structures stand, feet. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "side": {
+          "description": "Which side of a street, facing the way it's drawn, plant runs on. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled8"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "strand_ref": {
+          "description": "The strand, a `Strand`.",
+          "$ref": "#/$defs/Ruled5"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "pole_spacing_ft",
+        "pedestal_spacing_ft",
+        "expansion_loop_each_pole",
+        "strand_ref",
+        "conduit_ref"
+      ]
+    },
+    "TapFamily": {
+      "description": "One family of taps.",
+      "type": "object",
+      "properties": {
+        "parts": {
+          "description": "The library's parts that make up the family, through and terminating, each a `Tap` of `ports` ports at one of the\nvalues above. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled4"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ports": {
+          "description": "Tap ports.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "terminating_values_db": {
+          "description": "Terminating taps' values, dB.",
+          "$ref": "#/$defs/Ruled3"
+        },
+        "values_db": {
+          "description": "Through taps' values, dB.",
+          "$ref": "#/$defs/Ruled3"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "ports",
+        "values_db",
+        "terminating_values_db"
+      ]
+    },
+    "TapPortTarget": {
+      "description": "The level a tap port is designed to, stated per 6 MHz at the top and bottom of the forward band. The two\ntogether state the tilt at the port.",
+      "type": "object",
+      "properties": {
+        "at_hi_dbmv": {
+          "description": "At the top forward frequency, dBmV per 6 MHz.",
+          "$ref": "#/$defs/Ruled"
+        },
+        "at_lo_dbmv": {
+          "description": "At the bottom forward frequency, dBmV per 6 MHz. `None` (version 2): the port is held at one level, at the top,\nas taps are nominally set [SCTE 183 §16.4] and as the one worked run states its devices (design-practice.md §1).\nThe bottom of the band is then bounded by the modem's window and its spread limit, which the sim checks.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "profile_ref": {
+          "description": "The profile it applies to.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "tilt_tolerance_db": {
+          "description": "How far a port's tilt, `at_hi − at_lo`, may sit from the target's before a conditioner or line equalizer goes in,\ndB. Version 2. `None`: no limit, as North America sets none at the modem (plant-and-powering.md §5). It needs\n`at_lo_dbmv`, which gives the target's tilt.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Ruled"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tolerance_db": {
+          "description": "How far a port may sit from the target either way, dB.",
+          "$ref": "#/$defs/Ruled"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "profile_ref",
+        "at_hi_dbmv",
+        "tolerance_db"
+      ]
+    },
+    "UnusedPort": {
+      "description": "What an unused tap port gets. Version 2.",
+      "oneOf": [
+        {
+          "description": "A terminator.",
+          "type": "string",
+          "const": "Terminated"
+        },
+        {
+          "description": "Nothing.",
+          "type": "string",
+          "const": "Open"
+        }
+      ]
+    },
+    "UpgradeMove": {
+      "description": "A move an upgrade in place may make when a part no longer fits the target profile. Version 2.",
+      "oneOf": [
+        {
+          "description": "Swap an amp's or node's module for one rated to the target, in the same housing at the same site.",
+          "type": "string",
+          "const": "SwapActiveModules"
+        },
+        {
+          "description": "Swap a tap's faceplate for one of the same port count rated to the target, in the same housing.",
+          "type": "string",
+          "const": "SwapTapFaceplates"
+        },
+        {
+          "description": "Swap passives rated short of the target.",
+          "type": "string",
+          "const": "SwapPassives"
+        },
+        {
+          "description": "Change conditioners and plug-ins for the new split.",
+          "type": "string",
+          "const": "ChangePlugIns"
+        },
+        {
+          "description": "Take out premises parts that block the target: filters, drop amps, splitters.",
+          "type": "string",
+          "const": "RemovePremisesParts"
+        },
+        {
+          "description": "Swap a modem for one that qualifies.",
+          "type": "string",
+          "const": "SwapModems"
+        },
+        {
+          "description": "Take RF set-tops and televisions on the coax off it, replaced by devices on the home's own network, where the\ntarget's return band reaches the tuner band; an in-home splitter left with one leg comes out with them (SCTE 300's\nupgrade expense lines, design-practice.md §10).",
+          "type": "string",
+          "const": "ReplaceSetTops"
+        }
+      ]
+    },
+    "UpgradeRules": {
+      "description": "The moves an upgrade in place may make. Version 2.",
+      "type": "object",
+      "properties": {
+        "moves": {
+          "description": "The moves, each with its basis.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Ruled15"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "moves"
+      ]
+    }
+  }
+}

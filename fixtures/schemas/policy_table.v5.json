@@ -1,0 +1,21 @@
+{
+  "schema_version": "5",
+  "entries": [
+    {
+      "cause": "BadDrop",
+      "component_class": "Drop",
+      "action": "Replace the drop",
+      "parts": [
+        "drop cable"
+      ],
+      "crew": "service"
+    },
+    {
+      "cause": "Unknown",
+      "component_class": null,
+      "action": "Investigate",
+      "parts": [],
+      "crew": "maintenance"
+    }
+  ]
+}

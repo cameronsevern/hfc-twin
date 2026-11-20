@@ -1,0 +1,77 @@
+{
+ "note": "\u00a9 OpenStreetMap contributors, under the ODbL. The streets are real and any plant on them is invented. A copy of maps_manifest.json for task 18: task 15's three reserve areas, which no model has read, as split `reserve`. Everything else is left out.",
+ "areas": [
+  {
+   "name": "greensboro_nc",
+   "south_deg": 36.072,
+   "west_deg": -79.83,
+   "north_deg": 36.088,
+   "east_deg": -79.81,
+   "split": "reserve",
+   "installation": "Underground",
+   "reserve": true,
+   "fetched": true,
+   "extract_hash": "423ddc9417f184c2",
+   "homes": 1119,
+   "street_miles": 44.90903838087948,
+   "clean_nodes": [
+    16,
+    16
+   ],
+   "nodes": [
+    17,
+    17
+   ],
+   "meets_rule": true,
+   "used": true
+  },
+  {
+   "name": "bend_or",
+   "south_deg": 44.052,
+   "west_deg": -121.32,
+   "north_deg": 44.068,
+   "east_deg": -121.3,
+   "split": "reserve",
+   "installation": "Underground",
+   "reserve": true,
+   "fetched": true,
+   "extract_hash": "fe40c1e485f2546c",
+   "homes": 1718,
+   "street_miles": 55.588726676706344,
+   "clean_nodes": [
+    18,
+    18
+   ],
+   "nodes": [
+    23,
+    23
+   ],
+   "meets_rule": true,
+   "used": true
+  },
+  {
+   "name": "omaha_ne",
+   "south_deg": 41.252,
+   "west_deg": -96.03,
+   "north_deg": 41.268,
+   "east_deg": -96.01,
+   "split": "reserve",
+   "installation": "Aerial",
+   "reserve": true,
+   "fetched": true,
+   "extract_hash": "b02bec313b45c53a",
+   "homes": 1000,
+   "street_miles": 42.41570603788586,
+   "clean_nodes": [
+    15,
+    15
+   ],
+   "nodes": [
+    17,
+    17
+   ],
+   "meets_rule": true,
+   "used": true
+  }
+ ]
+}

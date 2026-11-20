@@ -1,0 +1,13 @@
+{
+  "schema_version": "2",
+  "id": "region-1",
+  "map_id": "map-1",
+  "origin": "Synthetic",
+  "nodes": [
+    {
+      "service_group": "sg-1",
+      "profile_ref": "d31_lowsplit_1002_iccap",
+      "homes_passed": 240
+    }
+  ]
+}

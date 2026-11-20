@@ -1,0 +1,36 @@
+# The twin on one machine: Postgres and the server. Everything it serves is simulated.
+#   docker compose up --build
+# then http://localhost:8484/ for the map, and http://localhost:8484/mcp for any MCP client.
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: twin
+      POSTGRES_PASSWORD: twin-dev-only
+      POSTGRES_DB: twin
+    volumes:
+      - twin-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U twin"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  twin:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    command:
+      - hfc-twin-mcp
+      - --http
+      - 0.0.0.0:8484
+      - --model
+      - proposal_gbdt.json
+      - --model
+      - as_built_gbdt.json
+      - --database-url
+      - postgres://twin:twin-dev-only@db/twin
+    ports:
+      - "8484:8484"
+volumes:
+  twin-db:

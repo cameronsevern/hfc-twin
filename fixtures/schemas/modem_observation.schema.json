@@ -1,0 +1,1137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ModemObservation",
+  "description": "What one modem reports at one time step.",
+  "type": "object",
+  "properties": {
+    "codewords": {
+      "description": "Downstream codeword counts per channel and data profile.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CodewordRecord"
+      }
+    },
+    "ds_chan_est": {
+      "description": "Downstream channel estimate per OFDM channel.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/DsChanEstRecord"
+      }
+    },
+    "ds_channel_state": {
+      "description": "Usability per downstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChannelStateRecord"
+      }
+    },
+    "ds_rx": {
+      "description": "Downstream receive power per channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DsRxRecord"
+      }
+    },
+    "element_id": {
+      "description": "The modem.",
+      "$ref": "#/$defs/ElementId"
+    },
+    "fbc": {
+      "description": "Full-band capture.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FbcRecord"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "generation": {
+      "description": "Its generation, so a reader knows which fields to expect.",
+      "$ref": "#/$defs/ModemGeneration"
+    },
+    "ncp": {
+      "description": "NCP counts per OFDM channel.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/NcpRecord"
+      }
+    },
+    "origin": {
+      "description": "Whether this is simulated or measured (invariant 11).",
+      "$ref": "#/$defs/Origin"
+    },
+    "partial_channel": {
+      "description": "Partial channel state per OFDM channel.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/PartialChannelRecord"
+      }
+    },
+    "plc": {
+      "description": "PLC counts per OFDM channel.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/PlcRecord"
+      }
+    },
+    "preeq": {
+      "description": "Upstream pre-equalization.",
+      "$ref": "#/$defs/Preeq"
+    },
+    "ranging_status": {
+      "description": "Ranging status per upstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RangingStatusRecord"
+      }
+    },
+    "reg_state": {
+      "description": "Registration state.",
+      "$ref": "#/$defs/RegState"
+    },
+    "rxmer": {
+      "description": "Downstream RxMER per OFDM channel.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/DsRxmerRecord"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "t": {
+      "description": "Simulated time, seconds.",
+      "$ref": "#/$defs/Timestamp"
+    },
+    "t3_timeouts": {
+      "description": "Cumulative T3 timeouts per upstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TimeoutRecord"
+      }
+    },
+    "t4_timeouts": {
+      "description": "Cumulative T4 timeouts per upstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TimeoutRecord"
+      }
+    },
+    "us_channel_state": {
+      "description": "Usability per upstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChannelStateRecord"
+      }
+    },
+    "us_rx": {
+      "description": "Power the CMTS receives per upstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/UsRxRecord"
+      }
+    },
+    "us_rxmer": {
+      "description": "Upstream RxMER per OFDMA channel.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/UsRxmerRecord"
+      }
+    },
+    "us_tx": {
+      "description": "Transmit power per upstream channel.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/UsTxRecord"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "t",
+    "origin",
+    "element_id",
+    "generation",
+    "ds_rx",
+    "codewords",
+    "preeq",
+    "us_tx",
+    "us_rx",
+    "reg_state",
+    "ds_channel_state",
+    "us_channel_state",
+    "t3_timeouts",
+    "t4_timeouts",
+    "ranging_status"
+  ],
+  "$defs": {
+    "ChannelId": {
+      "description": "A channel in a channel plan, stable across migrations (§9).",
+      "type": "string"
+    },
+    "ChannelStateRecord": {
+      "description": "`ds_channel_state` or `us_channel_state` for one channel.",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "state": {
+          "description": "Its state.",
+          "$ref": "#/$defs/ChannelUsability"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "state"
+      ]
+    },
+    "ChannelUsability": {
+      "description": "Whether a channel can be used (§7.4). Unusable while another works is partial service.",
+      "oneOf": [
+        {
+          "description": "In use.",
+          "type": "string",
+          "const": "Usable"
+        },
+        {
+          "description": "Not usable.",
+          "type": "string",
+          "const": "Unusable"
+        }
+      ]
+    },
+    "CodewordRecord": {
+      "description": "Downstream codeword counts for one channel and data profile, per interval (§4.6).\nOFDM channels appear only where the capability `per_profile_fec` allows.",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "corrected": {
+          "description": "Codewords corrected.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "data_profile_id": {
+          "description": "The data profile, or `None` on SC-QAM, which has one.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "total": {
+          "description": "Codewords received.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "uncorrectable": {
+          "description": "Codewords uncorrectable.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "total",
+        "corrected",
+        "uncorrectable"
+      ]
+    },
+    "Complex": {
+      "description": "A complex number, used for pre-eq and channel-estimate coefficients (§5.3–§5.5).",
+      "type": "object",
+      "properties": {
+        "im": {
+          "description": "Imaginary part, dimensionless.",
+          "type": "number",
+          "format": "double"
+        },
+        "re": {
+          "description": "Real part, dimensionless.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "re",
+        "im"
+      ]
+    },
+    "DsBandLevel": {
+      "description": "Receive power in one 6 MHz band of an OFDM channel.",
+      "type": "object",
+      "properties": {
+        "center_mhz": {
+          "description": "Centre of the band, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "level_dbmv": {
+          "description": "Level, dBmV per 6 MHz, computed from active subcarriers.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "center_mhz",
+        "level_dbmv"
+      ]
+    },
+    "DsChanEstRecord": {
+      "description": "Downstream channel estimate for one OFDM channel (§5.5).",
+      "type": "object",
+      "properties": {
+        "axis": {
+          "description": "Where `coefficients` lie in frequency.",
+          "$ref": "#/$defs/SubcarrierAxis"
+        },
+        "channel_id": {
+          "description": "The OFDM channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "coefficients": {
+          "description": "Per-subcarrier response, scaled to average power of about 1. An entry is `None`\nwhere the device has no value.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Complex"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "summary": {
+          "description": "Summary metrics.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ResponseSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "axis"
+      ]
+    },
+    "DsRxLevels": {
+      "description": "Downstream receive power on one channel.",
+      "oneOf": [
+        {
+          "description": "One value for the channel.",
+          "type": "object",
+          "properties": {
+            "ScQam": {
+              "type": "object",
+              "properties": {
+                "level_dbmv": {
+                  "description": "Level, dBmV per 6 MHz.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "level_dbmv"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "ScQam"
+          ]
+        },
+        {
+          "description": "One value per 6 MHz band, plus the PLC band.",
+          "type": "object",
+          "properties": {
+            "Ofdm": {
+              "type": "object",
+              "properties": {
+                "bands": {
+                  "description": "The 6 MHz bands.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/DsBandLevel"
+                  }
+                },
+                "plc_band_dbmv": {
+                  "description": "The PLC band, dBmV per 6 MHz.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "bands",
+                "plc_band_dbmv"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Ofdm"
+          ]
+        }
+      ]
+    },
+    "DsRxRecord": {
+      "description": "`ds_rx_dbmv` for one downstream channel. OFDM channels appear only where the capability\n`band_power_6mhz` allows.",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "ds_rx_dbmv": {
+          "description": "The levels.",
+          "$ref": "#/$defs/DsRxLevels"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "ds_rx_dbmv"
+      ]
+    },
+    "DsRxmerRecord": {
+      "description": "Downstream RxMER for one OFDM channel (§4.5, §5.5).",
+      "type": "object",
+      "properties": {
+        "axis": {
+          "description": "Where `rxmer_db` lies in frequency.",
+          "$ref": "#/$defs/SubcarrierAxis"
+        },
+        "channel_id": {
+          "description": "The OFDM channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "rxmer_db": {
+          "description": "RxMER per subcarrier, dB. An entry is `None` where the device has no value.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double"
+          }
+        },
+        "rxmer_mean_db": {
+          "description": "Mean over active subcarriers, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rxmer_p2_db": {
+          "description": "2nd-percentile value, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "rxmer_stddev_db": {
+          "description": "Population standard deviation over active subcarriers, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "axis"
+      ]
+    },
+    "ElementId": {
+      "description": "A plant element or power supply, such as `amp-1`.",
+      "type": "string"
+    },
+    "FbcRecord": {
+      "description": "One full-band capture. A bin level isn't per 6 MHz, so the record carries what's needed\nto convert it.",
+      "type": "object",
+      "properties": {
+        "bin_width_khz": {
+          "description": "Bin spacing, kHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "fbc_dbmv": {
+          "description": "Level per bin, dBmV in `noise_bandwidth_khz`.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "first_bin_center_mhz": {
+          "description": "Centre of the first bin, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "noise_bandwidth_khz": {
+          "description": "Equivalent noise bandwidth of one bin, kHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "profile_ref",
+        "first_bin_center_mhz",
+        "bin_width_khz",
+        "noise_bandwidth_khz",
+        "fbc_dbmv"
+      ]
+    },
+    "ModemGeneration": {
+      "description": "A modem's DOCSIS generation.",
+      "oneOf": [
+        {
+          "description": "DOCSIS 3.0: SC-QAM only.",
+          "type": "string",
+          "const": "D30"
+        },
+        {
+          "description": "DOCSIS 3.1.",
+          "type": "string",
+          "const": "D31"
+        }
+      ]
+    },
+    "NcpRecord": {
+      "description": "NCP counts for one OFDM channel, per interval (§4.6).",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The OFDM channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "crc_failures": {
+          "description": "Fields that failed their CRC.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "total": {
+          "description": "Fields received.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "total",
+        "crc_failures"
+      ]
+    },
+    "OfdmaPreeqRecord": {
+      "description": "OFDMA pre-eq for one upstream channel (§5.4, §5.5).",
+      "type": "object",
+      "properties": {
+        "axis": {
+          "description": "Where `coefficients` lie in frequency.",
+          "$ref": "#/$defs/SubcarrierAxis"
+        },
+        "channel_id": {
+          "description": "The upstream channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "coefficients": {
+          "description": "Per-subcarrier coefficients, normalized so mean(|c|²) = 1.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/Complex"
+          }
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "summary": {
+          "description": "Summary metrics.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ResponseSummary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "axis"
+      ]
+    },
+    "Origin": {
+      "description": "Whether a plant or observation is simulated or measured (invariant 11).",
+      "oneOf": [
+        {
+          "description": "Generated by this project; never to be presented as real.",
+          "type": "string",
+          "const": "Synthetic"
+        },
+        {
+          "description": "Measured on, or imported from, a real network.",
+          "type": "string",
+          "const": "Field"
+        }
+      ]
+    },
+    "PartialChannelRecord": {
+      "description": "`partial_channel` for one OFDM channel: what has failed while its pilots and preambles\nare fine (`docs/reference/mac-operations.md`).",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The OFDM channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "failed_data_profiles": {
+          "description": "Data profiles that have failed.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "maximum": 255,
+            "minimum": 0
+          }
+        },
+        "ncp_failed": {
+          "description": "The NCP has failed.",
+          "type": "boolean"
+        },
+        "plc_failed": {
+          "description": "The PLC has failed.",
+          "type": "boolean"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "failed_data_profiles",
+        "ncp_failed",
+        "plc_failed"
+      ]
+    },
+    "PlcRecord": {
+      "description": "PLC counts for one OFDM channel, per interval (§4.6).",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The OFDM channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "total": {
+          "description": "Codewords received.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "unreliable": {
+          "description": "Codewords that failed.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "total",
+        "unreliable"
+      ]
+    },
+    "Preeq": {
+      "description": "`preeq`: SC-QAM, OFDMA or both.",
+      "type": "object",
+      "properties": {
+        "ofdma": {
+          "description": "OFDMA channels, where the capability allows.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/OfdmaPreeqRecord"
+          }
+        },
+        "sc_qam": {
+          "description": "SC-QAM channels, where the capability allows.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/ScQamPreeqRecord"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProfileId": {
+      "description": "An architecture profile.",
+      "type": "string"
+    },
+    "RangingState": {
+      "description": "The state of ranging on a channel [CM-OSSI §F.2.3.2].",
+      "oneOf": [
+        {
+          "description": "Aborted by the CMTS.",
+          "type": "string",
+          "const": "Aborted"
+        },
+        {
+          "description": "Ran out of retries.",
+          "type": "string",
+          "const": "RetriesExceeded"
+        },
+        {
+          "description": "Succeeded.",
+          "type": "string",
+          "const": "Success"
+        },
+        {
+          "description": "Still adjusting.",
+          "type": "string",
+          "const": "Continue"
+        }
+      ]
+    },
+    "RangingStatusRecord": {
+      "description": "`ranging_status` for one upstream channel.",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The upstream channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "status": {
+          "description": "Its state.",
+          "$ref": "#/$defs/RangingState"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "status"
+      ]
+    },
+    "RegState": {
+      "description": "Registration state, as far as the §7.4 model moves through it. Names follow\n`CmRegState` [CM-OSSI §F.2.2].",
+      "oneOf": [
+        {
+          "description": "No downstream acquired.",
+          "type": "string",
+          "const": "NotSynchronized"
+        },
+        {
+          "description": "Downstream acquired.",
+          "type": "string",
+          "const": "PhySynchronized"
+        },
+        {
+          "description": "Ranging.",
+          "type": "string",
+          "const": "RangingInProgress"
+        },
+        {
+          "description": "Ranging done.",
+          "type": "string",
+          "const": "RangingComplete"
+        },
+        {
+          "description": "Registering.",
+          "type": "string",
+          "const": "RegistrationInProgress"
+        },
+        {
+          "description": "Registered and passing traffic.",
+          "type": "string",
+          "const": "Operational"
+        }
+      ]
+    },
+    "ResponseSummary": {
+      "description": "Summary metrics of a channel estimate or OFDMA pre-eq response (§5.5).",
+      "type": "object",
+      "properties": {
+        "gd_mean_ns": {
+          "description": "Mean group delay, ns.",
+          "type": "number",
+          "format": "double"
+        },
+        "gd_ripple_pp_ns": {
+          "description": "Peak-to-peak group delay ripple, ns.",
+          "type": "number",
+          "format": "double"
+        },
+        "gd_ripple_rms_ns": {
+          "description": "RMS group delay ripple, ns.",
+          "type": "number",
+          "format": "double"
+        },
+        "gd_slope_ns_per_mhz": {
+          "description": "Group delay slope, ns per MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "mag_mean_db": {
+          "description": "Mean magnitude, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "mag_ripple_pp_db": {
+          "description": "Peak-to-peak magnitude ripple, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "mag_ripple_rms_db": {
+          "description": "RMS magnitude ripple, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "mag_slope_db_per_mhz": {
+          "description": "Magnitude slope, dB per MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "mag_mean_db",
+        "mag_slope_db_per_mhz",
+        "mag_ripple_rms_db",
+        "mag_ripple_pp_db",
+        "gd_mean_ns",
+        "gd_slope_ns_per_mhz",
+        "gd_ripple_rms_ns",
+        "gd_ripple_pp_ns"
+      ]
+    },
+    "ScQamPreeqRecord": {
+      "description": "SC-QAM pre-eq for one upstream channel (§5.3).",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The upstream channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "main_tap_index": {
+          "description": "1-based position of the main tap.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "mtc_db": {
+          "description": "Main tap compression, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "mtr_db": {
+          "description": "Main tap ratio, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "nmter_db": {
+          "description": "Non-main tap to total energy ratio, dB.",
+          "type": "number",
+          "format": "double"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "taps": {
+          "description": "The 24 symbol-spaced taps.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Complex"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "taps",
+        "main_tap_index",
+        "mtc_db",
+        "mtr_db",
+        "nmter_db"
+      ]
+    },
+    "SubcarrierAxis": {
+      "description": "Locates a per-subcarrier array in frequency:\n`f = zero_freq_mhz + (first_active_index + i) · spacing_khz`.",
+      "type": "object",
+      "properties": {
+        "first_active_index": {
+          "description": "Index of the array's first entry.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "spacing_khz": {
+          "description": "Subcarrier spacing, kHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "zero_freq_mhz": {
+          "description": "Frequency of subcarrier index 0, MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "zero_freq_mhz",
+        "first_active_index",
+        "spacing_khz"
+      ]
+    },
+    "TimeoutRecord": {
+      "description": "A cumulative timeout count for one upstream channel [CM-OSSI §F.2.3.2].",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The upstream channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "count": {
+          "description": "Timeouts since the modem started counting.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "count"
+      ]
+    },
+    "Timestamp": {
+      "description": "Simulated time in seconds, passed in and never read from the system clock\n(invariant 4). t = 0 is midnight on the simulated day (§8).",
+      "type": "integer",
+      "format": "int64"
+    },
+    "UsRxRecord": {
+      "description": "`us_rx_dbmv_per_1p6mhz` for one upstream channel (§7.2).",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The upstream channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "us_rx_dbmv_per_1p6mhz": {
+          "description": "This modem as the CMTS receives it, dBmV per 1.6 MHz.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "us_rx_dbmv_per_1p6mhz"
+      ]
+    },
+    "UsRxmerRecord": {
+      "description": "Upstream RxMER for one modem on one OFDMA channel, measured at the CMTS (§7.3).",
+      "type": "object",
+      "properties": {
+        "axis": {
+          "description": "Where `us_rxmer_db` lies in frequency.",
+          "$ref": "#/$defs/SubcarrierAxis"
+        },
+        "channel_id": {
+          "description": "The OFDMA channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "us_rxmer_db": {
+          "description": "RxMER per subcarrier, dB. An entry is `None` where the device has no value.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double"
+          }
+        },
+        "us_rxmer_mean_db": {
+          "description": "Channel mean, dB.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "axis"
+      ]
+    },
+    "UsTxRecord": {
+      "description": "`us_tx` for one upstream channel (§7.2).",
+      "type": "object",
+      "properties": {
+        "channel_id": {
+          "description": "The upstream channel.",
+          "$ref": "#/$defs/ChannelId"
+        },
+        "profile_ref": {
+          "description": "The architecture profile in force.",
+          "$ref": "#/$defs/ProfileId"
+        },
+        "psd_dbmv_per_1p6mhz": {
+          "description": "Transmit power, dBmV per 1.6 MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "total_dbmv": {
+          "description": "Total channel power, dBmV, on SC-QAM only: a 3.1 modem's SC-QAM total-power object\nstays total.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel_id",
+        "profile_ref",
+        "psd_dbmv_per_1p6mhz"
+      ]
+    }
+  }
+}

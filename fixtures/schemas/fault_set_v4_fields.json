@@ -1,0 +1,36 @@
+{
+  "schema_version": "4",
+  "seed": 7,
+  "faults": [
+    {
+      "onset": "Instant",
+      "kind": {
+        "ConnectorReflection": {
+          "location": {
+            "Span": {
+              "span_id": "span-1",
+              "pos_ft": 50.0
+            }
+          },
+          "return_loss_db": 14.0,
+          "couplings": {
+            "temp_db_per_c": 0.2,
+            "wind_db_per_m_per_s": -0.8,
+            "ambient_coupling_db": 25.0
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "Misalignment": {
+          "active_id": "amp-1",
+          "pad_delta_db": 2.0,
+          "eq_delta_db": -4.0,
+          "return_pad_delta_db": 0.0
+        }
+      }
+    }
+  ]
+}

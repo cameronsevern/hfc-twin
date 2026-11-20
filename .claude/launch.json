@@ -1,0 +1,82 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "twin",
+      "runtimeExecutable": "cargo",
+      "runtimeArgs": [
+        "run",
+        "-q",
+        "--release",
+        "-p",
+        "mcp-server",
+        "--",
+        "--http",
+        "127.0.0.1:8484",
+        "--model",
+        "ml/artifacts/proposal_gbdt.json"
+      ],
+      "port": 8484
+    },
+    {
+      "name": "twin-as-built",
+      "runtimeExecutable": "cargo",
+      "runtimeArgs": [
+        "run",
+        "-q",
+        "--release",
+        "-p",
+        "mcp-server",
+        "--",
+        "--http",
+        "127.0.0.1:8485",
+        "--as-built",
+        "--model",
+        "ml/artifacts/proposal_gbdt.json",
+        "--model",
+        "ml/artifacts/as_built/gbdt_maps.json"
+      ],
+      "port": 8485
+    },
+    {
+      "name": "twin-dev",
+      "runtimeExecutable": "cargo",
+      "runtimeArgs": [
+        "run",
+        "-q",
+        "--release",
+        "-p",
+        "mcp-server",
+        "--",
+        "--http",
+        "127.0.0.1:8486",
+        "--as-built",
+        "--model",
+        "ml/artifacts/proposal_gbdt.json",
+        "--model",
+        "ml/artifacts/as_built/gbdt_maps.json"
+      ],
+      "port": 8486
+    },
+    {
+      "name": "twin-check",
+      "runtimeExecutable": "cargo",
+      "runtimeArgs": [
+        "run",
+        "-q",
+        "--release",
+        "-p",
+        "mcp-server",
+        "--",
+        "--http",
+        "127.0.0.1:8487",
+        "--as-built",
+        "--model",
+        "ml/artifacts/proposal_gbdt.json",
+        "--model",
+        "ml/artifacts/as_built/gbdt_maps.json"
+      ],
+      "port": 8487
+    }
+  ]
+}

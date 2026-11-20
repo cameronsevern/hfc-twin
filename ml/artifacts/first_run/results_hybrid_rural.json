@@ -1,0 +1,133 @@
+{
+ "origin": "Synthetic",
+ "families": {
+  "Rural": {
+   "floor": {
+    "rows": 300,
+    "placeable": 250,
+    "top1": 0.608,
+    "top3": 0.724,
+    "healthy_false_alarm": 0.21212121212121213,
+    "ece": 0.6366666666666667
+   },
+   "hybrid": {
+    "rows": 300,
+    "placeable": 250,
+    "top1": 0.616,
+    "top3": 0.744,
+    "healthy_false_alarm": 0.0,
+    "ece": 0.26982511642812124
+   },
+   "floor_sims": 83.91,
+   "hybrid_sims": 41.85,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 27,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 19,
+     "top3": 0.7894736842105263
+    },
+    "CinLinkCut": {
+     "n": 16,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 23,
+     "top3": 0.7391304347826086
+    },
+    "DownstreamIngress": {
+     "n": 27,
+     "top3": 0.4074074074074074
+    },
+    "FrequencySelectiveLoss": {
+     "n": 31,
+     "top3": 0.6774193548387096
+    },
+    "GcpLoss": {
+     "n": 4,
+     "top3": 0.0
+    },
+    "PowerSupplySag": {
+     "n": 31,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 7,
+     "top3": 0.7142857142857143
+    },
+    "RpdFailure": {
+     "n": 9,
+     "top3": 0.6666666666666666
+    },
+    "Suckout": {
+     "n": 25,
+     "top3": 0.8
+    },
+    "TimingLoss": {
+     "n": 7,
+     "top3": 0.0
+    },
+    "WaterIngress": {
+     "n": 24,
+     "top3": 0.5
+    }
+   },
+   "hybrid_by_class": {
+    "AmpDrift": {
+     "n": 27,
+     "top3": 0.9629629629629629
+    },
+    "BadDrop": {
+     "n": 19,
+     "top3": 0.7894736842105263
+    },
+    "CinLinkCut": {
+     "n": 16,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 23,
+     "top3": 0.7391304347826086
+    },
+    "DownstreamIngress": {
+     "n": 27,
+     "top3": 0.6666666666666666
+    },
+    "FrequencySelectiveLoss": {
+     "n": 31,
+     "top3": 0.6774193548387096
+    },
+    "GcpLoss": {
+     "n": 4,
+     "top3": 0.0
+    },
+    "PowerSupplySag": {
+     "n": 31,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 7,
+     "top3": 0.7142857142857143
+    },
+    "RpdFailure": {
+     "n": 9,
+     "top3": 0.6666666666666666
+    },
+    "Suckout": {
+     "n": 25,
+     "top3": 0.76
+    },
+    "TimingLoss": {
+     "n": 7,
+     "top3": 0.0
+    },
+    "WaterIngress": {
+     "n": 24,
+     "top3": 0.5
+    }
+   }
+  }
+ }
+}

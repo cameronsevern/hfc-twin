@@ -1,0 +1,610 @@
+{
+  "schema_version": "2",
+  "service_group": "sg-1",
+  "profile_ref": "sample-profile",
+  "origin": "Synthetic",
+  "elements": [
+    {
+      "id": "rpd",
+      "kind": {
+        "Rpd": {
+          "return_atten_db": 0.0
+        }
+      },
+      "component_ref": "rpd",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built",
+      "fitted": {
+        "Active": {
+          "transceivers": [
+            "sfp-lr"
+          ]
+        }
+      },
+      "structure": "pole-1"
+    },
+    {
+      "id": "inserter",
+      "kind": "PowerInserter",
+      "component_ref": "inserter",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "amp",
+      "kind": {
+        "Amp": {
+          "return_atten_db": 6.0
+        }
+      },
+      "component_ref": "amp",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built",
+      "fitted": {
+        "Active": {
+          "input_pad": "pad-6",
+          "input_eq": "eq-10",
+          "outputs": [
+            {
+              "port": "out",
+              "pad": "pad-6",
+              "eq": "eq-10"
+            }
+          ],
+          "return_pad": "pad-6",
+          "return_eq": "eq-10",
+          "set_point": {
+            "out_dbmv_at_hi": 52.0,
+            "tilt_db": 12.0
+          },
+          "forward_rx": "forward-rx",
+          "return_tx": "forward-tx"
+        }
+      }
+    },
+    {
+      "id": "splitter",
+      "kind": "Splitter",
+      "component_ref": "splitter",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "leg-1",
+          "role": "Leg"
+        },
+        {
+          "id": "leg-2",
+          "role": "Leg"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "coupler",
+      "kind": "DirectionalCoupler",
+      "component_ref": "coupler",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "coupled",
+          "role": "Coupled"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "tap",
+      "kind": "Tap",
+      "component_ref": "tap",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "through",
+          "role": "Through"
+        },
+        {
+          "id": "tap-1",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-2",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-3",
+          "role": "TapPort"
+        },
+        {
+          "id": "tap-4",
+          "role": "TapPort"
+        }
+      ],
+      "record_status": "Built",
+      "fitted": {
+        "Passive": {
+          "conditioner": "eq-10",
+          "ports": [
+            {
+              "port": "tap-2",
+              "state": {
+                "Terminated": {
+                  "component_ref": "terminator"
+                }
+              }
+            },
+            {
+              "port": "tap-3",
+              "state": "Open"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "terminator",
+      "kind": "Terminator",
+      "component_ref": "terminator",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "modem",
+      "kind": "Modem",
+      "component_ref": "modem",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "ground-block",
+      "kind": "GroundBlock",
+      "component_ref": "ground-block",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Through"
+        }
+      ],
+      "record_status": "Built",
+      "fitted": {
+        "GroundBlock": {
+          "coupling_db": 30.0
+        }
+      }
+    },
+    {
+      "id": "line-eq",
+      "kind": "LineEqualizer",
+      "component_ref": "line-eq",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Through"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "drop-amp",
+      "kind": "DropAmp",
+      "component_ref": "drop-amp",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out-1",
+          "role": "Output"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "filter",
+      "kind": "Filter",
+      "component_ref": "filter",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "in",
+          "role": "Input"
+        },
+        {
+          "id": "out",
+          "role": "Through"
+        }
+      ],
+      "record_status": "Built"
+    },
+    {
+      "id": "set-top",
+      "kind": "Cpe",
+      "component_ref": "set-top",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "ports": [
+        {
+          "id": "rf",
+          "role": "Input"
+        }
+      ],
+      "record_status": "Built"
+    }
+  ],
+  "edges": [
+    {
+      "id": "span-1",
+      "from": {
+        "element_id": "rpd",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "inserter",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable-500",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true,
+          "fittings": [
+            {
+              "pos_ft": 0.0,
+              "component_ref": "pin"
+            },
+            {
+              "pos_ft": 100.0,
+              "component_ref": "pin"
+            }
+          ],
+          "support": "strand",
+          "path": [
+            {
+              "geo": {
+                "lon_deg": -105.1,
+                "lat_deg": 39.9
+              },
+              "structure": "pole-1"
+            }
+          ]
+        }
+      },
+      "record_status": "Designed"
+    },
+    {
+      "id": "span-2",
+      "from": {
+        "element_id": "inserter",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "amp",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Underground",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-3",
+      "from": {
+        "element_id": "amp",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "splitter",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-4",
+      "from": {
+        "element_id": "splitter",
+        "port": "leg-1"
+      },
+      "to": {
+        "element_id": "coupler",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "span-5",
+      "from": {
+        "element_id": "coupler",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "tap",
+        "port": "in"
+      },
+      "kind": {
+        "Span": {
+          "cable_ref": "cable",
+          "len_ft": 100.0,
+          "installation": "Aerial",
+          "power_passing": true
+        }
+      }
+    },
+    {
+      "id": "direct-1",
+      "from": {
+        "element_id": "tap",
+        "port": "through"
+      },
+      "to": {
+        "element_id": "terminator",
+        "port": "in"
+      },
+      "kind": "Direct"
+    },
+    {
+      "id": "drop-1",
+      "from": {
+        "element_id": "tap",
+        "port": "tap-1"
+      },
+      "to": {
+        "element_id": "modem",
+        "port": "rf"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop",
+          "len_ft": 80.0
+        }
+      }
+    },
+    {
+      "id": "drop-2",
+      "from": {
+        "element_id": "tap",
+        "port": "tap-4"
+      },
+      "to": {
+        "element_id": "ground-block",
+        "port": "in"
+      },
+      "kind": {
+        "Drop": {
+          "cable_ref": "drop",
+          "len_ft": 120.0,
+          "fittings": [
+            {
+              "pos_ft": 120.0,
+              "component_ref": "f-connector"
+            }
+          ],
+          "path": [
+            {
+              "geo": {
+                "lon_deg": -105.1,
+                "lat_deg": 39.9
+              },
+              "structure": "pole-1"
+            }
+          ],
+          "installation": "Underground"
+        }
+      }
+    },
+    {
+      "id": "house-1",
+      "from": {
+        "element_id": "ground-block",
+        "port": "out"
+      },
+      "to": {
+        "element_id": "set-top",
+        "port": "rf"
+      },
+      "kind": {
+        "House": {
+          "cable_ref": "drop",
+          "len_ft": 30.0,
+          "fittings": [
+            {
+              "pos_ft": 0.0,
+              "component_ref": "pin"
+            },
+            {
+              "pos_ft": 100.0,
+              "component_ref": "pin"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "power_supplies": [
+    {
+      "id": "power-supply",
+      "component_ref": "power-supply",
+      "feeds": "rpd",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "batteries": {
+        "component_ref": "battery",
+        "per_string": 3,
+        "strings": 1
+      },
+      "structure": "cabinet-1",
+      "record_status": "Built"
+    }
+  ],
+  "modem_bindings": [
+    {
+      "element_id": "modem",
+      "pseudonym": "3f2a9c"
+    }
+  ],
+  "structures": [
+    {
+      "id": "pole-1",
+      "kind": "Pole",
+      "component_ref": "pole-1",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    },
+    {
+      "id": "pedestal-1",
+      "kind": "Pedestal",
+      "component_ref": "pedestal-1",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    },
+    {
+      "id": "vault-1",
+      "kind": "Vault",
+      "component_ref": "vault-1",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    },
+    {
+      "id": "cabinet-1",
+      "kind": "Cabinet",
+      "component_ref": "cabinet-1",
+      "geo": {
+        "lon_deg": -105.1,
+        "lat_deg": 39.9
+      },
+      "record_status": "Built"
+    }
+  ]
+}

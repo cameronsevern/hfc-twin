@@ -1,0 +1,2145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>HFC Twin</title>
+<!-- Served by the twin's own server, so the page loads with no CDN in reach (ui/vendor/README.md). -->
+<link href="/vendor/maplibre-gl.css" rel="stylesheet">
+<link href="/operate.css" rel="stylesheet">
+<script src="/vendor/maplibre-gl.js"></script>
+<style>
+  :root { color-scheme: light; --bg:#eef1f3; --panel:#fff; --ink:#1b2126; --muted:#5e6b76; --line:#d9dee3; --ok:#1f8a4c; --bad:#c62f2f; --warn:#b26a00; --accent:#1d5fbf; --on-accent:#fff; --plan:#7a4fc0; --ground:#e4e8eb; --banner:#8f5600; --on-banner:#fff; --fiber:#111820; --info:#e8f0fb; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; --bg:#14181c; --panel:#1c2228; --ink:#e7ebee; --muted:#9aa6b0; --line:#2d353d; --ok:#45b873; --bad:#e45c5c; --warn:#d99a3c; --accent:#6ea4ee; --on-accent:#0b1726; --plan:#a98ae6; --ground:#171c21; --banner:#d99a3c; --on-banner:#1d1405; --fiber:#e7ebee; --info:#1d2a3a; } }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { font: 14px/1.4 system-ui, sans-serif; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; }
+  .opsClock { font-size: 22px; font-weight: 600; margin: 10px 0 4px; font-variant-numeric: tabular-nums; }
+  .opsFeed { padding-left: 18px; max-height: 280px; overflow: auto; font-size: 12.5px; }
+  .opsFeed li { margin: 2px 0; }
+  .opsFeed .truth { color: var(--bad); }
+  .opsActs button { margin: 2px 4px 2px 0; }
+  #oScore td:nth-child(n+2) { text-align: right; font-variant-numeric: tabular-nums; }
+  /* Task 29: one app, laid out like the operations screen. The top bar, a tool strip, the map as the stage, a side panel. */
+  .appBar { flex: none; display: flex; gap: 10px; align-items: center; padding: 6px 10px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .appBar h1 { font-size: 15px; margin: 0 2px 0 0; white-space: nowrap; }
+  .appBar .gRun:empty { display: none; }
+  .appBar .gRun { max-width: 300px; }
+  .modes button { padding: 5px 11px; }
+  .modes [role=tab][aria-selected=true] { background: var(--accent); color: var(--on-accent); }
+  .nodePick { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .nodePick select { width: auto; max-width: 340px; margin: 0; }
+  .nodePick input[type=search] { width: 140px; margin: 0; }
+  .opsBar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  #errMsg { flex-basis: 100%; }
+  #errMsg:empty { display: none; }
+  main { flex: 1; display: grid; grid-template-columns: auto 1fr 400px; grid-template-areas: "tools stage side"; min-height: 0; }
+  main > .gTools { grid-area: tools; width: 84px; }
+  main > .view, main > .gStage { grid-area: stage; }
+  aside#side { grid-area: side; background: var(--panel); border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+  .tab { display: none; overflow: auto; padding: 10px 14px 20px; flex: 1; }
+  .tab.on { display: block; }
+  .view { display: grid; grid-template-rows: 1fr auto; min-height: 0; position: relative; }
+  #map { min-height: 280px; background: var(--ground); }
+  #mapNotice { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; padding: 24px; text-align: center; color: var(--muted); }
+  #mapNotice.on { display: flex; }
+  #plotWrap { background: var(--panel); border-top: 1px solid var(--line); padding: 6px 12px; display: none; }
+  #plotWrap.on { display: block; }
+  .plotHead { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  #plot { width: 100%; height: 170px; display: block; }
+  .layers { position: absolute; top: 8px; left: 8px; background: var(--hud); border: 1px solid var(--hud-line); border-radius: 8px; padding: 6px 10px; font-size: 12px; z-index: 2; max-width: 300px; margin: 0; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+  /* What each mode shows. Operate's stage, strip and ticker are its own; Design has the build strip; the rest give the map the width. */
+  body:not([data-mode=ops]) .opsOnly { display: none !important; }
+  body[data-mode=ops] #view, body[data-mode=ops] #nodePick, body[data-mode=ops] #bannerGeo { display: none !important; }
+  body:not([data-mode=design]) #dTools { display: none; }
+  body:not([data-mode=design]):not([data-mode=ops]) main { grid-template-columns: 0 1fr 400px; }
+  body[data-mode=ops] main { grid-template-columns: auto 1fr 330px; }
+  /* Design's steps. The current one is open with one primary button; a done one is a line; one not yet reachable says what it waits for. */
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .step { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+  .step[data-state=current] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  .step[data-state=wait] { opacity: .7; }
+  .stepHead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .stepHead .num { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 2px solid var(--line); color: var(--muted); flex: none; }
+  .step[data-state=current] .num { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .step[data-state=done] .num { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .step[data-state=done] .num::before { content: '✓'; }
+  .step[data-state=done] .num { font-size: 0; }
+  .step[data-state=done] .num::before { font-size: 12px; }
+  h2.stepTitle { margin: 0; font-size: 14px; text-transform: none; letter-spacing: 0; color: var(--ink); }
+  .stepSum { flex-basis: 100%; padding-left: 30px; color: var(--muted); font-size: 12px; }
+  .stepSum:empty { display: none; }
+  .stepHead .mini { margin-left: auto; }
+  .stepHead .mini[hidden] { display: none; }
+  .stepBody { margin-top: 6px; }
+  .step:not(.open) .stepBody { display: none; }
+  .why { color: var(--muted); font-size: 12px; margin-top: 3px; }
+  .why:empty { display: none; }
+  .nodeCard { margin-top: 14px; }
+  .intro { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; }
+  .intro[hidden] { display: none; }
+  .intro .box { background: var(--panel); border-radius: 12px; padding: 18px 22px; width: min(480px, 92vw); box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+  .intro h2 { font-size: 17px; text-transform: none; letter-spacing: 0; color: var(--ink); margin: 0 0 8px; }
+  .intro p { margin: 0 0 6px; }
+  .intro button { width: auto; padding: 6px 18px; }
+  .nodeCard > summary { font-size: 13px; text-transform: none; letter-spacing: 0; color: var(--ink); font-weight: 600; }
+  /* Operate's panel. */
+  #tab-ops .gScore { border-left: 0; padding: 0; overflow: visible; margin-top: 10px; }
+  .opsShow { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .opsBtns { display: flex; gap: 6px; }
+  .opsBtns button, .opsShow .gSeg button { width: auto; margin: 0; }
+  #oSetup { margin-top: 12px; }
+  #oSetup > summary { font-size: 13px; text-transform: none; letter-spacing: 0; color: var(--ink); font-weight: 600; }
+  @media (max-width: 760px) {
+    main, body:not([data-mode=design]):not([data-mode=ops]) main, body[data-mode=ops] main { grid-template-columns: 1fr; grid-template-rows: auto 55vh 1fr; grid-template-areas: "tools" "stage" "side"; }
+    main > .gTools { width: auto; }
+    aside#side { border-left: 0; border-top: 1px solid var(--line); }
+    .two { grid-template-columns: 1fr; }
+    .nodePick input[type=search] { width: 110px; }
+  }
+  .layers summary { font-size: 12px; }
+  .layers label { display: flex; align-items: center; gap: 6px; margin: 2px 0; color: var(--ink); }
+  .layers input { width: auto; margin: 0; }
+  .legend { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 4px; color: var(--ink); }
+  .legend div { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .ln { display: inline-block; width: 18px; height: 0; border-top: 3px solid var(--accent); flex: none; }
+  .ln.dash { border-top: 2px dashed var(--fiber); }
+  .ln.fault { border-top: 3px dashed var(--bad); }
+  .ring { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bad); flex: none; }
+  h2 { font-size: 12px; margin: 14px 0 4px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  h2:first-child { margin-top: 2px; }
+  h2.section { font-size: 13px; color: var(--ink); border-top: 2px solid var(--line); padding-top: 10px; margin-top: 18px; }
+  h2.section:first-child { border-top: 0; padding-top: 0; margin-top: 2px; }
+  label { display: block; margin: 6px 0 2px; color: var(--muted); font-size: 12px; }
+  label.inline { display: flex; gap: 6px; align-items: center; margin: 0; white-space: nowrap; }
+  label.inline input { width: auto; margin: 0; }
+  select, input, button { width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink); font: inherit; }
+  input[aria-invalid=true] { border-color: var(--bad); outline: 1px solid var(--bad); }
+  .fielderr { color: var(--bad); font-size: 12px; }
+  button { cursor: pointer; background: var(--accent); color: var(--on-accent); border-color: var(--accent); margin-top: 8px; font-weight: 600; }
+  button.quiet { background: transparent; color: var(--ink); border-color: var(--line); font-weight: 400; }
+  button.danger { background: transparent; color: var(--bad); border-color: var(--bad); font-weight: 600; }
+  button:disabled, button:disabled.quiet { background: var(--bg); color: var(--muted); border-color: var(--line); border-style: dashed; cursor: not-allowed; font-weight: 500; }
+  button.working::after { content: ''; display: inline-block; width: 10px; height: 10px; margin-left: 8px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -1px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: start; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 2px 4px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; }
+  th:first-child, td:first-child { text-align: left; overflow-wrap: anywhere; }
+  #modems td:first-child, #pvo td:first-child { white-space: nowrap; }
+  tr.grp th { text-align: left; color: var(--ink); font-weight: 600; background: var(--bg); padding-top: 4px; }
+  tr.pick { cursor: pointer; }
+  tr.pick:hover td, tr.pick:focus td { background: var(--bg); }
+  tr.sel td { background: var(--bg); font-weight: 600; }
+  .st { display: inline-block; width: 12px; margin-right: 4px; text-align: center; font-size: 10px; line-height: 1; }
+  .st-ok { color: var(--ok); } .st-affected { color: var(--warn); } .st-down { color: var(--bad); }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin-top: 8px; overflow-wrap: anywhere; }
+  .card.warnbox { border-color: var(--warn); }
+  .card.lockbox { border-color: var(--warn); background: var(--bg); }
+  .lead { font-size: 15px; margin: 4px 0; }
+  .muted { color: var(--muted); font-size: 12px; }
+  .bad { color: var(--bad); }
+  .good { color: var(--ok); }
+  .warn { color: var(--warn); }
+  .bar { height: 4px; background: var(--accent); border-radius: 2px; margin-top: 4px; }
+  .tag { display: inline-block; padding: 0 6px; border-radius: 9px; font-size: 11px; border: 1px solid var(--line); color: var(--muted); font-weight: 400; }
+  .msg { display: flex; gap: 8px; align-items: flex-start; justify-content: space-between; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; margin-top: 6px; font-size: 12px; }
+  .msg.bad { border-color: var(--bad); color: var(--bad); }
+  .msg.ok { border-color: var(--ok); }
+  .msg.info { background: var(--info); }
+  .msg .acts { display: flex; gap: 6px; flex: none; }
+  .msg button { width: auto; margin: 0; padding: 2px 8px; font-size: 12px; }
+  .msg button.x { background: transparent; border: 0; color: inherit; padding: 0 4px; font-size: 14px; }
+  details { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 8px; }
+  details.plain { border-top: 0; padding-top: 0; margin-top: 6px; }
+  summary { cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .find { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+  .find button { margin: 0; width: auto; }
+  .hits button { text-align: left; margin-top: 4px; }
+  .mini { width: auto; margin: 0; padding: 0 6px; font-size: 11px; font-weight: 400; background: transparent; color: var(--ink); border-color: var(--line); }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .site { width: 24px; height: 24px; border-radius: 50%; background: var(--plan); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; cursor: grab; box-shadow: 0 1px 3px rgba(0,0,0,.5); }
+  .site.pinned { border-color: var(--warn); border-width: 3px; }
+  .site.sel { outline: 3px solid var(--accent); }
+  .site.locked { cursor: pointer; }
+  .headend { width: 28px; height: 28px; border-radius: 6px; background: var(--warn); color: #1d1405; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; cursor: grab; box-shadow: 0 1px 3px rgba(0,0,0,.5); }
+  .maplibregl-popup-content { background: var(--panel); color: var(--ink); font-size: 12px; }
+  .maplibregl-popup-content td:first-child { white-space: nowrap; vertical-align: top; padding-right: 8px; color: var(--muted); }
+  .maplibregl-popup-content td:last-child { overflow-wrap: anywhere; }
+  .maplibregl-popup-tip { border-top-color: var(--panel) !important; border-bottom-color: var(--panel) !important; }
+</style>
+</head>
+<body data-mode="design">
+<header class="appBar" id="bar">
+  <h1>HFC Twin</h1>
+  <div class="gStack"><span class="gRun" id="bannerGeo"></span><span class="gRun opsOnly" id="gRun"></span></div>
+  <div role="tablist" aria-label="Modes" id="tabs" class="gSeg modes">
+    <button role="tab" id="t-design" aria-controls="tab-design" aria-selected="true" data-tab="design">Design</button>
+    <button role="tab" id="t-monitor" aria-controls="tab-monitor" aria-selected="false" tabindex="-1" data-tab="monitor">Monitor</button>
+    <button role="tab" id="t-bench" aria-controls="tab-bench" aria-selected="false" tabindex="-1" data-tab="bench">Workbench</button>
+    <button role="tab" id="t-diag" aria-controls="tab-diag" aria-selected="false" tabindex="-1" data-tab="diag">Diagnose</button>
+    <button role="tab" id="t-migrate" aria-controls="tab-migrate" aria-selected="false" tabindex="-1" data-tab="migrate">Migrate</button>
+    <button role="tab" id="t-ops" aria-controls="tab-ops" aria-selected="false" tabindex="-1" data-tab="ops">Operate</button>
+  </div>
+  <div class="nodePick" id="nodePick">
+    <input id="sgFind" type="search" aria-label="Filter the node list" placeholder="Find a node">
+    <select id="sg" aria-label="Node"></select>
+    <span class="muted" id="sgInfo"></span>
+  </div>
+  <div class="opsBar opsOnly" id="opsBar">
+    <div class="gStack"><div class="gClock"><svg class="gSun" id="gSun" viewBox="0 0 24 24" aria-hidden="true"></svg><span id="gClock" role="timer" aria-live="off">Mon 06:00</span></div><span class="gPace" id="gPace" role="status"></span></div>
+    <div class="gSeg" role="group" aria-label="Speed" id="gSpeed">
+      <button data-speed="0" aria-label="Pause (Space)" title="Pause (Space)">❚❚</button>
+      <button data-speed="1" aria-label="1 world minute a second (key 1)" title="1 world minute a second (1)">▶</button>
+      <button data-speed="5" aria-label="5 world minutes a second (key 2)" title="5 world minutes a second (2)">▶▶</button>
+      <button data-speed="15" aria-label="15 world minutes a second (key 3)" title="15 world minutes a second (3)">▶▶▶</button>
+      <button data-speed="max" aria-label="As fast as the sim goes (key 4)" title="As fast as the sim goes (4)">Max</button>
+    </div>
+    <button class="gBtn gWatch" id="gWatch" aria-pressed="true" title="Slow the clock while a truck is on the road, so the drive can be watched. Off, drives in a small town last a moment.">Watch drives</button>
+    <span class="gWeather" id="gWeather"></span>
+  </div>
+  <div id="errMsg"></div>
+</header>
+<main id="app">
+  <div class="gTools" id="dTools" role="toolbar" aria-label="Design" aria-orientation="vertical"><h2>Build</h2>
+    <button class="gTool" id="tFind"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="14" r="8"/><path d="M20 20l7 7"/></svg><span>Find a place</span></button>
+    <button class="gTool" id="tView"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10V5h5M22 5h5v5M27 22v5h-5M10 27H5v-5"/><path d="M16 9v12M11 16l5 5 5-5"/></svg><span>Import this view</span></button>
+    <button class="gTool" id="tDraw"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="22" height="18" rx="1" stroke-dasharray="3 3"/></svg><span>Draw an area</span></button>
+    <button class="gTool" id="tTown"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 27V15l7-6 7 6v12zM18 27v-8l5-4 5 4v8"/></svg><span>Generate a town</span></button>
+    <button class="gTool" id="tDesign"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="16" r="3"/><circle cx="25" cy="8" r="3"/><circle cx="25" cy="24" r="3"/><path d="M10 16h6l6-6M16 16l6 6"/></svg><span>Design</span></button>
+    <button class="gTool" id="tAdd"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="9"/><path d="M16 11v10M11 16h10"/></svg><span>Add a node</span></button>
+    <button class="gTool" id="tRun"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 7l15 9-15 9z"/></svg><span>Run it</span></button>
+  </div>
+  <div class="gTools opsOnly" role="toolbar" aria-label="Make something happen" aria-orientation="vertical" id="gTools"><h2>Disasters</h2></div>
+<div class="view" id="view">
+  <details class="layers" id="layers" open>
+    <summary>Layers and legend</summary>
+    <label><input type="checkbox" id="lMap" checked> Map: streets, homes, every node, fiber</label>
+    <label><input type="checkbox" id="lDesign" checked> Design: plant, by record status</label>
+    <label><input type="checkbox" id="lFault" checked> Faults and work orders</label>
+    <label><input type="checkbox" id="lTelemetry" checked> Telemetry: modem status</label>
+    <details class="plain" id="legendBox"><summary>Legend</summary>
+    <div class="legend">
+      <div><span class="sw" style="background:var(--plan)"></span>Designed node, amp or passive</div>
+      <div><span class="sw" style="background:var(--accent)"></span>Built or imported</div>
+      <div><span class="sw" style="background:var(--warn)"></span>Power supply</div>
+      <div><span class="sw" style="background:var(--ok)"></span><span class="sw" style="background:var(--warn)"></span><span class="sw" style="background:var(--bad)"></span>Modem: normal, affected, down</div>
+      <div><span class="ln"></span>Span (drops are thin grey)</div>
+      <div><span class="ln dash"></span>Fiber from the headend</div>
+      <div><span class="ln fault"></span>Injected fault</div>
+      <div><span class="ring"></span>Workbench target</div>
+      <div><b>3</b>&nbsp;Node on this map, <b>H</b>&nbsp;headend (Design)</div>
+      <div class="muted">Click anything to see what it is.</div>
+    </div>
+    </details>
+  </details>
+  <div id="map"></div>
+  <div id="mapNotice" role="status"></div>
+  <div id="plotWrap">
+    <div class="plotHead"><div class="muted" id="plotTitle"></div><button class="mini" id="plotClose" aria-label="Close the plot">Close</button></div>
+    <canvas id="plot" role="img"></canvas>
+  </div>
+</div>
+  <div class="gStage opsOnly" id="gStage">
+    <div class="gPane" id="gPane-reactive" data-world="reactive"><div class="gMap" id="gMap-reactive"></div><div class="gSky"></div><div class="gRain"></div><div class="gTag"><span class="sw" style="background:var(--s1)"></span>From calls only <span class="n"></span></div></div>
+    <div class="gPane" id="gPane-twin" data-world="twin"><div class="gMap" id="gMap-twin"></div><div class="gSky"></div><div class="gRain"></div><div class="gTag"><span class="sw" style="background:var(--s2)"></span>With the twin <span class="n"></span></div></div>
+    <div class="gNotice" id="gNotice" hidden></div>
+    <div class="gHint" id="gHint" hidden role="status"></div>
+    <details class="gKey" id="gKey"><summary>Map key</summary>
+      <div><span class="dot" style="background:var(--muted)"></span>Home, working</div>
+      <div><span class="dot" style="background:var(--warn)"></span>Home, slow</div>
+      <div><span class="dot" style="background:var(--bad)"></span>Home, out</div>
+      <div><span class="dot" style="background:#5d6670"></span>Home, no house power</div>
+      <div><span class="dot" style="background:var(--crew-service)"></span>Service tech</div>
+      <div><span class="dot" style="background:var(--crew-line)"></span>Line crew</div>
+      <div><span class="dot" style="background:var(--crew-splicer)"></span>Splicers</div>
+      <div><span class="dot" style="background:var(--warn);border-radius:2px"></span>The hub</div>
+      <div>Pins are jobs; rings are calls; ◆ is a trouble, in the audience view.</div>
+    </details>
+    <div class="gCard" id="gInspect" hidden role="region" aria-label="Inspector"></div>
+    <div class="gDrawer" id="gBoard" hidden role="region" aria-label="Call centre and dispatch board"></div>
+    <div class="gDrawer" id="gSources" hidden role="region" aria-label="Where the numbers come from"></div>
+    <div class="gModal" id="gDay" hidden></div>
+  </div>
+<aside id="side">
+  <section class="tab on" id="tab-design" role="tabpanel" aria-labelledby="t-design">
+    <ol class="steps" aria-label="From a place to a running town">
+    <li class="step" id="step1">
+      <div class="stepHead"><span class="num" aria-hidden="true">1</span><h2 class="stepTitle">Pick a place</h2><span class="stepSum" id="s1Sum"></span><button class="mini" id="s1Open" aria-expanded="false" aria-controls="s1Body">Change</button></div>
+      <div class="stepBody" id="s1Body">
+        <div class="muted">Any town, from OpenStreetMap's streets and buildings.</div>
+        <div class="find" style="margin-top:6px">
+          <input id="pPlace" aria-label="Find a place" placeholder="A town or a street address">
+          <button id="pFind" class="quiet">Find</button>
+        </div>
+        <div id="pHits" class="hits"></div>
+        <div id="pFindMsg"></div>
+        <div id="pArea" class="muted"></div>
+        <button id="pView">Import this view</button>
+        <div class="why" id="pViewWhy"></div>
+        <div class="row" style="align-items:end">
+          <button id="pDraw" class="quiet" style="margin:0">Or draw an area</button>
+          <div><label for="pInstall">Cable runs</label><select id="pInstall"><option>Aerial</option><option>Underground</option></select></div>
+        </div>
+        <button id="pImport" style="display:none">Import this area</button>
+        <div id="pImportMsg"></div>
+        <label for="pMap">Or a map already here</label>
+        <select id="pMap"></select>
+        <details id="genBox">
+          <summary>Or generate a town</summary>
+          <div class="muted" style="margin-top:6px">Generated streets and homes, not a real place, designed straight away with step 2's settings.</div>
+          <div class="row">
+            <div><label for="dFamily">Layout</label><select id="dFamily"><option value="UrbanGrid">Urban grid</option><option value="Suburban">Suburban</option><option value="Rural">Rural</option></select></div>
+            <div><label for="dHomes">About how many homes</label><input id="dHomes" type="number" value="1600" min="10" max="20000" step="100"></div>
+          </div>
+          <button id="dGo" class="quiet">Generate and design</button>
+          <div id="genMsg"></div>
+        </details>
+      </div>
+    </li>
+    <li class="step" id="step2">
+      <div class="stepHead"><span class="num" aria-hidden="true">2</span><h2 class="stepTitle">Design the network</h2><span class="stepSum" id="s2Sum"></span><button class="mini" id="s2Open" aria-expanded="false" aria-controls="s2Body">Open</button></div>
+      <div class="stepBody" id="s2Body">
+        <div id="pInfo"></div>
+        <div id="pLock"></div>
+        <button id="pDesign">Design this map</button>
+        <div class="why" id="pDesignWhy"></div>
+        <details id="dSettings">
+          <summary>Settings: <span id="dSettingsSum"></span></summary>
+          <label for="dProfile">Profile</label><select id="dProfile"></select>
+          <label for="dRules" title="With rules, the version 2 designer: structures, express and feeder, taps to a port level, homes, powering, a fiber plant and a cost">Design rules</label>
+          <select id="dRules"><option value="">None: the version 1 designer</option></select>
+          <div id="dModeBox" style="display:none">
+            <label class="inline" title="Coax costs more than the rules' ceiling per home in sparse places. On, those homes are built anyway and marked over the ceiling with their cost; off, they're left out and said so"><input id="dOverCeiling" type="checkbox" checked> Build homes over the cost ceiling</label>
+            <label for="dMode">Mode</label>
+            <select id="dMode"><option value="Greenfield">New build to this profile</option><option value="LegacyThenUpgrade">Legacy build, then upgraded in place</option></select>
+            <div id="dLegacyBox" class="row" style="display:none">
+              <div><label for="dLegacyRules">Legacy rules</label><select id="dLegacyRules"></select></div>
+              <div><label for="dLegacyProfile">Legacy profile</label><select id="dLegacyProfile"></select></div>
+            </div>
+          </div>
+          <div class="row">
+            <div><label for="dPerNode">Homes per node</label><input id="dPerNode" type="number" value="120" min="10" step="10"></div>
+            <div><label for="dTake" title="Share of homes with a modem, 0 to 1">Take rate, 0 to 1</label><input id="dTake" type="number" value="0.6" min="0.05" max="1" step="0.05"></div>
+          </div>
+          <label for="dSeed">Seed</label><input id="dSeed" type="number" value="1" min="0" step="1">
+        </details>
+        <div id="pDesignMsg"></div>
+        <div id="dResult"></div>
+        <div id="dCost"></div>
+        <div id="pOnMap" style="display:none">
+          <div class="muted" style="margin-top:8px">Drag a numbered node to pin it there, and the rest re-solve around it. With the keyboard, focus a node, move it with the arrow keys and press Enter. Node numbers can change when the map re-solves. Drag <b>H</b> to move the headend. That moves the fiber route only, because the sim has no optical budget, so the RF design doesn't change.</div>
+          <div class="row">
+            <button id="pAdd" class="quiet">Add a node on the map</button>
+            <button id="pClear" class="quiet">Clear pins</button>
+          </div>
+          <table id="pNodes" style="margin-top:8px"><thead><tr><th>Node</th><th>Homes</th><th>Amps</th><th>Hardline, ft</th><th>Issues</th><th><span class="sr-only">Pin</span></th></tr></thead><tbody></tbody></table>
+          <button id="dBuiltMap" class="quiet">Mark this map's nodes built</button>
+        </div>
+        <button id="pDiscard" class="danger" style="display:none">Discard this map</button>
+        <div id="pDiscardMsg"></div>
+      </div>
+    </li>
+    <li class="step" id="step3">
+      <div class="stepHead"><span class="num" aria-hidden="true">3</span><h2 class="stepTitle">Run it</h2><span class="stepSum" id="s3Sum"></span></div>
+      <div class="stepBody" id="s3Body">
+        <div class="muted">Day to day, in Operate: things happen to the plant, households call, and trucks drive out to fix it, in two worlds side by side, one dispatching from calls and one with the twin.</div>
+        <div class="muted" id="sRunWhat" style="margin-top:6px"></div>
+        <button id="sRun">Run this town</button>
+        <div class="why" id="sRunWhy"></div>
+        <div id="sRunMsg"></div>
+      </div>
+    </li>
+    </ol>
+
+    <details id="nodeCard" class="nodeCard">
+    <summary id="nodeHead">Node</summary>
+    <div class="muted">The node picked in the top bar, whichever map it's on.</div>
+    <div id="dRecords" class="muted"></div>
+    <button id="dBuilt" class="quiet">Mark this node built</button>
+    <div id="dBuiltMsg"></div>
+    <h2>Design checks, at −20, 20 and 45 °C</h2>
+    <div id="dIssues" class="muted"></div>
+    <h2>Parts</h2>
+    <table id="dParts"><thead><tr><th>Part</th><th>Qty</th><th>Length, ft</th></tr></thead><tbody></tbody></table>
+    <h2>Level budget</h2>
+    <table id="dBudget"><thead><tr><th>Modem</th><th>Min, dBmV</th><th>Max, dBmV</th><th>Tx max, dBmV/1.6 MHz</th><th>Tx limit, dBmV/1.6 MHz</th><th title="Loss from the home's tap port to the modem, at the top of the downstream band">Home, dB</th></tr></thead><tbody></tbody></table>
+    <h2>Optics</h2>
+    <div class="muted">Each link from the region's fiber plant, under its fiber faults.</div>
+    <table id="dOptics"><thead><tr><th>Link</th><th>Received, dBm</th><th title="CNR on an analog link, margin over sensitivity on a digital one">CNR or margin, dB</th><th>State</th><th>Latency, µs</th></tr></thead><tbody></tbody></table>
+    <div id="dOpticsNote" class="muted"></div>
+    </details>
+  </section>
+
+  <section class="tab" id="tab-monitor" role="tabpanel" aria-labelledby="t-monitor">
+    <details id="regionBox" class="plain" open>
+      <summary>Region: <span id="regionSum"></span></summary>
+      <div class="find" style="margin-top:6px">
+        <input id="rFilter" type="search" aria-label="Filter nodes" placeholder="Filter nodes">
+        <label class="inline"><input type="checkbox" id="rProblems"> Problems only</label>
+      </div>
+      <table id="mRegion"><thead><tr><th>Node</th><th>Modems</th><th>Affected</th><th>Down</th><th>Faults</th><th title="Open work orders">Orders</th></tr></thead><tbody></tbody></table>
+      <div class="muted" id="mStats"></div>
+    </details>
+    <h2>Environment, whole twin</h2>
+    <div class="muted">Applies to every node at once.</div>
+    <div class="row">
+      <div><label for="temp">Air temperature, °C</label><input id="temp" type="number" value="20" min="-50" max="60" step="1"></div>
+      <div><label for="rain">Rain, mm/h</label><input id="rain" type="number" value="0" min="0" max="300" step="1"></div>
+      <div><label for="hour">Time of day, h</label><input id="hour" type="number" value="0" min="0" max="23.5" step="0.5"></div>
+    </div>
+    <div id="envMsg"></div>
+    <h2 id="modemHead">Modems. Pick one for its RxMER.</h2>
+    <table id="modems"><thead><tr><th>Modem</th><th>Level Δ, dB</th><th>Tx Δ, dB</th><th>MER margin, dB</th><th>NMTER, dB</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <section class="tab" id="tab-bench" role="tabpanel" aria-labelledby="t-bench">
+    <div class="muted">Puts a fault into the simulated plant, as physical parameters. The twin computes what the modems would report.</div>
+    <h2>Impairment</h2>
+    <label for="fClass">Fault class</label>
+    <select id="fClass"></select>
+    <div class="muted" id="fHint"></div>
+    <label for="fTarget">Target. Click it on the map, or pick here.</label>
+    <select id="fTarget"></select>
+    <div id="fPortWrap"><label for="fPort">Port</label><select id="fPort"></select></div>
+    <div id="fPosWrap"><label for="fPos" id="fPosLabel">Position along the span, ft</label><input id="fPos" type="number" min="0" step="10"></div>
+    <div id="fParams" class="row"></div>
+    <div class="row">
+      <button id="fWhatIf" class="quiet">What if</button>
+      <button id="fInject">Inject</button>
+    </div>
+    <div id="fMsg"></div>
+    <div id="fOutcome"></div>
+    <h2>Faults on this node</h2>
+    <div id="fList" class="muted"></div>
+    <button id="fClear" class="quiet">Clear every fault on this node</button>
+    <div id="fListMsg"></div>
+    <h2>Fiber fault on this node's region</h2>
+    <div class="muted">A fiber fault sits on the region's fiber plant, so it reaches every node whose links cross it.</div>
+    <div class="row">
+      <div><label for="ffKind">Fault</label><select id="ffKind"><option value="FiberCut">Cable cut</option><option value="EventLoss">Loss at a point: a bend</option></select></div>
+      <div><label for="ffCable">Cable</label><select id="ffCable"></select></div>
+    </div>
+    <div class="row">
+      <div><label for="ffPos">Position, ft from its first end</label><input id="ffPos" type="number" min="0" step="10" value="100"></div>
+      <div id="ffLossWrap"><label for="ffLoss">Loss, dB</label><input id="ffLoss" type="number" min="0" max="40" step="0.5" value="3"></div>
+    </div>
+    <div class="row">
+      <button id="ffInject">Inject on the region</button>
+      <button id="ffClear" class="quiet">Clear the region's fiber faults</button>
+    </div>
+    <div id="ffMsg"></div>
+    <div id="ffList" class="muted"></div>
+    <h2>Ingress switch test</h2>
+    <div class="muted">Attenuates each amp's return leg in turn and watches the node's upstream noise, as a technician at the switches would.</div>
+    <button id="fSwitch" class="quiet">Run the switch test</button>
+    <div id="fSwitchMsg"></div>
+    <div id="fSwitchOut"></div>
+  </section>
+
+  <section class="tab" id="tab-diag" role="tabpanel" aria-labelledby="t-diag">
+    <button id="diagnose">Diagnose this node</button>
+    <div id="diagMsg"></div>
+    <div id="answer"></div>
+    <h2>Work orders on this node</h2>
+    <div id="orders"></div>
+    <div id="orderMsg"></div>
+    <h2>Predicted against observed</h2>
+    <div class="muted">The top answer simulated, beside what the modems report. Pick one to overlay its RxMER.</div>
+    <table id="pvo"><thead><tr><th>Modem</th><th colspan="2">Level Δ, dB</th><th colspan="2">MER margin, dB</th></tr><tr><th></th><th>seen</th><th>sim</th><th>seen</th><th>sim</th></tr></thead><tbody></tbody></table>
+    <div id="pvoEmpty" class="muted">Diagnose to compare the top answer with the telemetry.</div>
+    <h2>Verified labels</h2>
+    <div id="labels" class="muted"></div>
+  </section>
+
+  <section class="tab" id="tab-migrate" role="tabpanel" aria-labelledby="t-migrate">
+    <h2>Plan a migration</h2>
+    <label for="mTo">Move this node to</label>
+    <select id="mTo"></select>
+    <button id="mPlan">Plan</button>
+    <div id="mResult"></div>
+    <button id="mApply" class="quiet" style="display:none">Apply to the twin</button>
+    <div id="migMsg"></div>
+  </section>
+
+  <section class="tab" id="tab-ops" role="tabpanel" aria-labelledby="t-ops">
+    <div id="oLive" hidden>
+      <div id="oLiveInfo" class="muted"></div>
+      <div class="opsShow">
+        <div class="gSeg" role="group" aria-label="Which world to show" id="gView">
+      <button data-view="both">Both</button>
+      <button data-view="reactive">From calls</button>
+      <button data-view="twin">With the twin</button>
+    </div>
+        <label class="gAud"><input type="checkbox" id="gTruth"><span><b>Audience view:</b> what's really wrong<small>The dispatcher never sees it</small></span></label>
+        <div class="opsBtns"><button class="gBtn" id="gBoardBtn" aria-expanded="false" aria-controls="gBoard">Board</button><button class="gBtn" id="gSourcesBtn" aria-expanded="false" aria-controls="gSources">Sources</button></div>
+      </div>
+      <div class="gScore" aria-label="The score" role="region">
+        <h2>The score</h2>
+        <div class="gLegend"><span><i style="background:var(--s1)"></i>From calls</span><span><i style="background:var(--s2)"></i>With the twin</span></div>
+        <div id="gRows"></div>
+        <h2 style="margin-top:6px">Homes out</h2>
+        <div class="gChartWrap"><canvas id="gChart" role="img" aria-label="Homes out over time, both worlds"></canvas><div class="gTip" id="gTip" hidden></div></div>
+        <details><summary>Every count</summary><table id="gTable"><thead><tr><th></th><th>From calls</th><th>With the twin</th></tr></thead><tbody></tbody></table></details>
+      </div>
+    </div>
+    <details id="oSetup" open>
+      <summary id="oSetupHead">Run a town</summary>
+      <div class="muted">The region on Design's map, or the last one designed, run day to day: things happen to the plant, households call about what their own modems show, and trucks drive the streets to fix it. Two worlds run side by side on one seed, one dispatching from calls and one with the twin.</div>
+      <label for="oScenario">Scenario</label>
+      <select id="oScenario"><option value="">Free play: nothing planned, you call the disasters</option></select>
+      <div id="oScenarioBlurb" class="muted"></div>
+      <div class="row">
+        <div><label for="oSeed">Seed</label><input id="oSeed" type="number" value="26" min="0" step="1"></div>
+        <div><label for="oIntensity">Hazards, times the sourced rates</label><input id="oIntensity" type="number" value="50" min="0" max="10000" step="10"></div>
+      </div>
+      <button id="oStart">Start</button>
+      <div id="oStartMsg"></div>
+    </details>
+  </section>
+</aside>
+</main>
+  <div class="gTicker opsOnly" id="gTicker">
+  <ol class="gFeed" id="gFeed" aria-label="What's happening"></ol>
+  <button class="gBtn" id="gFeedMore" aria-expanded="false" aria-controls="gFeed">More</button>
+</div>
+<div class="sr-only" aria-live="polite" id="gAnnounce"></div>
+<!-- Said once, up front, at the user's request (task 29): the page doesn't repeat it. Invariant 11 is kept in the data, where every
+     element and observation records Synthetic or Field, and in the docs. -->
+<div class="intro" id="intro" hidden role="dialog" aria-modal="true" aria-labelledby="introHead">
+  <div class="box">
+    <h2 id="introHead">A simulation</h2>
+    <p>Everything in HFC Twin is simulated: the cable plant, the modems and what they report, the households, their calls, the trucks, and
+    every score. Streets and buildings can come from OpenStreetMap, but nothing else is real, and no operator's network is shown.</p>
+    <button id="introGo">Got it</button>
+  </div>
+</div>
+<script>
+// The page's only way to the twin is MCP (invariant 8).
+let nextId = 1;
+async function tool(name, args, signal) {
+  const r = await fetch('/mcp', {method: 'POST', headers: {'Content-Type': 'application/json'}, signal,
+    body: JSON.stringify({jsonrpc: '2.0', id: nextId++, method: 'tools/call', params: {name, arguments: args || {}}})});
+  const m = await r.json();
+  if (m.error) throw new Error(m.error.message);
+  if (m.result.isError) throw new Error(m.result.content[0].text);
+  return m.result.structuredContent;
+}
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+const fmt = (x, d = 1) => x === null || x === undefined ? '–' : Number(x).toFixed(d);
+const pct = x => `${Math.round(x * 100)} %`;
+const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const sg = () => $('sg').value;
+const flat = () => ({hourly_multipliers: Array(24).fill(1)});
+const onset = kind => ({onset: 'Instant', kind});
+const count = (n, one, many) => `${Number(n).toLocaleString()} ${n === 1 ? one : many}`;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Names a person reads. The ids stay in tooltips and popups, where they match the twin's records.
+const PROFILE_NAMES = {d31_lowsplit_1002_iccap: 'Low-split, 1.0 GHz, I-CCAP', d31_highsplit_1218_rpd: 'High-split, 1.2 GHz, RPD'};
+const PROFILES = Object.keys(PROFILE_NAMES);
+const profileName = p => PROFILE_NAMES[p] || p;
+const mapOf = id => { const i = String(id).indexOf('/'); return i < 0 ? null : id.slice(0, i); };
+const nodeNumber = id => String(id).split('sg-').pop();
+function mapName(id) {
+  const m = mapsById[id];
+  const homes = m ? `, ${count(m.homes, 'home', 'homes')}` : '';
+  const g = String(id).match(/^generated-(\w+)-(\d+)-(\d+)$/);
+  if (g) return `Generated ${g[1] === 'UrbanGrid' ? 'urban grid' : g[1].toLowerCase()}, seed ${g[2]}${homes}`;
+  const o = String(id).match(/^osm_(-?[\d.]+)_(-?[\d.]+)_(-?[\d.]+)_(-?[\d.]+)$/);
+  if (o) return `Real place near ${((+o[1] + +o[3]) / 2).toFixed(3)}, ${((+o[2] + +o[4]) / 2).toFixed(3)}${homes}`;
+  return id;
+}
+const nodeShort = id => mapOf(id) ? `Node ${nodeNumber(id)}` : id;
+const nodeName = id => mapOf(id) ? `Node ${nodeNumber(id)} on ${mapName(mapOf(id))}` : id;
+
+// Status in a shape and a word as well as a colour.
+const ST = {ok: ['●', 'normal'], affected: ['▲', 'affected'], down: ['✕', 'down']};
+const stMark = s => `<span class="st st-${s}" aria-hidden="true" title="${ST[s][1]}">${ST[s][0]}</span><span class="sr-only">${ST[s][1]}: </span>`;
+
+// Messages sit beside what caused them and stay until that action runs again or someone dismisses them.
+function say(slot, text, kind = 'bad', actions = '') {
+  if (typeof slot === 'string') slot = $(slot);
+  if (!slot) return;
+  if (!text) { slot.innerHTML = ''; return; }
+  slot.innerHTML = `<div class="msg ${kind}" role="${kind === 'bad' ? 'alert' : 'status'}"><span>${text}</span><span class="acts">${actions}<button class="x" aria-label="Dismiss">×</button></span></div>`;
+  slot.querySelector('.x').onclick = () => { slot.innerHTML = ''; };
+}
+// An in-place yes or no, so a consequence is stated once, next to the button.
+function ask(slot, html, yes, danger = false) {
+  return new Promise(resolve => {
+    say(slot, html, 'info', `<button class="${danger ? 'danger' : ''}" data-a="yes">${esc(yes)}</button><button class="quiet" data-a="no">Cancel</button>`);
+    const box = $(typeof slot === 'string' ? slot : slot.id);
+    box.querySelector('[data-a=yes]').focus();
+    box.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { box.innerHTML = ''; resolve(b.dataset.a === 'yes'); });
+    box.querySelector('.x').onclick = () => { box.innerHTML = ''; resolve(false); };
+  });
+}
+
+const FIELDS = {homes_per_node: 'Homes per node', take_rate: 'Take rate', d30_share: 'D3.0 share', max_drop_ft: 'Longest drop', ground_temp_c: 'Ground temperature', temp_c: 'Air temperature', rain_mm_per_hr: 'Rain', homes: 'Homes'};
+const REASONS = {
+  'has a fault injected. Clear it first': 'has a fault injected. Clear its faults in the Workbench first, or design a new map.',
+  'has built elements': 'is marked built, and re-solving would overwrite built records. Design a new map instead.',
+  "has a work order that's been acted on": 'has a work order a crew has acted on.',
+  'has been migrated': 'has been migrated to another profile.',
+};
+// The server's words, for an operator: no field names, no ids where a name will do, and what to do next.
+function plain(message) {
+  let s = String(message);
+  const r = s.match(/^can't (re-solve|discard) this map: (\S+) (.*?)\.?$/);
+  if (r) return `${r[1] === 're-solve' ? 'Re-solving' : 'Discarding'} is blocked: ${esc(nodeShort(r[2]))} ${esc(REASONS[r[3]] || r[3])}`;
+  s = s.replace(/^bad arguments: /, '');
+  s = s.replace(/invalid value: integer `(-?\d+)`, expected u(size|\d+)/, 'got $1, but it must be a whole number of 0 or more');
+  s = s.replace(/invalid type: floating point `([^`]+)`, expected u(size|\d+)/, 'got $1, but it must be a whole number');
+  for (const [k, v] of Object.entries(FIELDS)) s = s.replace(new RegExp(`\\b${k}\\b`), v);
+  if (/Failed to fetch|NetworkError/.test(s)) s = "Couldn't reach the twin's server. Is it running?";
+  // Maps and worlds live in the server's memory only, so a restart loses them (task 29).
+  if (/^no map \S+$/.test(s)) return "This map isn't on the server any more: it was restarted, and maps live in memory only. Pick the place again in step 1.";
+  return esc(s.charAt(0).toUpperCase() + s.slice(1));
+}
+
+// Reads a number field against its bounds and says what's wrong beside it. Returns null when it's wrong.
+function readNum(id, label, lo, hi, whole = false) {
+  const el = $(id);
+  const v = el.value.trim() === '' ? NaN : Number(el.value);
+  const ok = Number.isFinite(v) && v >= lo && v <= hi && (!whole || Number.isInteger(v));
+  el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+  let note = el.parentElement.querySelector('.fielderr');
+  if (ok) { if (note) note.remove(); return v; }
+  if (!note) { note = document.createElement('div'); note.className = 'fielderr'; note.id = `${id}-err`; el.after(note); el.setAttribute('aria-describedby', note.id); }
+  note.textContent = `${label}: ${whole ? 'a whole number' : 'a number'} from ${lo} to ${hi}.`;
+  return null;
+}
+function readAll(specs) {
+  const out = {};
+  let bad = false;
+  for (const [key, id, label, lo, hi, whole] of specs) { const v = readNum(id, label, lo, hi, whole); if (v === null) bad = true; out[key] = v; }
+  if (bad) throw new Error('Fix the marked fields first.');
+  return out;
+}
+
+let working = 0;
+function busy(on, button) {
+  working += on ? 1 : -1;
+  // Operate's own controls aren't locked by a page action: the clock keeps its keys and buttons.
+  document.querySelectorAll('#side button:not([role=tab]), #dTools button').forEach(b => { if (!b.closest('.msg') && !b.closest('#oLive')) b.disabled = working > 0; });
+  if (button) button.classList.toggle('working', on);
+  $('side').setAttribute('aria-busy', working > 0 ? 'true' : 'false');
+  if (!on) applyLocks();
+}
+// Runs an action: its message slot cleared first, its button spinning, and any failure said in that slot.
+// The button a click came from, since Safari and Firefox don't focus a button on click.
+let clickedButton = null;
+document.addEventListener('click', e => { clickedButton = e.target.closest ? e.target.closest('button') : null; setTimeout(() => { clickedButton = null; }, 0); }, true);
+async function guarded(fn, slot = 'errMsg') {
+  const button = clickedButton;
+  say(slot, '');
+  busy(true, button);
+  try { await fn(); } catch (e) {
+    if (e.name !== 'AbortError') say(slot, plain(e.message));
+    // A map the server no longer has: back to step 1, where the message is said again.
+    if (/^no map \S+$/.test(e.message) && curMap) { const m = plain(e.message); curMap = null; await quietly(refreshMaps); await quietly(startPlacing); say('pFindMsg', m, 'info'); }
+  }
+  busy(false, button);
+}
+// For refreshes that shouldn't lock anyone out, such as a tab switch.
+async function quietly(fn) { try { await fn(); } catch (e) { say('errMsg', plain(e.message)); } }
+
+// Each class is what the schema asks for: physical parameters, never a signature (invariant 5).
+const num = (id, label, value, step, lo, hi) => ({id, label, value, step, lo, hi});
+const CLASSES = {
+  ConnectorReflection: {label: 'Connector reflection', target: 'location', hint: 'A corroded or loose connector.', params: [num('rl', 'Return loss, dB', 6, 1, 0, 60)],
+    build: (t, p) => ({ConnectorReflection: {location: t.location, return_loss_db: p.rl}})},
+  Suckout: {label: 'Suckout', target: 'location', hint: 'A resonant notch in the response.', params: [num('f0', 'Centre, MHz', 650, 10, 5, 1800), num('depth', 'Depth, dB', 8, 1, 0, 60), num('width', 'Width, MHz', 24, 1, 0.1, 500)],
+    build: (t, p) => ({Suckout: {location: t.location, f0_mhz: p.f0, depth_db: p.depth, width_mhz: p.width}})},
+  FrequencySelectiveLoss: {label: 'Frequency-selective loss', target: 'location', hint: 'A wrong or failing filter. Loss above the upper edge here.', params: [num('lo', 'Lower edge, MHz', 54, 10, 5, 1800), num('hi', 'Upper edge, MHz', 700, 10, 5, 1800), num('depth', 'Depth, dB', 12, 1, 0, 60), num('rl', 'Stop-band return loss, dB', 6, 1, 0, 60)],
+    build: (t, p) => ({FrequencySelectiveLoss: {location: t.location, shape: 'LowPass', f_lo_mhz: p.lo, f_hi_mhz: p.hi, depth_db: p.depth, stop_return_loss_db: p.rl}})},
+  WaterIngress: {label: 'Water in cable', target: 'span', hint: 'Added loss and impedance variation, worse with rain.', params: [num('len', 'Affected length, ft', 120, 10, 1, 5000), num('k', 'Added loss, dB/100 ft', 1.5, 0.1, 0, 20), num('rain', 'Rain coupling, per mm/h', 0.05, 0.01, 0, 1), num('imp', 'Impedance variation, %', 8, 1, 0, 100)],
+    build: (t, p) => ({WaterIngress: {span_id: t.span_id, pos_ft: t.pos_ft, affected_len_ft: Math.min(p.len, t.len_ft - t.pos_ft), k_w_db_per_100ft: p.k, rain_coupling_per_mm_per_hr: p.rain, impedance_variation_pct: p.imp}})},
+  AmpDrift: {label: 'Amp drift', target: 'Amp', hint: 'Output and tilt have moved.', params: [num('gain', 'Gain change, dB', -4, 1, -40, 40), num('tilt', 'Tilt change, dB', 0, 1, -20, 20)],
+    build: (t, p) => ({AmpDrift: {amp_id: t.id, state: {Drift: {gain_delta_db: p.gain, tilt_delta_db: p.tilt, compression_onset_dbmv: null}}}})},
+  AmpFailed: {label: 'Amp failed', target: 'Amp', hint: 'No output.', params: [],
+    build: t => ({AmpDrift: {amp_id: t.id, state: 'Failed'}})},
+  UpstreamIngress: {label: 'Upstream ingress', target: 'location', hint: 'Noise into the return path, funnelled to the node. The node only sees it inside an upstream channel, so a frequency in a gap between channels shows nothing.', params: [num('f', 'Frequency, MHz', 30, 1, 5, 204), num('bw', 'Bandwidth, MHz', 2, 1, 0.1, 100), num('power', 'Power, dBmV', 20, 1, -60, 60)],
+    build: (t, p) => ({UpstreamIngress: {entry_location: t.location, f_mhz: p.f, bw_mhz: p.bw, power_dbmv: p.power, schedule: flat(), burst: null}})},
+  DownstreamIngress: {label: 'Downstream ingress', target: 'location', hint: 'Off-air signal into the forward path.', params: [num('f', 'Frequency, MHz', 700, 10, 54, 1800), num('bw', 'Bandwidth, MHz', 6, 1, 0.1, 200), num('power', 'Power, dBmV', -10, 1, -60, 60)],
+    build: (t, p) => ({DownstreamIngress: {entry_location: t.location, f_mhz: p.f, bw_mhz: p.bw, power_dbmv: p.power, schedule: flat()}})},
+  PowerSupplySag: {label: 'Power supply sag', target: 'PowerSupply', hint: 'Line voltage drops, and actives may drop out.', params: [num('v', 'Voltage change, V', -25, 1, -90, 30)],
+    build: (t, p) => ({PowerSupplySag: {psu_id: t.id, v_delta: p.v, schedule: flat()}})},
+  BadDrop: {label: 'Bad drop', target: 'Modem', hint: 'Extra loss on one home\'s drop.', params: [num('loss', 'Extra loss, dB', 9, 1, 0, 60)],
+    build: (t, p) => ({BadDrop: {modem_id: t.id, extra_loss_db: p.loss, return_loss_db: null}})},
+  RpdFailure: {label: 'RPD failure', target: 'Rpd', hint: 'A dead RPD. RPD profiles only.', params: [],
+    build: t => ({RpdFailure: {rpd_id: t.id, mode: 'Dead'}})},
+  CinLinkCut: {label: 'CIN link cut', target: 'Rpd', hint: 'The digital fiber side is down, with no repair. RPD profiles only.', params: [],
+    build: t => ({CinLinkCut: {rpd_id: t.id, repair_s: null}})},
+  GcpLoss: {label: 'GCP loss', target: 'Rpd', hint: 'Control session lost. RPD profiles only.', params: [num('dur', 'Duration, s', 600, 60, 1, 86400)],
+    build: (t, p) => ({GcpLoss: {rpd_id: t.id, duration_s: p.dur}})},
+  TimingLoss: {label: 'Timing loss', target: 'Rpd', hint: 'PTP lost. RPD profiles only.', params: [num('dur', 'Duration, s', 600, 60, 1, 86400)],
+    build: (t, p) => ({TimingLoss: {rpd_id: t.id, duration_s: p.dur}})},
+  RfmMisalignment: {label: 'RF module misaligned', target: 'Rpd', hint: 'The RPD\'s own output is off. RPD profiles only.', params: [num('gain', 'Gain change, dB', -4, 1, -40, 40), num('tilt', 'Tilt change, dB', 2, 1, -20, 20)],
+    build: (t, p) => ({RfmMisalignment: {rpd_id: t.id, ds_gain_delta_db: p.gain, tilt_delta_db: p.tilt}})},
+};
+
+// A fault in words: the Workbench's name, where, and the parameter that matters most.
+function where(loc) {
+  if (!loc) return '';
+  if (loc.Span) return `${loc.Span.span_id}, ${Math.round(loc.Span.pos_ft)} ft in`;
+  if (loc.Port) return `${loc.Port.element_id}, port ${loc.Port.port}`;
+  return '';
+}
+const signed = (x, unit) => `${x > 0 ? '+' : x < 0 ? '−' : ''}${Math.abs(Number(x)).toFixed(1).replace(/\.0$/, '')} ${unit}`;
+function describeFault(f) {
+  const kind = f && (f.kind || f);
+  if (!kind || typeof kind !== 'object') return {label: 'Healthy', target: '', detail: ''};
+  const name = Object.keys(kind)[0], k = kind[name];
+  const label = name === 'AmpDrift' && k.state === 'Failed' ? 'Amp failed' : (CLASSES[name] ? CLASSES[name].label : name);
+  const target = k.location ? where(k.location) : k.entry_location ? where(k.entry_location) : k.span_id ? `${k.span_id}, ${Math.round(k.pos_ft)} ft in` : (k.amp_id || k.psu_id || k.modem_id || k.rpd_id || '');
+  const detail = {
+    ConnectorReflection: () => `return loss ${fmt(k.return_loss_db)} dB`,
+    Suckout: () => `${fmt(k.depth_db)} dB notch at ${fmt(k.f0_mhz, 0)} MHz`,
+    FrequencySelectiveLoss: () => `${fmt(k.depth_db)} dB above ${fmt(k.f_hi_mhz, 0)} MHz`,
+    WaterIngress: () => `${Math.round(k.affected_len_ft)} ft wet, ${fmt(k.k_w_db_per_100ft)} dB/100 ft`,
+    AmpDrift: () => k.state && k.state.Drift ? `gain ${signed(k.state.Drift.gain_delta_db, 'dB')}, tilt ${signed(k.state.Drift.tilt_delta_db, 'dB')}` : '',
+    UpstreamIngress: () => `${fmt(k.power_dbmv)} dBmV at ${fmt(k.f_mhz)} MHz`,
+    DownstreamIngress: () => `${fmt(k.power_dbmv)} dBmV at ${fmt(k.f_mhz, 0)} MHz`,
+    PowerSupplySag: () => signed(k.v_delta, 'V'),
+    BadDrop: () => `${fmt(k.extra_loss_db)} dB extra loss`,
+    GcpLoss: () => `${k.duration_s} s`, TimingLoss: () => `${k.duration_s} s`,
+    RfmMisalignment: () => `gain ${signed(k.ds_gain_delta_db, 'dB')}`,
+  }[name];
+  return {label, target, detail: detail ? detail() : ''};
+}
+const faultText = f => { const d = describeFault(f); return `${d.label}${d.target ? ` at ${d.target}` : ''}${d.detail ? `, ${d.detail}` : ''}`; };
+const CLASS_LABELS = Object.fromEntries(Object.entries(CLASSES).map(([k, c]) => [k, c.label]));
+const hypLabel = h => h && h.faults && h.faults[0] ? describeFault(h.faults[0]).label : (h && h.class ? (CLASS_LABELS[h.class] || h.class) : 'Healthy');
+const hypWhere = h => (h && h.components && h.components.length ? h.components.join(', ') : '');
+
+// The map. Without WebGL, everything else still works, and the page says what's missing.
+let MAP_OK = false, map;
+const dead = new Proxy(function () {}, {get: (t, k) => k === 'then' ? undefined : dead, apply: () => dead, set: () => true});
+try {
+  if (!window.maplibregl) throw new Error('MapLibre did not load');
+  map = new maplibregl.Map({container: 'map', center: [-105.09, 39.9], zoom: 13, attributionControl: false,
+    // No basemap to start: real streets under a generated region would pass it off as a real place (invariant 11). setBasemap adds one only for a real map.
+    style: {version: 8, sources: {}, layers: [{id: 'ground', type: 'background', paint: {'background-color': css('--ground')}}]}});
+  map.addControl(new maplibregl.NavigationControl({showCompass: false}), 'top-right');
+  MAP_OK = true;
+} catch (e) {
+  map = dead;
+  $('layers').style.display = 'none';
+  $('mapNotice').classList.add('on');
+  $('mapNotice').textContent = window.maplibregl
+    ? "The map needs WebGL, which this browser doesn't offer. Monitor, Workbench, Diagnose and Migrate still work: pick nodes, modems and targets from the lists. Designing on a real place needs the map."
+    : "The map library didn't load. Monitor, Workbench, Diagnose and Migrate still work from the lists.";
+}
+const mapReady = MAP_OK ? new Promise(res => map.on('load', res)) : Promise.resolve();
+const empty = () => ({type: 'FeatureCollection', features: []});
+let plant = null, selectedModem = null, lastAnswer = null, plotted = null, observed = null, faults = [], orders = [], verdicts = {}, orderPins = [];
+let groups = [], region = null, popup = null;
+
+function recordColor() {
+  return ['match', ['get', 'record_status'], 'Designed', css('--plan'), 'Built', css('--accent'), 'Imported', css('--accent'), css('--muted')];
+}
+
+function fit(points, maxZoom = 17) {
+  if (!MAP_OK || !points.length) return;
+  map.fitBounds(points.reduce((b, c) => b.extend(c), new maplibregl.LngLatBounds(points[0], points[0])), {padding: 60, maxZoom, duration: 0});
+}
+
+async function setupLayers() {
+  await mapReady;
+  if (map.getSource('plant')) return;
+  for (const id of ['streetLines', 'homePoints', 'regionSpans', 'fiberLines', 'fiberPoints', 'drawBox']) map.addSource(id, {type: 'geojson', data: empty()});
+  map.addLayer({id: 'streetLines', type: 'line', source: 'streetLines', filter: ['!', ['get', 'crossing']], paint: {'line-color': '#7b8794', 'line-width': 1}});
+  map.addLayer({id: 'crossingLines', type: 'line', source: 'streetLines', filter: ['get', 'crossing'], paint: {'line-color': '#7b8794', 'line-width': 1.5, 'line-dasharray': [2, 2]}});
+  map.addLayer({id: 'homePoints', type: 'circle', source: 'homePoints', paint: {'circle-radius': 2.5, 'circle-color': '#44505c', 'circle-stroke-width': .5, 'circle-stroke-color': '#fff'}});
+  map.addLayer({id: 'regionSpans', type: 'line', source: 'regionSpans', paint: {'line-color': ['get', 'color'], 'line-width': 2.5}});
+  map.addLayer({id: 'fiberLines', type: 'line', source: 'fiberLines', paint: {'line-color': css('--fiber'), 'line-width': 2, 'line-dasharray': [2, 2]}});
+  map.addLayer({id: 'fiberPoints', type: 'circle', source: 'fiberPoints', paint: {'circle-radius': ['match', ['get', 'kind'], 'SpliceClosure', 5, 3], 'circle-color': css('--panel'), 'circle-stroke-width': 2, 'circle-stroke-color': css('--fiber')}});
+  map.addLayer({id: 'drawFill', type: 'fill', source: 'drawBox', paint: {'fill-color': css('--accent'), 'fill-opacity': .15}});
+  map.addLayer({id: 'drawEdge', type: 'line', source: 'drawBox', paint: {'line-color': css('--accent'), 'line-width': 2}});
+  for (const id of ['plant', 'modems', 'target', 'faultMarks']) map.addSource(id, {type: 'geojson', data: empty()});
+  const line = (id, kind, width, color) => map.addLayer({id, type: 'line', source: 'plant', filter: ['==', ['get', 'kind'], kind], paint: {'line-color': color, 'line-width': width}});
+  // Structures first, so the plant on a pole draws over the pole's ring.
+  map.addLayer({id: 'structures', type: 'circle', source: 'plant', filter: ['==', ['get', 'kind'], 'Structure'], paint: {'circle-radius': 3, 'circle-color': 'transparent', 'circle-stroke-width': 1.5, 'circle-stroke-color': css('--muted')}});
+  line('spans', 'Span', 3, css('--accent'));
+  line('drops', 'Drop', 1, css('--muted'));
+  // Version 2: cable inside a home, below its ground block.
+  map.addLayer({id: 'house', type: 'line', source: 'plant', filter: ['==', ['get', 'kind'], 'House'], paint: {'line-color': css('--muted'), 'line-width': 1, 'line-dasharray': [1, 1]}});
+  map.addLayer({id: 'faultLine', type: 'line', source: 'faultMarks', filter: ['==', ['geometry-type'], 'LineString'], paint: {'line-color': css('--bad'), 'line-width': 5, 'line-dasharray': [1.5, 1]}});
+  map.addLayer({id: 'actives', type: 'circle', source: 'plant', filter: ['in', ['get', 'kind'], ['literal', ['Node', 'Rpd', 'Amp']]], paint: {'circle-radius': 7, 'circle-color': recordColor(), 'circle-stroke-width': 1, 'circle-stroke-color': '#fff'}});
+  map.addLayer({id: 'passives', type: 'circle', source: 'plant', filter: ['in', ['get', 'kind'], ['literal', ['Tap', 'Splitter', 'DirectionalCoupler', 'PowerInserter', 'Terminator', 'LineEqualizer']]], paint: {'circle-radius': 4, 'circle-color': recordColor()}});
+  // Version 2: what's in a home, and the structures plant hangs on. No RF in a structure, so no status colour.
+  map.addLayer({id: 'premises', type: 'circle', source: 'plant', filter: ['in', ['get', 'kind'], ['literal', ['GroundBlock', 'DropAmp', 'Filter', 'Cpe']]], paint: {'circle-radius': 3, 'circle-color': recordColor(), 'circle-stroke-width': .5, 'circle-stroke-color': '#fff'}});
+  map.addLayer({id: 'supplies', type: 'circle', source: 'plant', filter: ['==', ['get', 'kind'], 'PowerSupply'], paint: {'circle-radius': 5, 'circle-color': css('--warn'), 'circle-stroke-width': 1, 'circle-stroke-color': '#fff'}});
+  map.addLayer({id: 'modemDots', type: 'circle', source: 'modems', paint: {'circle-radius': 4, 'circle-color': ['match', ['get', 'status'], 'down', css('--bad'), 'affected', css('--warn'), css('--ok')], 'circle-stroke-width': 1, 'circle-stroke-color': '#fff'}});
+  map.addLayer({id: 'faultDot', type: 'circle', source: 'faultMarks', filter: ['==', ['geometry-type'], 'Point'], paint: {'circle-radius': 11, 'circle-color': 'transparent', 'circle-stroke-width': 3, 'circle-stroke-color': css('--bad'), 'circle-stroke-opacity': .8}});
+  map.addLayer({id: 'targetLine', type: 'line', source: 'target', filter: ['==', ['geometry-type'], 'LineString'], paint: {'line-color': css('--bad'), 'line-width': 7, 'line-opacity': .45}});
+  map.addLayer({id: 'targetDot', type: 'circle', source: 'target', filter: ['==', ['geometry-type'], 'Point'], paint: {'circle-radius': 9, 'circle-color': 'transparent', 'circle-stroke-width': 3, 'circle-stroke-color': css('--bad')}});
+  const clickable = ['modemDots', 'actives', 'passives', 'premises', 'supplies', 'structures', 'fiberPoints', 'spans', 'drops', 'house', 'fiberLines'];
+  map.on('click', e => {
+    if (drawMode || justDrew) return;
+    if (addMode) { addNodeAt(e.lngLat); return; }
+    // A wide hit area on lines, since a 3 px span is hard to land on.
+    const box = [[e.point.x - 6, e.point.y - 6], [e.point.x + 6, e.point.y + 6]];
+    // What a click means: a device before the structure it hangs from, and any point before the cable through it. Drawing
+    // order alone would give the pole under an amp, or the house cable leaving a splitter; a span clicked between poles is the span.
+    const hits = map.queryRenderedFeatures(box, {layers: clickable.filter(l => map.getLayer(l))})
+      .sort((a, b) => clickable.indexOf(a.layer.id) - clickable.indexOf(b.layer.id));
+    if (hits.length) clicked(hits[0].properties.id, hits[0].layer.id, e.lngLat);
+  });
+  for (const l of clickable) {
+    map.on('mouseenter', l, () => map.getCanvas().style.cursor = 'pointer');
+    map.on('mouseleave', l, () => map.getCanvas().style.cursor = addMode || drawMode ? 'crosshair' : '');
+  }
+}
+
+function applyLayerToggles() {
+  if (!MAP_OK) return;
+  const show = (ids, on) => ids.forEach(id => map.getLayer(id) && map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
+  // A node from another map doesn't belong on the map being shown, and nothing plant-like belongs under a place still being picked.
+  const here = !placing && (!(onDesign() && curMap) || mapOf(sg()) === curMap.map_id);
+  show(['spans', 'drops', 'actives', 'passives', 'supplies'], $('lDesign').checked && here);
+  show(['modemDots'], $('lTelemetry').checked && here);
+  const overlay = onDesign() && !!curMap && $('lMap').checked && !placing;
+  show(['streetLines', 'crossingLines', 'homePoints', 'fiberLines', 'fiberPoints', 'regionSpans'], overlay);
+  siteMarkers.forEach(m => m.getElement().style.display = overlay ? 'flex' : 'none');
+  if (headendMarker) headendMarker.getElement().style.display = overlay ? 'flex' : 'none';
+  show(['targetLine', 'targetDot', 'faultLine', 'faultDot'], $('lFault').checked && here);
+  orderPins.forEach(p => p.getElement().style.display = $('lFault').checked && here ? '' : 'none');
+}
+
+// Where along a span a click landed: the point's projection on the straight run between its ends, feet from the upstream end.
+function posAlong(feature, lngLat) {
+  const [a, b] = feature.geometry.coordinates;
+  const dx = b[0] - a[0], dy = b[1] - a[1], d2 = dx * dx + dy * dy;
+  const u = d2 === 0 ? .5 : ((lngLat.lng - a[0]) * dx + (lngLat.lat - a[1]) * dy) / d2;
+  return Math.round(Math.max(.02, Math.min(.98, u)) * feature.properties.len_ft);
+}
+
+// A click on the Workbench picks the target. Anywhere else it says what was clicked, and a modem shows its RxMER.
+function clicked(id, layer, lngLat) {
+  const f = plant.features.find(x => x.properties.id === id);
+  if (!f) return;
+  if (onTab('bench')) {
+    const opts = [...$('fTarget').options].map(o => o.value);
+    if (!opts.includes(id)) { say('fMsg', `${esc(CLASSES[$('fClass').value].label)} can't go on a ${esc(f.properties.kind)}. Pick a class that acts on one, or click a different element.`); return; }
+    say('fMsg', '');
+    $('fTarget').value = id;
+    targetChanged();
+    if (f.properties.len_ft) $('fPos').value = posAlong(f, lngLat);
+    return;
+  }
+  if (layer === 'modemDots') selectModem(id);
+  showPopup(f, lngLat);
+}
+
+function showPopup(f, lngLat) {
+  if (!MAP_OK) return;
+  const p = f.properties;
+  const rows = [['Kind', p.structure_kind ? `${p.kind}: ${p.structure_kind}` : p.kind], ['Record', p.record_status], ['Part', p.component], ['Cable', p.cable], ['Length', p.len_ft ? `${Math.round(p.len_ft)} ft` : null], ['From', p.from], ['To', p.to]];
+  // Version 2's parts, shown as they're stored. Nothing here can be edited from the page.
+  const json = v => typeof v === 'string' ? JSON.parse(v) : v;
+  const fitted = json(p.fitted);
+  if (fitted) {
+    // One row per slot, in words, so a long fit doesn't crush the labels.
+    const [, body] = Object.entries(fitted)[0];
+    const names = {input_pad: 'Input pad', input_eq: 'Input equalizer', return_pad: 'Return pad', return_eq: 'Return equalizer',
+      forward_rx: 'Forward receiver', return_tx: 'Return laser', transceivers: 'Optics', conditioner: 'Conditioner', coupling_db: 'Coupling, dB'};
+    for (const [k, v] of Object.entries(body)) {
+      if (v === null || (Array.isArray(v) && !v.length)) continue;
+      if (k === 'outputs') v.forEach(o => rows.push([`Output ${o.port}`, [o.pad, o.eq].filter(Boolean).join(', ') || 'nothing fitted']));
+      else if (k === 'ports') v.forEach(e => rows.push([`Port ${e.port}`, e.state === 'Open' ? 'open' : `terminated, ${e.state.Terminated.component_ref}`]));
+      else if (k === 'set_point') rows.push(['Set point', `${v.out_dbmv_at_hi} dBmV at the top, ${v.tilt_db} dB tilt`]);
+      else rows.push([names[k] || k, Array.isArray(v) ? v.join(', ') : String(v)]);
+    }
+  }
+  // A home's wiring, in one place: everything behind its drop, in order, and the drop itself (task 23's premises).
+  const home = String(p.id).match(/^(.*-h\d+)-/);
+  if (home && plant && plant.features) {
+    const parts = plant.features.filter(x => x.geometry.type === 'Point' && String(x.properties.id).startsWith(home[1] + '-'));
+    const drop = plant.features.find(x => x.properties.kind === 'Drop' && parts.some(e => e.properties.id === x.properties.to));
+    if (parts.length) rows.push(['Home', parts.map(x => `${x.properties.kind} ${x.properties.component}`).join(' · ')]);
+    if (drop) rows.push(['Drop', `${Math.round(drop.properties.len_ft)} ft of ${drop.properties.cable}, ${String(drop.properties.installation || '').toLowerCase()}, from ${drop.properties.from}`]);
+  }
+  const fittings = json(p.fittings);
+  if (fittings && fittings.length) rows.push(['Fittings', fittings.map(x => `${x.component_ref} at ${Math.round(x.pos_ft)} ft`).join('; ')]);
+  rows.push(['Support', p.support], ['Installed', p.installation], ['On', p.structure]);
+  const batteries = json(p.batteries);
+  if (batteries) rows.push(['Batteries', `${batteries.strings} × ${batteries.per_string} ${batteries.component_ref}`]);
+  const m = observed && p.kind === 'Modem' ? observed.modems.find(x => x.modem === p.id) : null;
+  if (m) rows.push(['Status', ST[statusOf(m, new Set(observed.who.affected))][1]], ['Level Δ', `${fmt(m.level_drift_db)} dB`], ['MER margin', m.is_d31 === false ? 'DOCSIS 3.0, none' : `${fmt(m.mer_margin_mean_db)} dB`]);
+  const here = faults.filter(x => faultTouches(x, p.id));
+  if (here.length) rows.push(['Fault', here.map(faultText).join('; ')]);
+  if (popup) popup.remove();
+  popup = new maplibregl.Popup({closeButton: true, maxWidth: '260px'}).setLngLat(lngLat)
+    .setHTML(`<b>${esc(p.id)}</b><table>${rows.filter(r => r[1]).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</table>`).addTo(map);
+}
+
+function faultTouches(f, id) {
+  const k = Object.values(f.kind)[0];
+  const loc = k.location || k.entry_location;
+  return [k.amp_id, k.psu_id, k.modem_id, k.rpd_id, k.span_id, loc && loc.Span && loc.Span.span_id, loc && loc.Port && loc.Port.element_id].includes(id);
+}
+
+async function drawPlant(fitView = true) {
+  plant = await tool('get_plant', {service_group: sg()});
+  await setupLayers();
+  map.getSource('plant').setData(plant);
+  if (fitView) fit(plant.features.filter(f => f.geometry.type === 'Point').map(f => f.geometry.coordinates));
+  const records = {};
+  plant.features.forEach(f => { if (f.properties.record_status) records[f.properties.record_status] = (records[f.properties.record_status] || 0) + 1; });
+  const rec = Object.entries(records).map(([k, v]) => `${v} ${k.toLowerCase()}`).join(', ');
+  $('sgInfo').innerHTML = `${esc(profileName(plant.profile))} · · ${esc(rec)}`;
+  $('dRecords').textContent = `Records: ${rec}. Marking built is one-way.`;
+  fillTargets();
+}
+
+// The workbench's targets are whatever this plant has of the kind the class acts on.
+function fillTargets() {
+  const c = CLASSES[$('fClass').value];
+  $('fHint').textContent = c.hint;
+  const props = plant.features.map(f => f.properties);
+  const ids = c.target === 'span' ? props.filter(p => p.kind === 'Span')
+    : c.target === 'location' ? props.filter(p => p.kind === 'Span' || p.kind === 'Drop' || (p.ports && p.ports.length))
+    : props.filter(p => p.kind === c.target);
+  const sorted = ids.map(p => p.id).sort((a, b) => String(a).localeCompare(String(b), undefined, {numeric: true}));
+  const keep = $('fTarget').value;
+  $('fTarget').innerHTML = sorted.length ? sorted.map(i => `<option value="${esc(i)}">${esc(i)}</option>`).join('') : '<option value="">None on this node</option>';
+  if (sorted.includes(keep)) $('fTarget').value = keep;
+  $('fParams').innerHTML = c.params.map(p => `<div><label for="p-${p.id}">${esc(p.label)}</label><input id="p-${p.id}" type="number" value="${p.value}" step="${p.step}" min="${p.lo}" max="${p.hi}"></div>`).join('');
+  $('fParams').querySelectorAll('input').forEach(i => i.oninput = staleWhatIf);
+  targetChanged();
+}
+
+function staleWhatIf() { $('fOutcome').innerHTML = ''; }
+
+function targetChanged() {
+  staleWhatIf();
+  const f = plant.features.find(x => x.properties.id === $('fTarget').value);
+  const c = CLASSES[$('fClass').value];
+  const isPort = c.target === 'location' && f && !f.properties.len_ft && f.properties.ports;
+  $('fPortWrap').style.display = isPort ? '' : 'none';
+  if (isPort) $('fPort').innerHTML = f.properties.ports.map(p => `<option value="${esc(p.id)}">${esc(p.id)} (${esc(typeof p.role === 'string' ? p.role : Object.keys(p.role)[0])})</option>`).join('');
+  const len = f && f.properties.len_ft;
+  $('fPosWrap').style.display = len && (c.target === 'location' || c.target === 'span') ? '' : 'none';
+  if (len) {
+    $('fPosLabel').textContent = `Position along ${f.properties.id}, ft from its upstream end (0 to ${Math.round(len)})`;
+    $('fPos').max = Math.round(len);
+    $('fPos').value = Math.round(len / 2);
+  }
+  showTarget();
+}
+
+// The ring marks what the workbench would act on, so it only shows there.
+function showTarget() {
+  const f = plant && plant.features.find(x => x.properties.id === $('fTarget').value);
+  if (MAP_OK && map.getSource('target')) map.getSource('target').setData(onTab('bench') && f ? {type: 'FeatureCollection', features: [f]} : empty());
+}
+
+function faultFromForm() {
+  const c = CLASSES[$('fClass').value];
+  const f = plant.features.find(x => x.properties.id === $('fTarget').value);
+  if (!f) throw new Error('Pick a target first.');
+  const specs = c.params.map(q => [q.id, `p-${q.id}`, q.label, q.lo, q.hi, false]);
+  const len_ft = f.properties.len_ft || 0;
+  if (len_ft && $('fPosWrap').style.display !== 'none') specs.push(['pos', 'fPos', 'Position', 0, Math.round(len_ft), false]);
+  const p = readAll(specs);
+  const pos_ft = len_ft ? Math.max(1, Math.min(len_ft - 1, p.pos ?? len_ft / 2)) : 0;
+  const target = {id: f.properties.id, span_id: f.properties.id, len_ft, pos_ft,
+    location: len_ft ? {Span: {span_id: f.properties.id, pos_ft}} : {Port: {element_id: f.properties.id, port: $('fPort').value}}};
+  return onset(c.build(target, p));
+}
+
+function statusOf(m, affected) { return !m.operational ? 'down' : affected.has(m.modem) ? 'affected' : 'ok'; }
+
+// Where each injected fault is, for the fault layer.
+function faultFeatures() {
+  const byId = Object.fromEntries(plant.features.map(f => [f.properties.id, f]));
+  return faults.flatMap(f => {
+    const k = Object.values(f.kind)[0];
+    const loc = k.location || k.entry_location;
+    const id = k.span_id || (loc && loc.Span && loc.Span.span_id) || (loc && loc.Port && loc.Port.element_id) || k.amp_id || k.psu_id || k.modem_id || k.rpd_id;
+    return byId[id] ? [byId[id]] : [];
+  });
+}
+
+// §16: a node's optical links, through get_optical_budget, and the fiber fault controls for its region.
+let opticsRegion = null;
+async function refreshOptics() {
+  const o = await tool('get_optical_budget', {service_group: sg()});
+  opticsRegion = o.region;
+  const links = o.link ? [o.link.forward, o.link.ret].filter(Boolean) : [];
+  const quality = l => l.analog ? (l.cnr ? `CNR ${fmt(l.cnr.cnr_db)}` : '–') : (l.margin_db === null || l.margin_db === undefined ? '–' : `margin ${fmt(l.margin_db)}`);
+  document.querySelector('#dOptics tbody').innerHTML = links.map(l => `<tr><td title="${esc(l.direction)}, ${fmt(l.wavelength_nm, 0)} nm">${esc(l.link)}</td><td>${l.received_dbm === null ? '<span class="bad">no light</span>' : fmt(l.received_dbm, 2)}</td><td>${quality(l)}</td><td>${l.up ? '<span class="good">up</span>' : '<span class="bad">down</span>'}</td><td>${fmt(l.latency_us, 2)}</td></tr>`).join('');
+  $('dOpticsNote').innerHTML = o.link ? (o.issues.length ? o.issues.map(i => `<div class="bad">${esc(i)}</div>`).join('') : '') : "No fiber plant serves this node, so the sim uses its node part's constant optics.";
+  const cables = $('ffCable');
+  if (o.fiber_ref) {
+    const fiber = (await tool('get_fiber_plant', {fiber_id: o.fiber_ref})).fiber_plant;
+    const keep = cables.value;
+    cables.innerHTML = fiber.cables.map(c => `<option value="${esc(c.id)}" data-len="${c.len_ft}">${esc(c.id)} · ${Math.round(c.len_ft).toLocaleString()} ft</option>`).join('');
+    if ([...cables.options].some(op => op.value === keep)) cables.value = keep;
+  } else {
+    cables.innerHTML = '';
+  }
+  for (const id of ['ffKind', 'ffCable', 'ffPos', 'ffLoss', 'ffInject', 'ffClear']) $(id).disabled = !o.fiber_ref;
+  const listed = await tool('list_faults', {service_group: sg()});
+  const ff = listed.fiber_faults || [];
+  const text = f => f.kind.FiberCut ? `Cut on ${f.kind.FiberCut.cable} at ${fmt(f.kind.FiberCut.pos_ft, 0)} ft` : f.kind.EventLoss ? `${fmt(f.kind.EventLoss.loss_db)} dB loss at ${esc(JSON.stringify(f.kind.EventLoss.location))}` : esc(JSON.stringify(f.kind));
+  $('ffList').innerHTML = o.fiber_ref ? (ff.length ? ff.map(f => `<div>${esc(text(f))}</div>`).join('') : 'No fiber fault on this region.') : '';
+}
+
+async function refreshNode() {
+  const s = await tool('get_status_map', {service_group: sg()});
+  observed = s;
+  const affected = new Set(s.who.affected);
+  document.querySelector('#modems tbody').innerHTML = s.modems.map(m => {
+    const st = statusOf(m, affected);
+    const margin = m.is_d31 === false ? '<span class="muted" title="A DOCSIS 3.0 modem has no OFDM channel, so no RxMER margin">D3.0</span>' : fmt(m.mer_margin_mean_db);
+    return `<tr class="pick${m.modem === selectedModem ? ' sel' : ''}" tabindex="0" data-modem="${esc(m.modem)}"><td>${stMark(st)}${esc(m.modem)}</td><td>${fmt(m.level_drift_db)}</td><td>${fmt(m.us_tx_drift_db)}</td><td>${margin}</td><td>${fmt(m.preeq_nmter_db)}</td></tr>`;
+  }).join('');
+  $('modemHead').textContent = `Modems on ${nodeShort(sg())}. Pick one for its RxMER.`;
+  await setupLayers();
+  const status = Object.fromEntries(s.modems.map(m => [m.modem, statusOf(m, affected)]));
+  map.getSource('modems').setData({type: 'FeatureCollection', features: plant.features.filter(f => f.properties.kind === 'Modem').map(f => ({...f, properties: {...f.properties, status: status[f.properties.id]}}))});
+  faults = (await tool('list_faults', {service_group: sg()})).faults;
+  $('fList').innerHTML = faults.length ? faults.map((f, i) => `<div class="find" style="margin-top:4px"><span>${esc(faultText(f))}</span><button class="mini" data-rm="${i}">Remove</button></div>`).join('') : 'None.';
+  $('fClear').style.display = faults.length ? '' : 'none';
+  map.getSource('faultMarks').setData({type: 'FeatureCollection', features: faultFeatures()});
+  if (selectedModem) await plotModem();
+}
+
+const severity = n => n.out_of_service || n.rpd_abnormal ? 3 : n.affected || n.upstream_degraded ? 2 : n.faults || n.open_work_orders ? 1 : 0;
+const stateOf = n => n.out_of_service || n.rpd_abnormal ? 'down' : n.affected || n.upstream_degraded ? 'affected' : 'ok';
+
+// Problems first, grouped by map, in node order within a group, so a NOC sees what's wrong before what's fine.
+async function refreshRegion() {
+  region = await tool('get_region_status');
+  if (document.activeElement !== $('temp')) $('temp').value = region.environment.temp_c;
+  if (document.activeElement !== $('rain')) $('rain').value = region.environment.rain_mm_per_hr;
+  if (document.activeElement !== $('hour')) $('hour').value = Math.round((region.environment.t || 0) / 1800) / 2 % 24;
+  renderRegion();
+  const s = await tool('get_recompute_stats');
+  $('mStats').textContent = `Cache: ${count(s.hits, 'answer', 'answers')} reused, ${Object.values(s.recomputed).reduce((x, y) => x + y, 0).toLocaleString()} computed.`;
+}
+
+function renderRegion() {
+  if (!region) return;
+  const nodes = region.nodes;
+  const problems = nodes.filter(n => severity(n) > 0);
+  const open = nodes.reduce((a, n) => a + (n.open_work_orders || 0), 0);
+  $('regionSum').textContent = `${count(nodes.length, 'node', 'nodes')}, ${problems.length} with problems, ${count(open, 'open work order', 'open work orders')}`;
+  const q = $('rFilter').value.trim().toLowerCase();
+  const only = $('rProblems').checked;
+  const shown = nodes.filter(n => (!only || severity(n) > 0 || n.service_group === sg()) && (!q || `${n.service_group} ${nodeName(n.service_group)}`.toLowerCase().includes(q)));
+  const byMap = {};
+  for (const n of shown) (byMap[mapOf(n.service_group) || ''] ||= []).push(n);
+  const order = (a, b) => severity(b) - severity(a) || String(a.service_group).localeCompare(String(b.service_group), undefined, {numeric: true});
+  const groupsSorted = Object.entries(byMap).sort(([ka, a], [kb, b]) => Math.max(...b.map(severity)) - Math.max(...a.map(severity)) || ka.localeCompare(kb));
+  const multi = groupsSorted.length > 1 || (groupsSorted[0] && groupsSorted[0][0]);
+  document.querySelector('#mRegion tbody').innerHTML = groupsSorted.map(([m, list]) =>
+    (multi ? `<tr class="grp"><th colspan="6">${esc(m ? mapName(m) : 'Hand-built fixture')}</th></tr>` : '') +
+    list.sort(order).map(n => `<tr class="pick${n.service_group === sg() ? ' sel' : ''}" tabindex="0" data-sg="${esc(n.service_group)}" title="${esc(n.service_group)} · ${esc(profileName(n.profile))}"><td>${stMark(stateOf(n))}${esc(nodeShort(n.service_group))}</td><td>${n.modems}</td><td>${n.affected}</td><td>${n.out_of_service}</td><td>${n.faults}</td><td>${n.open_work_orders ?? 0}</td></tr>`).join('')).join('') ||
+    `<tr><td colspan="6" class="muted">${only ? 'No node has a problem.' : 'No node matches.'}</td></tr>`;
+}
+
+async function refreshDesign() {
+  const [parts, issues, budget] = await Promise.all([
+    tool('get_parts_list', {service_group: sg()}),
+    tool('get_design_issues', {service_group: sg()}),
+    tool('get_level_budget', {service_group: sg()}),
+  ]);
+  document.querySelector('#dParts tbody').innerHTML = parts.parts.map(p => `<tr><td>${esc(p.component_ref)}</td><td>${p.quantity}</td><td>${p.total_len_ft ? Math.round(p.total_len_ft).toLocaleString() : ''}</td></tr>`).join('');
+  document.querySelector('#dBudget tbody').innerHTML = budget.modems.map(m => `<tr><td>${esc(m.modem)}</td><td>${fmt(m.level_min_dbmv)}</td><td>${fmt(m.level_max_dbmv)}</td><td>${fmt(m.tx_max_dbmv_per_1p6mhz)}</td><td>${fmt(m.tx_limit_dbmv_per_1p6mhz)}</td><td>${m.premises ? fmt(m.premises.loss_from_tap_port_db.at_hi) : '–'}</td></tr>`).join('');
+  await refreshOptics();
+  const all = [...issues.topology, ...issues.physics];
+  $('dIssues').innerHTML = all.length ? all.map(i => `<div class="bad">${esc(i)}</div>`).join('') : '<span class="good">No issues.</span>';
+  $('nodeHead').textContent = `Node: ${nodeName(sg())}`;
+}
+
+// The node picker: grouped by map, readable, and narrowed by the find box.
+async function refreshGroups(keep) {
+  groups = (await tool('list_service_groups')).service_groups;
+  buildPicker(keep || sg());
+}
+function buildPicker(keep) {
+  const q = $('sgFind').value.trim().toLowerCase();
+  const match = g => !q || g.service_group === keep || `${g.service_group} ${nodeName(g.service_group)}`.toLowerCase().includes(q);
+  const byMap = {};
+  for (const g of groups.filter(match)) (byMap[mapOf(g.service_group) || ''] ||= []).push(g);
+  const natural = (a, b) => String(a.service_group).localeCompare(String(b.service_group), undefined, {numeric: true});
+  $('sg').innerHTML = Object.entries(byMap).sort(([a], [b]) => a.localeCompare(b)).map(([m, list]) =>
+    `<optgroup label="${esc(m ? mapName(m) : 'Hand-built fixture')}">${list.sort(natural).map(g => `<option value="${esc(g.service_group)}" title="${esc(g.service_group)}">${esc(nodeShort(g.service_group))} · ${esc(profileName(g.profile))}</option>`).join('')}</optgroup>`).join('');
+  if (keep && [...$('sg').options].some(o => o.value === keep)) $('sg').value = keep;
+}
+
+function refreshProfiles() {
+  const here = groups.find(g => g.service_group === sg());
+  const chosen = $('dProfile').value || (here && here.profile);
+  $('dProfile').innerHTML = PROFILES.map(p => `<option value="${p}">${esc(profileName(p))}</option>`).join('');
+  if (chosen) $('dProfile').value = chosen;
+  $('mTo').innerHTML = PROFILES.filter(p => !here || p !== here.profile).map(p => `<option value="${p}">${esc(profileName(p))}</option>`).join('');
+}
+
+async function loadNode(fitView = true) {
+  selectedModem = null; lastAnswer = null; plotted = null;
+  $('plotWrap').classList.remove('on');
+  for (const id of ['answer', 'mResult', 'fOutcome', 'fSwitchOut', 'diagMsg', 'migMsg', 'fMsg', 'fListMsg', 'fSwitchMsg', 'orderMsg', 'dBuiltMsg']) $(id).innerHTML = '';
+  $('mApply').style.display = 'none';
+  document.querySelector('#pvo tbody').innerHTML = '';
+  $('pvoEmpty').style.display = '';
+  if (popup) { popup.remove(); popup = null; }
+  await drawPlant(fitView);
+  // The header's node and the Design tab's map are the same place, so the page never shows one plant and describes another.
+  const m = mapOf(sg());
+  if (m && mapsById[m] && (!curMap || curMap.map_id !== m)) await selectMap(m, false, false);
+  else if (!m && curMap && !placing) { curMap = null; $('pMap').value = ''; renderMap(); }
+  await refreshNode();
+  await Promise.all([refreshRegion(), refreshDesign(), refreshOrders()]);
+  refreshProfiles();
+  markSelectedSite();
+  await syncGeography();
+}
+
+function selectModem(id) {
+  selectedModem = id;
+  document.querySelectorAll('#modems tr.pick, #pvo tr.pick').forEach(tr => tr.classList.toggle('sel', tr.dataset.modem === id));
+  guarded(plotModem);
+}
+
+// RxMER per subcarrier. Observed, and if a current diagnosis is in hand, its top answer simulated on the same modem.
+async function plotModem() {
+  const seen = await tool('get_modem_telemetry', {service_group: sg(), modem: selectedModem, full: true});
+  const top = lastAnswer && lastAnswer.hypotheses[0];
+  const sim = top && top.faults ? await tool('get_modem_telemetry', {service_group: sg(), modem: selectedModem, full: true, assume_faults: top.faults}) : null;
+  plotted = {seen, sim, modem: selectedModem, top, at: new Date()};
+  drawPlot();
+}
+
+function series(obs) {
+  const pts = [];
+  for (const ch of (obs && obs.rxmer) || []) {
+    if (!ch.rxmer_db) continue;
+    const {zero_freq_mhz, first_active_index, spacing_khz} = ch.axis;
+    ch.rxmer_db.forEach((v, i) => { if (v !== null) pts.push([zero_freq_mhz + (first_active_index + i) * spacing_khz / 1000, v, ch.channel_id]); });
+  }
+  return pts;
+}
+
+function drawPlot() {
+  if (!plotted) return;
+  const {seen, sim, modem, top, at} = plotted;
+  const a = series(seen), b = series(sim);
+  $('plotWrap').classList.add('on');
+  const c = $('plot');
+  const time = at.toLocaleTimeString();
+  if (!a.length) {
+    $('plotTitle').innerHTML = `<b>${esc(modem)}</b> reports no per-subcarrier RxMER: it's a DOCSIS 3.0 modem with no OFDM channel, or it's out of service. Read at ${esc(time)}.`;
+    c.setAttribute('aria-label', `${modem}: no RxMER reported`);
+    c.style.display = 'none';
+    return;
+  }
+  c.style.display = '';
+  const simName = top ? `${hypLabel(top)} at ${hypWhere(top)}` : '';
+  $('plotTitle').innerHTML = `<b>${esc(modem)}</b> downstream RxMER, dB. <span style="color:${css('--accent')}">— Observed</span>` +
+    (b.length ? `, <span style="color:${css('--warn')}">— simulated under ${esc(simName)}</span>` : '') + `. Read at ${esc(time)}.`;
+  const stats = pts => { const ys = pts.map(p => p[1]); return `min ${Math.min(...ys).toFixed(1)} dB, mean ${(ys.reduce((x, y) => x + y, 0) / ys.length).toFixed(1)} dB`; };
+  c.setAttribute('aria-label', `${modem} downstream RxMER from ${Math.round(a[0][0])} to ${Math.round(a[a.length - 1][0])} MHz. Observed ${stats(a)}.` + (b.length ? ` Simulated under ${simName}: ${stats(b)}.` : ''));
+  const r = devicePixelRatio || 1, W = c.clientWidth, H = c.clientHeight;
+  c.width = W * r; c.height = H * r;
+  const g = c.getContext('2d');
+  g.scale(r, r); g.clearRect(0, 0, W, H);
+  g.font = '11px system-ui'; g.fillStyle = css('--muted');
+  const all = a.concat(b), xs = all.map(p => p[0]), ys = all.map(p => p[1]);
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.floor((Math.min(...ys) - 1) / 5) * 5, y1 = Math.ceil((Math.max(...ys) + 1) / 5) * 5;
+  const L = 34, R = 8, T = 6, B = 20;
+  const X = x => L + (x - x0) / (x1 - x0 || 1) * (W - L - R), Y = y => T + (y1 - y) / (y1 - y0 || 1) * (H - T - B);
+  g.strokeStyle = css('--line'); g.lineWidth = 1;
+  for (let y = y0; y <= y1; y += 5) { g.beginPath(); g.moveTo(L, Y(y)); g.lineTo(W - R, Y(y)); g.stroke(); g.fillText(y, 8, Y(y) + 4); }
+  const stepX = (x1 - x0) > 300 ? 100 : 50;
+  for (let x = Math.ceil(x0 / stepX) * stepX; x <= x1; x += stepX) if (X(x) < W - 50) g.fillText(`${x} MHz`, X(x) - 18, H - 5);
+  const trace = (pts, color, width, dash) => {
+    g.strokeStyle = color; g.lineWidth = width; g.setLineDash(dash); g.beginPath();
+    let last = null;
+    for (const [x, y, ch] of pts) {
+      // The pen lifts between channels, so a gap isn't drawn as a measurement.
+      if (last === ch) g.lineTo(X(x), Y(y)); else g.moveTo(X(x), Y(y));
+      last = ch;
+    }
+    g.stroke(); g.setLineDash([]);
+  };
+  // Simulated underneath and dashed, so where the two agree the observed trace still shows.
+  if (b.length) trace(b, css('--warn'), 1.5, [4, 3]);
+  trace(a, css('--accent'), 1, []);
+}
+
+// After the plant or environment changes, a diagnosis no longer describes it. Say so, and stop overlaying it.
+function diagnosisStale(why) {
+  if (!lastAnswer) return;
+  lastAnswer = null;
+  const box = $('answer');
+  if (box.innerHTML) box.insertAdjacentHTML('afterbegin', `<div class="card warnbox"><b>Out of date:</b> ${esc(why)} since this diagnosis. Diagnose again.</div>`);
+  document.querySelector('#pvo tbody').innerHTML = '';
+  $('pvoEmpty').style.display = '';
+}
+
+function hypCard(h) {
+  if (!h) return '';
+  const d = h.faults && h.faults[0] ? describeFault(h.faults[0]).detail : '';
+  return `<div class="card"><b>${esc(hypLabel(h))}</b> <span class="muted">${esc(hypWhere(h))}</span>${d ? `<div class="muted">${esc(d)}</div>` : ''}<div class="bar" style="width:${Math.round(h.posterior * 100)}%"></div><div class="muted">${pct(h.posterior)}, fit error ${fmt(h.chi2_per_dof, 2)}, ${count(h.affected_modems, 'modem', 'modems')}</div></div>`;
+}
+
+const closeCall = (a, b) => b && a && b.posterior >= a.posterior - 0.10 && hypWhere(b) !== hypWhere(a) && b.posterior > 0.05;
+
+function renderAnswer(a) {
+  const model = a.model && a.model.verified;
+  const ranked = model ? [...model.hypotheses].sort((x, y) => y.posterior - x.posterior) : a.no_ml.hypotheses;
+  const [best, second] = ranked;
+  const n = a.who.affected.length;
+  const affected = `${count(n, 'modem', 'modems')} affected.`;
+  const healthy = !best || !best.class;
+  // "Affected" is what the modems report; an answer's own count is what it predicts. Healthy leading while modems read worse means
+  // nothing the twin tried reproduces what they show, and the page says so rather than both at once.
+  const lead = healthy
+    ? (n === 0
+      ? `Most likely healthy (${pct(best ? best.posterior : 1)}${model ? '' : ', not calibrated'}). No modem reads worse than normal. Nothing here needs a truck.`
+      : `${count(n, 'modem reads', 'modems read')} worse than normal, but no fault the twin tried explains ${n === 1 ? 'it' : 'them'}. The closest answer is healthy (${pct(best ? best.posterior : 1)}${model ? '' : ', not calibrated'}).`)
+    : `Most likely: <b>${esc(hypLabel(best))}</b> at <b>${esc(hypWhere(best))}</b>${best.faults && best.faults[0] ? `, ${esc(describeFault(best.faults[0]).detail)}` : ''} (${pct(best.posterior)}${model ? '' : ', not calibrated'}). ${affected}`;
+  const near = closeCall(best, second) ? `<div class="card warnbox"><b>Close call.</b> ${esc(hypLabel(second))} at ${esc(hypWhere(second))} is ${pct(second.posterior)}. Check both.</div>` : '';
+  const col = (title, note, hyps, sims) => `<div><b>${title}</b><div class="muted">${note}. ${count(sims, 'simulation', 'simulations')}.</div>${hyps.slice(0, 3).map(hypCard).join('')}</div>`;
+  const left = col('Fit only, no model', 'Percentages not calibrated', a.no_ml.hypotheses, a.no_ml.simulations);
+  const right = model ? col('With the proposal model', 'Percentages calibrated', ranked, model.simulations) : '<div><b>With the proposal model</b><div class="card muted">No model is loaded. Start the server with --model.</div></div>';
+  const props = a.model && a.model.proposals;
+  const proposed = props ? `<div class="muted" style="margin-top:6px">The model's proposals, before the sim checked them: ${props.slice(0, 3).map(p => `${esc(p.component || 'healthy')} ${pct(p.probability)}`).join(', ')}.</div>` : '';
+  $('answer').innerHTML = `<div class="card"><div class="lead">${lead}</div><span class="muted">${esc(nodeName(sg()))}, at ${esc(new Date().toLocaleTimeString())}</span></div>${near}` +
+    `<details class="plain"><summary>Details: every answer and how it scored</summary><div class="muted" style="margin:6px 0">Each answer is a fault simulated on this plant and compared with the telemetry. Lower fit error is a closer match. The fit-only ranking can name a fault on a healthy node; the model's percentages are measured confidence.</div><div class="two">${left}${right}</div>${proposed}</details>`;
+}
+
+$('diagnose').onclick = () => guarded(async () => {
+  const a = await tool('diagnose', {service_group: sg()});
+  lastAnswer = a;
+  renderAnswer(a);
+  const top = a.hypotheses[0];
+  const seenBy = Object.fromEntries(observed.modems.map(m => [m.modem, m]));
+  const affected = new Set(a.who.affected);
+  const rows = top && top.predicted ? top.predicted.modems.filter(m => affected.has(m.modem)) : [];
+  document.querySelector('#pvo tbody').innerHTML = rows.map(m => {
+    const s = seenBy[m.modem] || {};
+    return `<tr class="pick${m.modem === selectedModem ? ' sel' : ''}" tabindex="0" data-modem="${esc(m.modem)}"><td>${esc(m.modem)}</td><td>${fmt(s.level_drift_db)}</td><td>${fmt(m.level_drift_db)}</td><td>${fmt(s.mer_margin_mean_db)}</td><td>${fmt(m.mer_margin_mean_db)}</td></tr>`;
+  }).join('');
+  $('pvoEmpty').style.display = rows.length ? 'none' : '';
+  if (!rows.length) $('pvoEmpty').textContent = 'No modem reads affected, so there is nothing to compare.';
+  await refreshOrders();
+  const WITHHELD = {
+    unexplained: `No work order. Healthy is the most likely answer, so there's no fault to send a truck to, even though ${count(a.who.affected.length, 'modem reads', 'modems read')} worse. Look at their RxMER, or run the switch test in the Workbench.`,
+    healthy: 'No work order: the node looks healthy.',
+    quiet: 'No work order. No modem reads worse than this node does when healthy, and the top answer is below even odds, so there is nothing to send a truck for.',
+  };
+  if (!a.work_orders.length) say('orderMsg', a.order_withheld ? (WITHHELD[a.order_withheld_reason] || WITHHELD.quiet) : 'No new work order from this diagnosis.', 'info');
+  // The plot follows the answer just given, never an earlier one.
+  if (selectedModem) await plotModem();
+  await refreshRegion();
+}, 'diagMsg');
+
+// Work orders come from the twin, not from this page's memory, so a reload or a node switch loses none.
+const ORDER_WORDS = {Proposed: 'Proposed', Dispatched: 'With a crew', Completed: 'Repair reported', Verified: 'Verified fixed', NotVerified: 'Not fixed'};
+const NEXT = {Proposed: ['dispatch', 'Dispatch to a crew'], Dispatched: ['complete', 'Mark the repair done'], Completed: ['verify', 'Verify from telemetry']};
+
+function verdictText(v) {
+  const left = [];
+  if (v.still_affected.length) left.push(`${count(v.still_affected.length, 'modem', 'modems')} still affected`);
+  if (v.upstream_degraded) left.push('upstream still degraded');
+  if (v.rpd_abnormal) left.push('RPD still abnormal');
+  return left.length ? `Not cleared: ${left.join(', ')}. Diagnose again.` : 'Cleared: fresh telemetry shows every modem it affected back to normal.';
+}
+
+async function refreshOrders() {
+  // Issued in time order, so newest first is the list backwards.
+  orders = (await tool('list_work_orders', {service_group: sg()})).work_orders.slice().reverse();
+  const top = lastAnswer && lastAnswer.work_orders[0];
+  const ranked = lastAnswer ? (lastAnswer.model && lastAnswer.model.verified ? [...lastAnswer.model.verified.hypotheses].sort((x, y) => y.posterior - x.posterior) : lastAnswer.no_ml.hypotheses) : [];
+  $('orders').innerHTML = orders.length ? orders.map(o => {
+    const next = NEXT[o.status];
+    const at = describeFault(o.parameters);
+    const goTo = at.target && at.target.split(/[ ,]/)[0] !== o.element_id ? `${esc(at.target)}, reached from ${esc(o.element_id)}` : esc(o.element_id);
+    const near = top && top.id === o.id && closeCall(ranked[0], ranked[1]) ? `<div class="warn">Close call with ${esc(hypLabel(ranked[1]))} at ${esc(hypWhere(ranked[1]))} (${pct(ranked[1].posterior)}). If this spot is clean, check that one too.</div>` : '';
+    const verdict = verdicts[o.id] ? `<div class="${o.status === 'Verified' ? 'good' : 'bad'}">${esc(verdictText(verdicts[o.id]))}</div>` : o.status === 'NotVerified' ? '<div class="bad">Not cleared. Diagnose again.</div>' : o.status === 'Verified' ? '<div class="good">Cleared, proved by telemetry.</div>' : '';
+    return `<div class="card"><b>${esc(o.action)}</b> <span class="tag">${esc(ORDER_WORDS[o.status] || o.status)}</span>` +
+      `<div>Go to <b>${goTo}</b>.${o.parts && o.parts.length ? ` Bring: ${esc(o.parts.join(', '))}.` : ''}</div>` +
+      `<div class="muted">${esc(at.label)}${at.detail ? `, ${esc(at.detail)}` : ''}. ${pct(o.confidence)} confident, ${count(o.affected_modems, 'modem', 'modems')} affected.</div>${near}${verdict}` +
+      `<details class="plain"><summary>Why</summary><div class="muted">${esc(o.explanation)}</div></details>` +
+      (next ? `<button data-order="${esc(o.id)}" data-step="${next[0]}">${next[1]}</button>` : '') + '</div>';
+  }).join('') : '<span class="muted">None on this node. Diagnose to raise one.</span>';
+  orderPins.forEach(p => p.remove());
+  orderPins = [];
+  if (MAP_OK) for (const o of orders) if (o.geo && !['Verified', 'NotVerified'].includes(o.status))
+    orderPins.push(new maplibregl.Marker({color: css('--bad')}).setLngLat([o.geo.lon_deg, o.geo.lat_deg]).addTo(map));
+  applyLayerToggles();
+}
+
+async function advanceOrder(id, step) {
+  const args = {service_group: sg(), id};
+  if (step === 'dispatch') await tool('dispatch_work_order', args);
+  // The repair is the fault coming out of the plant. On a real network the technician does this and the twin only reads the result.
+  if (step === 'complete') { await tool('complete_work_order', args); diagnosisStale('the crew reported the repair done'); }
+  if (step === 'verify') { const v = await tool('verify_work_order', args); verdicts[id] = v.verdict; await refreshLabels(); }
+  await refreshOrders();
+  await refreshNode(); await refreshRegion();
+}
+
+async function refreshLabels() {
+  const l = await tool('list_verified_labels');
+  $('labels').innerHTML = l.labels.length ? l.labels.map(x => `<div>${esc(CLASS_LABELS[x.cause] || x.cause)} at ${esc(x.element_id)}</div>`).join('') : 'None yet. An order proved by telemetry lands here.';
+}
+
+const onTab = name => $(`tab-${name}`).classList.contains('on');
+function showTab(b, focus = false) {
+  document.querySelectorAll('[role=tab]').forEach(x => { const on = x === b; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.id === `tab-${b.dataset.tab}`));
+  const was = document.body.dataset.mode;
+  document.body.dataset.mode = b.dataset.tab;
+  if (focus) b.focus();
+  // The stage changes width with the mode, and Operate has a stage of its own (task 29).
+  if (MAP_OK) map.resize();
+  if (window.opsMode && (was === 'ops') !== (b.dataset.tab === 'ops')) window.opsMode(b.dataset.tab === 'ops');
+  if (onDesign() && !curMap && !placing) quietly(startPlacing);
+  renderSteps();
+  if (!onDesign()) { stopPlacing(); setAddMode(false); }
+  if (popup) { popup.remove(); popup = null; }
+  showTarget();
+  // Not a locking action, so a click straight after a tab switch is never swallowed.
+  quietly(syncGeography);
+}
+document.querySelectorAll('[role=tab]').forEach(b => {
+  b.onclick = () => showTab(b);
+  b.onkeydown = e => {
+    const tabs = [...document.querySelectorAll('[role=tab]')], i = tabs.indexOf(b);
+    const to = {ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1}[e.key];
+    if (to === undefined) return;
+    e.preventDefault();
+    showTab(tabs[(to + tabs.length) % tabs.length], true);
+  };
+});
+// A field marked wrong stops being marked as soon as someone edits it.
+document.addEventListener('input', e => {
+  if (e.target.getAttribute && e.target.getAttribute('aria-invalid') === 'true') {
+    e.target.setAttribute('aria-invalid', 'false');
+    const note = e.target.parentElement.querySelector('.fielderr');
+    if (note) note.remove();
+  }
+});
+// Rows that can be picked act on Enter or Space, as a button would.
+document.addEventListener('keydown', e => {
+  if (e.target.matches && e.target.matches('tr.pick') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); e.target.click(); }
+  if (e.key === 'Escape') { if (drawMode) { setDrawMode(false); $('pArea').textContent = 'Drawing cancelled.'; } if (addMode) setAddMode(false); }
+});
+
+$('fClass').innerHTML = Object.entries(CLASSES).map(([k, c]) => `<option value="${k}">${esc(c.label)}</option>`).join('');
+$('fClass').onchange = () => { say('fMsg', ''); fillTargets(); };
+$('fTarget').onchange = () => { say('fMsg', ''); targetChanged(); };
+$('fPort').onchange = $('fPos').oninput = staleWhatIf;
+$('sg').onchange = () => guarded(() => loadNode());
+$('sgFind').oninput = () => buildPicker(sg());
+$('rFilter').oninput = $('rProblems').onchange = renderRegion;
+['lMap', 'lDesign', 'lFault', 'lTelemetry'].forEach(id => $(id).onchange = applyLayerToggles);
+document.querySelector('#modems tbody').onclick = e => { const tr = e.target.closest('tr[data-modem]'); if (tr) selectModem(tr.dataset.modem); };
+document.querySelector('#pvo tbody').onclick = e => { const tr = e.target.closest('tr[data-modem]'); if (tr) selectModem(tr.dataset.modem); };
+document.querySelector('#mRegion tbody').onclick = e => { const tr = e.target.closest('tr[data-sg]'); if (tr) chooseNode(tr.dataset.sg, true); };
+$('plotClose').onclick = () => { plotted = null; selectedModem = null; $('plotWrap').classList.remove('on'); document.querySelectorAll('tr.pick.sel[data-modem]').forEach(tr => tr.classList.remove('sel')); };
+$('orders').onclick = e => { const b = e.target.closest('button[data-order]'); if (b) guarded(() => advanceOrder(b.dataset.order, b.dataset.step), 'orderMsg'); };
+['temp', 'rain', 'hour'].forEach(id => $(id).onchange = () => guarded(async () => {
+  const v = readAll([['temp', 'temp', 'Air temperature', -50, 60, false], ['rain', 'rain', 'Rain', 0, 300, false], ['hour', 'hour', 'Time of day', 0, 23.5, false]]);
+  await tool('set_environment', {temp_c: v.temp, rain_mm_per_hr: v.rain, t: Math.round(v.hour * 3600)});
+  diagnosisStale('the environment changed');
+  await refreshNode(); await refreshRegion();
+  say('envMsg', `Every node now reads at ${v.temp} °C, ${v.rain} mm/h of rain, ${v.hour} h.`, 'ok');
+}, 'envMsg'));
+
+$('fWhatIf').onclick = () => guarded(async () => {
+  const fault = faultFromForm();
+  const s = await tool('what_if', {service_group: sg(), fault});
+  const down = s.modems.filter(m => !m.operational).length;
+  $('fOutcome').innerHTML = `<div class="card"><b>What if</b> ${esc(faultText(fault))}: ${s.who.affected.length} of ${count(s.modems.length, 'modem', 'modems')} would read affected, ${down} out of service${s.who.upstream_degraded ? ', upstream degraded' : ''}${s.who.rpd_abnormal ? ', RPD abnormal' : ''}. Nothing was changed.</div>`;
+}, 'fMsg');
+$('fInject').onclick = () => guarded(async () => {
+  const fault = faultFromForm();
+  await tool('inject_fault', {service_group: sg(), fault});
+  diagnosisStale('a fault was injected');
+  await refreshNode(); await refreshRegion();
+  $('fOutcome').innerHTML = `<div class="card good" role="status"><b>Injected:</b> ${esc(faultText(fault))}. The modems now read under it. Diagnose to see what the twin makes of it.</div>`;
+}, 'fMsg');
+$('fClear').onclick = () => guarded(async () => {
+  if (!await ask('fListMsg', `Clear all ${count(faults.length, 'fault', 'faults')} on ${esc(nodeShort(sg()))}?`, 'Clear them')) return;
+  await tool('clear_faults', {service_group: sg()});
+  diagnosisStale('faults were cleared');
+  await refreshNode(); await refreshRegion(); await refreshOrders();
+}, 'fListMsg');
+// One fault out: the twin clears and re-adds the rest, since there's no single-fault removal tool.
+$('fList').onclick = e => {
+  const b = e.target.closest('button[data-rm]');
+  if (!b) return;
+  guarded(async () => {
+    const keep = faults.filter((_, i) => i !== Number(b.dataset.rm));
+    await tool('clear_faults', {service_group: sg()});
+    for (const f of keep) await tool('inject_fault', {service_group: sg(), fault: f});
+    diagnosisStale('a fault was removed');
+    await refreshNode(); await refreshRegion();
+  }, 'fListMsg');
+};
+$('ffKind').onchange = () => { $('ffLossWrap').style.display = $('ffKind').value === 'EventLoss' ? '' : 'none'; };
+$('ffKind').onchange();
+$('ffInject').onclick = () => guarded(async () => {
+  if (!opticsRegion) return;
+  const cable = $('ffCable').value;
+  const pos_ft = Number($('ffPos').value);
+  const kind = $('ffKind').value === 'FiberCut'
+    ? {FiberCut: {cable, pos_ft, repair_s: null}}
+    : {EventLoss: {location: {Cable: {cable, pos_ft}}, loss_db: Number($('ffLoss').value)}};
+  await tool('inject_fault', {region: opticsRegion, fiber_fault: {onset: 'Instant', kind}});
+  diagnosisStale('a fiber fault was injected');
+  await refreshOptics(); await refreshNode(); await refreshRegion();
+  say('ffMsg', `Injected on ${esc(opticsRegion)}: every node whose links cross ${esc(cable)} now reads under it.`, 'ok');
+}, 'ffMsg');
+$('ffClear').onclick = () => guarded(async () => {
+  if (!opticsRegion) return;
+  await tool('clear_faults', {region: opticsRegion});
+  diagnosisStale('fiber faults were cleared');
+  await refreshOptics(); await refreshNode(); await refreshRegion();
+  say('ffMsg', `Cleared every fiber fault on ${esc(opticsRegion)}.`, 'ok');
+}, 'ffMsg');
+$('fSwitch').onclick = () => guarded(async () => {
+  const r = await tool('localize_ingress', {service_group: sg()});
+  const text = !r.upstream_degraded
+    ? "The node's upstream reads clean, so there's no ingress to find. Ingress between the upstream channels doesn't show at the node."
+    : r.noise_is_below
+      ? `The noise falls when <b>${esc(r.noise_is_below)}</b>'s return leg is attenuated, so the ingress enters below ${esc(r.noise_is_below)}.`
+      : "The upstream is degraded, but attenuating no amp's return leg lowered the noise, so it enters above the first amp: at the node or on the span before it.";
+  $('fSwitchOut').innerHTML = `<div class="card">${text}</div>`;
+}, 'fSwitchMsg');
+
+// Designing on a map. Everything but finding a place goes through MCP; place search and basemap tiles are the browser's, and carry nothing about the twin.
+const MAX_KM2 = 40;
+// No reds: red means a fault or a modem down on this page.
+const PALETTE = ['#2f7ed8', '#3aa655', '#9b59b6', '#e08e0b', '#17a2b8', '#5c6bc0', '#6d8a00', '#8d6e63'];
+let curMap = null, mapsById = {}, siteMarkers = [], headendMarker = null;
+let placing = false, drawMode = false, drawStart = null, justDrew = false, area = null, addMode = false;
+let basemapLayers = null, basemapShown = false, attribution = null;
+const onDesign = () => onTab('design');
+
+function controlsFromForm(pins) {
+  const v = readAll([['per', 'dPerNode', 'Homes per node', 10, 100000, true], ['take', 'dTake', 'Take rate', 0.01, 1, false], ['seed', 'dSeed', 'Seed', 0, 2 ** 53, true]]);
+  const controls = {homes_per_node: v.per, cascade_limit: null, take_rate: v.take, d30_share: 0.3, max_drop_ft: 250, pinned_nodes: pins, seed: v.seed};
+  // Task 23: rules run the version 2 designer; its second mode designs a legacy build first and upgrades it in place.
+  const rules = $('dRules').value;
+  if (rules) {
+    controls.rules_id = rules;
+    controls.build_over_ceiling = $('dOverCeiling').checked;
+    controls.mode = $('dMode').value === 'LegacyThenUpgrade'
+      ? {LegacyThenUpgrade: {legacy_rules_id: $('dLegacyRules').value, legacy_profile_ref: $('dLegacyProfile').value}}
+      : 'Greenfield';
+  }
+  return controls;
+}
+
+let RULES = [];
+async function refreshRules() {
+  RULES = (await tool('list_design_rules')).rules;
+  // The version 2 designer under the generic rules is the default (task 25); version 1 stays a choice.
+  const first = !$('dRules').dataset.filled;
+  const keep = first ? (RULES.some(r => r.id === 'generic') ? 'generic' : '') : $('dRules').value;
+  $('dRules').innerHTML = '<option value="">None: the version 1 designer</option>' +
+    RULES.map(r => `<option value="${esc(r.id)}">${esc(r.id)} · ${r.sourced} of ${r.values} values sourced</option>`).join('');
+  $('dRules').value = keep;
+  $('dRules').dataset.filled = '1';
+  $('dLegacyRules').innerHTML = RULES.map(r => `<option value="${esc(r.id)}">${esc(r.id)}</option>`).join('');
+  const legacy = RULES.find(r => r.id.startsWith('legacy'));
+  if (legacy) {
+    $('dLegacyRules').value = legacy.id;
+    $('dLegacyProfile').innerHTML = legacy.profiles.map(p => `<option value="${esc(p)}">${esc(profileName(p))}</option>`).join('');
+  }
+  showModes();
+}
+function showModes() {
+  $('dModeBox').style.display = $('dRules').value ? '' : 'none';
+  $('dLegacyBox').style.display = $('dRules').value && $('dMode').value === 'LegacyThenUpgrade' ? '' : 'none';
+}
+$('dRules').onchange = showModes;
+$('dMode').onchange = showModes;
+$('dLegacyRules').onchange = () => {
+  const r = RULES.find(x => x.id === $('dLegacyRules').value);
+  if (r) $('dLegacyProfile').innerHTML = r.profiles.map(p => `<option value="${esc(p)}">${esc(profileName(p))}</option>`).join('');
+};
+
+// A version 2 design's cost, from its records through get_design_cost. Every generic price is the rules' own.
+async function renderCost() {
+  const input = curMap && curMap.design_input;
+  if (!input || !input.controls.rules_id || !curMap.node_sites.length) { $('dCost').innerHTML = ''; return; }
+  const c = await tool('get_design_cost', {map_id: curMap.map_id});
+  const money = x => '$' + Math.round(x).toLocaleString();
+  const cands = (c.candidates || []).map(k => `<tr${k.kept ? ' class="sel"' : ''}><td>${esc(k.express_cable)}</td><td>${k.step > 0 ? '+' : ''}${k.step}</td><td>${k.nodes}</td><td>${money(k.usd_per_home)}</td><td class="${k.issues ? 'bad' : ''}">${k.issues}</td><td>${k.kept ? 'Kept' : ''}</td></tr>`).join('');
+  const over = (c.over_ceiling || []).reduce((a, o) => a + o.homes.length, 0);
+  const lines = c.lines.slice().sort((a, b) => b.usd - a.usd).slice(0, 12).map(l => `<tr><td>${esc(l.item)}</td><td>${l.unit === 'ft' ? Math.round(l.quantity).toLocaleString() + ' ft' : fmt(l.quantity)}</td><td>${money(l.usd)}</td></tr>`).join('');
+  $('dCost').innerHTML = `<div class="card"><b>${money(c.total_usd)}</b>, ${money(c.usd_per_home)} per home passed <span class="tag">Generic prices</span>` +
+    `<div class="muted">${esc(c.basis)}.${c.ceiling_usd_per_home ? ` Ceiling ${money(c.ceiling_usd_per_home)} per home.` : ''}</div>` +
+    (over ? `<div class="warnbox">${count(over, 'home', 'homes')} over the ceiling: coax isn't the answer there, ${input.controls.build_over_ceiling ? 'and they were built anyway, as the switch asks' : "and the designer didn't build them"}.</div>` : '') +
+    (cands ? `<details open><summary>Candidates</summary><table><thead><tr><th>Express cable</th><th>Nodes ±</th><th>Nodes</th><th>Per home</th><th>Issues</th><th></th></tr></thead><tbody>${cands}</tbody></table></details>` : '') +
+    `<details><summary>Largest cost lines</summary><table><thead><tr><th>Item</th><th>Quantity</th><th>Cost</th></tr></thead><tbody>${lines}</tbody></table></details></div>`;
+}
+
+async function setBasemap(on) {
+  if (!MAP_OK) return;
+  await setupLayers();
+  if (on && !basemapLayers) {
+    // The light style in either theme: the dark one's roads are too faint to design against.
+    const style = await (await fetch('https://tiles.openfreemap.org/styles/positron')).json();
+    // Sources and layers first: the sprite puts the style back to loading, and adding anything during that throws.
+    for (const [id, source] of Object.entries(style.sources)) map.addSource(`bm-${id}`, source);
+    if (style.glyphs) map.setGlyphs(style.glyphs);
+    basemapLayers = [];
+    for (const layer of style.layers) {
+      const id = `bm-${layer.id}`;
+      map.addLayer({...layer, id, ...(layer.source ? {source: `bm-${layer.source}`} : {})}, 'streetLines');
+      basemapLayers.push(id);
+    }
+    if (style.sprite) map.setSprite(style.sprite);
+  }
+  if (on === basemapShown) return;
+  basemapShown = on;
+  (basemapLayers || []).forEach(id => map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
+  if (on) {
+    attribution = new maplibregl.AttributionControl({compact: false, customAttribution: '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'});
+    map.addControl(attribution);
+  } else if (attribution) { map.removeControl(attribution); attribution = null; }
+}
+
+// The basemap shows only under real geography, and the banner says whose is what (invariant 11).
+async function syncGeography() {
+  const ofNode = mapsById[mapOf(sg())];
+  const shown = onDesign() && curMap ? curMap : ofNode;
+  const real = !!(shown && shown.real_geography);
+  try { await setBasemap(placing || real); } catch (e) { basemapLayers = null; say('errMsg', "Couldn't load the basemap. The twin still works without it.", 'info'); }
+  applyLayerToggles();
+  showTarget();
+}
+
+function stopPlacing() {
+  placing = false; area = null;
+  setTimeout(renderSteps);
+  setDrawMode(false);
+  $('pArea').textContent = '';
+  $('pHits').innerHTML = '';
+  $('pImport').style.display = 'none';
+  if (MAP_OK && map.getSource('drawBox')) map.getSource('drawBox').setData(empty());
+}
+
+function setDrawMode(on) {
+  drawMode = on; drawStart = null;
+  $('pDraw').textContent = on ? 'Cancel drawing (Esc)' : 'Or draw an area';
+  if (!MAP_OK) return;
+  if (on) { map.dragPan.disable(); map.boxZoom.disable(); map.getCanvas().style.cursor = 'crosshair'; }
+  else { map.dragPan.enable(); map.boxZoom.enable(); map.getCanvas().style.cursor = ''; }
+}
+
+function setAddMode(on) {
+  addMode = on;
+  $('pAdd').textContent = on ? 'Click the map, or press Esc' : 'Add a node on the map';
+  if (MAP_OK) map.getCanvas().style.cursor = on ? 'crosshair' : '';
+}
+
+// Takes the map over from whatever was shown, so a place being picked has no plant on it.
+async function startPlacing() {
+  placing = true;
+  curMap = null;
+  $('pMap').value = '';
+  renderMap();
+  await syncGeography();
+  renderSteps();
+}
+
+function km2(b) {
+  const tall = (b.north_deg - b.south_deg) * 111.32;
+  const wide = (b.east_deg - b.west_deg) * 111.32 * Math.cos((b.north_deg + b.south_deg) / 2 * Math.PI / 180);
+  return tall * wide;
+}
+
+function boxFeature(b) {
+  const ring = [[b.west_deg, b.south_deg], [b.east_deg, b.south_deg], [b.east_deg, b.north_deg], [b.west_deg, b.north_deg], [b.west_deg, b.south_deg]];
+  return {type: 'FeatureCollection', features: [{type: 'Feature', geometry: {type: 'Polygon', coordinates: [ring]}, properties: {}}]};
+}
+
+function boxBetween(a, b) {
+  const r = x => Math.round(x * 10000) / 10000;
+  return {south_deg: r(Math.min(a.lat, b.lat)), north_deg: r(Math.max(a.lat, b.lat)), west_deg: r(Math.min(a.lng, b.lng)), east_deg: r(Math.max(a.lng, b.lng))};
+}
+
+function showArea() {
+  const size = km2(area);
+  const ok = size <= MAX_KM2 && size > 0;
+  $('pArea').innerHTML = ok ? `${size.toFixed(1)} km² selected.${size > 2 ? ' That may take several minutes.' : ''}` : `<span class="bad">${size.toFixed(1)} km² is over the ${MAX_KM2} km² one import can ask for. Draw a smaller box.</span>`;
+  $('pImport').style.display = ok ? '' : 'none';
+}
+
+map.on('mousedown', e => { if (drawMode) { e.preventDefault(); drawStart = e.lngLat; } });
+map.on('mousemove', e => {
+  if (!drawMode || !drawStart) return;
+  area = boxBetween(drawStart, e.lngLat);
+  map.getSource('drawBox').setData(boxFeature(area));
+  showArea();
+});
+map.on('mouseup', e => {
+  if (!drawMode || !drawStart) return;
+  area = boxBetween(drawStart, e.lngLat);
+  map.getSource('drawBox').setData(boxFeature(area));
+  showArea();
+  // The click that may follow this mouseup isn't a click on the map. A drag often sends none, so this can't wait for one.
+  justDrew = true;
+  setTimeout(() => { justDrew = false; }, 50);
+  setDrawMode(false);
+});
+
+// Street level on the hit, not the whole town: a town's box is far over what one import can take (task 29).
+async function goToPlace(hit) {
+  await startPlacing();
+  const [south, north, west, east] = hit.boundingbox.map(Number);
+  const small = km2({south_deg: south, north_deg: north, west_deg: west, east_deg: east}) <= VIEW_KM2;
+  if (small) map.fitBounds([[west, south], [east, north]], {padding: 40, maxZoom: 17, duration: 0});
+  else map.jumpTo({center: [Number(hit.lon), Number(hit.lat)], zoom: 16});
+  $('pHits').innerHTML = '';
+  $('pArea').textContent = `${hit.display_name}. Move the map to the homes you want, then import the view.`;
+  renderSteps();
+}
+let placeHits = [];
+const findPlace = () => guarded(async () => {
+  const q = $('pPlace').value.trim();
+  if (!q) throw new Error('Type a town, neighbourhood or street address.');
+  const r = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&q=${encodeURIComponent(q)}`);
+  placeHits = await r.json();
+  if (!placeHits.length) throw new Error(`Nothing found for "${q}". Try just the town, or a street address.`);
+  if (placeHits.length === 1) { await goToPlace(placeHits[0]); return; }
+  $('pHits').innerHTML = '<div class="muted" style="margin-top:6px">Pick one:</div>' + placeHits.map((h, i) => `<button class="quiet" data-hit="${i}">${esc(h.display_name)}</button>`).join('');
+}, 'pFindMsg');
+$('pFind').onclick = findPlace;
+$('pPlace').onkeydown = e => { if (e.key === 'Enter') findPlace(); };
+$('pHits').onclick = e => { const b = e.target.closest('button[data-hit]'); if (b) guarded(() => goToPlace(placeHits[Number(b.dataset.hit)]), 'pFindMsg'); };
+
+$('pDraw').onclick = () => guarded(async () => {
+  if (!MAP_OK) throw new Error('Drawing an area needs the map, and this browser has no WebGL.');
+  if (drawMode) { setDrawMode(false); return; }
+  if (!placing) await startPlacing();
+  map.getSource('drawBox').setData(empty());
+  $('pImport').style.display = 'none';
+  $('pArea').textContent = 'Drag a box on the map. Esc cancels.';
+  setDrawMode(true);
+}, 'pFindMsg');
+
+// An import can take a minute or more. It counts the time, and can be stopped waiting for.
+async function importArea() {
+  const stop = new AbortController();
+  const t0 = Date.now();
+  const tick = () => say('pImportMsg', `Asking OpenStreetMap for ${km2(area).toFixed(1)} km². ${Math.round((Date.now() - t0) / 1000)} s so far.`, 'info', '<button class="quiet" id="pStop">Stop waiting</button>');
+  tick();
+  $('pStop').onclick = () => stop.abort();
+  const timer = setInterval(() => { tick(); $('pStop').onclick = () => stop.abort(); }, 1000);
+  $('pImport').disabled = true; $('pImport').classList.add('working');
+  try {
+    const m = await tool('import_osm_area', {...area, installation: $('pInstall').value}, stop.signal);
+    clearInterval(timer);
+    stopPlacing();
+    await refreshMaps();
+    await selectMap(m.map_id, true);
+    say('pImportMsg', '');
+    say('pDesignMsg', `Imported in ${Math.round((Date.now() - t0) / 1000)} s. Design this map next.`, 'ok');
+  } catch (e) {
+    clearInterval(timer);
+    say('pImportMsg', e.name === 'AbortError' ? 'Stopped waiting. The server may still finish the import; if it does, the map appears under This map.' : plain(e.message), e.name === 'AbortError' ? 'info' : 'bad');
+    if (e.name === 'AbortError') setTimeout(() => quietly(refreshMaps), 30000);
+  }
+  $('pImport').disabled = false; $('pImport').classList.remove('working');
+  renderSteps();
+}
+$('pImport').onclick = importArea;
+// The view as the area: no box to drag, the same import_osm_area call (task 29).
+const VIEW_KM2 = 2;
+function viewArea() {
+  const b = map.getBounds();
+  return boxBetween(b.getSouthWest(), b.getNorthEast());
+}
+$('pView').onclick = () => {
+  if (!MAP_OK || !placing) return;
+  area = viewArea();
+  if (km2(area) > VIEW_KM2) { renderSteps(); return; }
+  map.getSource('drawBox').setData(boxFeature(area));
+  $('pImport').style.display = 'none';
+  $('pArea').textContent = `${km2(area).toFixed(1)} km²: the view.`;
+  importArea();
+};
+map.on('moveend', () => { if (placing) renderSteps(); });
+
+$('pMap').onchange = () => guarded(async () => {
+  stopPlacing();
+  await selectMap($('pMap').value, true);
+}, 'pDesignMsg');
+
+async function refreshMaps() {
+  const l = await tool('list_maps');
+  mapsById = Object.fromEntries(l.maps.map(m => [m.map_id, m]));
+  const keep = $('pMap').value;
+  $('pMap').innerHTML = '<option value="">No map chosen</option>' + l.maps.map(m => `<option value="${esc(m.map_id)}" title="${esc(m.map_id)}">${esc(mapName(m.map_id))}</option>`).join('');
+  if (keep && mapsById[keep]) $('pMap').value = keep;
+}
+
+// Node issues come back with a design. After a reload there's none in hand, so they're asked for.
+let issueCounts = {};
+async function selectMap(id, fitView, followNode = true) {
+  if (!id) { curMap = null; renderMap(); await syncGeography(); return; }
+  $('pMap').value = id;
+  curMap = await tool('get_map', {map_id: id});
+  const input = curMap.design_input;
+  if (input) {
+    $('dProfile').value = input.profile;
+    $('dPerNode').value = input.controls.homes_per_node;
+    $('dTake').value = input.controls.take_rate;
+    $('dSeed').value = input.controls.seed;
+    $('dRules').value = input.controls.rules_id || '';
+    $('dOverCeiling').checked = !!input.controls.build_over_ceiling;
+    const m = input.controls.mode;
+    $('dMode').value = m && m.LegacyThenUpgrade ? 'LegacyThenUpgrade' : 'Greenfield';
+    if (m && m.LegacyThenUpgrade) { $('dLegacyRules').value = m.LegacyThenUpgrade.legacy_rules_id; $('dLegacyProfile').value = m.LegacyThenUpgrade.legacy_profile_ref; }
+    showModes();
+  }
+  const missing = curMap.node_sites.filter(n => issueCounts[n.service_group] === undefined);
+  await Promise.all(missing.map(async n => {
+    const i = await tool('get_design_issues', {service_group: n.service_group});
+    issueCounts[n.service_group] = i.topology.length + i.physics.length;
+  }));
+  await setupLayers();
+  renderMap();
+  renderCost().catch(e => say('pDesignMsg', esc(e.message), 'bad'));
+  if (fitView) {
+    const pts = (curMap.home_points.features.length ? curMap.home_points : curMap.street_lines).features.flatMap(f => f.geometry.type === 'Point' ? [f.geometry.coordinates] : f.geometry.coordinates);
+    fit(pts);
+  }
+  // Choosing a map moves the header to one of its nodes, so the node half of this tab is about this map.
+  if (followNode && curMap.node_sites.length && mapOf(sg()) !== id) {
+    const first = [...curMap.node_sites].sort((a, b) => Number(nodeNumber(a.service_group)) - Number(nodeNumber(b.service_group)))[0];
+    $('sg').value = first.service_group;
+    await loadNode(false);
+    return;
+  }
+  await syncGeography();
+}
+
+const LOCK_WORDS = {
+  'has a fault injected. Clear it first': 'has a fault injected. Clear it in the Workbench to unlock.',
+  'has built elements': 'is marked built. Built records are kept, so the map can\'t be re-solved. Design a new map to try another layout.',
+  "has a work order that's been acted on": 'has a work order a crew has acted on.',
+  'has been migrated': 'has been migrated to another profile.',
+};
+// What the server would refuse is disabled here, with the reason, rather than offered and refused.
+function applyLocks() {
+  const lock = curMap && curMap.locked;
+  const nodes = curMap ? curMap.node_sites.length : 0;
+  $('pLock').innerHTML = lock ? `<div class="card lockbox"><b>Locked.</b> ${esc(nodeShort(lock.service_group))} ${esc(LOCK_WORDS[lock.reason] || lock.reason)}</div>` : '';
+  // A disabled button says why under it, not only on hover (task 29).
+  const off = (id, why) => { $(id).disabled = !!why || working > 0; $(id).title = why || ''; if ($(`${id}Why`)) $(`${id}Why`).textContent = why || ''; };
+  off('pDesign', !curMap ? 'Choose or import a map first.' : lock && nodes ? 'Locked: see above.' : '');
+  off('pAdd', lock ? 'Locked: see above.' : '');
+  off('pClear', lock ? 'Locked: see above.' : '');
+  document.querySelectorAll('#pNodes button[data-unpin]').forEach(b => { b.disabled = !!lock || working > 0; });
+  $('dBuiltMap').style.display = nodes ? '' : 'none';
+  renderSteps();
+}
+
+function renderMap() {
+  siteMarkers.forEach(m => m.remove());
+  siteMarkers = [];
+  if (headendMarker) { headendMarker.remove(); headendMarker = null; }
+  const has = !!curMap;
+  const nodes = has ? [...curMap.node_sites].sort((a, b) => Number(nodeNumber(a.service_group)) - Number(nodeNumber(b.service_group))) : [];
+  $('pOnMap').style.display = nodes.length ? '' : 'none';
+  $('pDiscard').style.display = has ? '' : 'none';
+  $('pDesign').textContent = nodes.length ? 'Re-solve this map' : 'Design this map';
+  $('dBuiltMap').textContent = `Mark this map's ${count(nodes.length, 'node', 'nodes')} built`;
+  applyLocks();
+  if (!has) {
+    $('pInfo').innerHTML = $('dResult').innerHTML = '';
+    if (MAP_OK && map.getSource('streetLines')) for (const id of ['streetLines', 'homePoints', 'regionSpans', 'fiberLines', 'fiberPoints']) map.getSource(id).setData(empty());
+    $('dCost').innerHTML = '';
+    return;
+  }
+  map.getSource('streetLines').setData(curMap.street_lines);
+  map.getSource('homePoints').setData(curMap.home_points);
+  // A version 2 design's stored fiber plant, sheaths along their paths, with its closures and node ends; else the route.
+  if (curMap.fiber_plant) {
+    map.getSource('fiberLines').setData({type: 'FeatureCollection', features: curMap.fiber_plant.features.filter(f => f.geometry.type === 'LineString')});
+    map.getSource('fiberPoints').setData({type: 'FeatureCollection', features: curMap.fiber_plant.features.filter(f => f.geometry.type === 'Point' && ['SpliceClosure', 'NodeEnd'].includes(f.properties.kind))});
+  } else {
+    map.getSource('fiberLines').setData(curMap.fiber.lines);
+    map.getSource('fiberPoints').setData(empty());
+  }
+  const colorOf = Object.fromEntries(nodes.map((n, i) => [n.service_group, PALETTE[i % PALETTE.length]]));
+  map.getSource('regionSpans').setData({type: 'FeatureCollection', features: curMap.span_lines.features.map(f => ({...f, properties: {...f.properties, color: colorOf[f.properties.service_group]}}))});
+
+  const r = curMap.report;
+  const left = r ? [
+    r.buildings_not_homes && `${count(r.buildings_not_homes, "building that isn't a home", "buildings that aren't homes")}`,
+    r.addresses_in_buildings && `${count(r.addresses_in_buildings, 'address', 'addresses')} inside a building already counted`,
+    r.service_roads_skipped && `${count(r.service_roads_skipped, 'driveway or similar', 'driveways and the like')}`,
+  ].filter(Boolean) : [];
+  const asked = String(curMap.map_id).match(/^generated-\w+-\d+-(\d+)$/);
+  const askedNote = asked && Math.abs(Number(asked[1]) - curMap.homes) > Number(asked[1]) * 0.05 ? `<div class="muted">Asked for about ${Number(asked[1]).toLocaleString()}. The generator lays out whole streets, so it lands near the number, not on it.</div>` : '';
+  $('pInfo').innerHTML = `<div class="card"><b>${count(curMap.homes, 'home', 'homes')}</b> on ${fmt(curMap.street_miles)} miles of street${askedNote}` +
+    (left.length ? `<div class="muted">Left out: ${esc(left.join(', '))}.</div>` : '') +
+    (r && r.crossings_added ? `<div class="muted">${count(r.crossings_added, 'plant crossing', 'plant crossings')} added between pieces of street, none of them in OpenStreetMap.</div>` : '') +
+    (r && r.apartments_counted_as_one ? `<div class="muted">${count(r.apartments_counted_as_one, 'apartment building gives', 'apartment buildings give')} no unit count, so each counts as one home. Real demand there is higher.</div>` : '') +
+    '</div>' +
+    (curMap.sparse ? `<div class="card warnbox"><b>Few homes are mapped here.</b> <span class="muted">OpenStreetMap often lacks buildings outside towns, and this twin won't invent them. A design here covers only what's mapped.</span></div>` : '');
+
+  const served = nodes.reduce((a, n) => a + (n.homes_passed || 0), 0);
+  if (nodes.length) {
+    const issues = nodes.reduce((a, n) => a + (issueCounts[n.service_group] || 0), 0);
+    const amps = nodes.reduce((a, n) => a + n.amps, 0);
+    const feet = nodes.reduce((a, n) => a + n.hardline_ft, 0);
+    const unreached = curMap.fiber.unreached.length;
+    const over = curMap.over_ceiling_homes || 0;
+    const sheaths = curMap.fiber_plant ? curMap.fiber_plant.features.filter(f => f.properties.kind === 'FiberCable') : [];
+    const closures = curMap.fiber_plant ? curMap.fiber_plant.features.filter(f => f.properties.kind === 'SpliceClosure').length : 0;
+    const fiberLine = curMap.fiber_plant
+      ? `Fiber plant: ${Math.round(sheaths.reduce((a, f) => a + f.properties.len_ft, 0)).toLocaleString()} ft of sheath in ${count(sheaths.length, 'cable', 'cables')}, ${count(closures, 'closure', 'closures')}.`
+      : `Fiber from the headend: ${Math.round(curMap.fiber.route_ft).toLocaleString()} ft${unreached ? `, <span class="bad">${count(unreached, 'node', 'nodes')} on streets it can't reach</span>` : ''}.`;
+    $('dResult').innerHTML = `<div class="card"><b>${count(nodes.length, 'node', 'nodes')}</b> over ${count(served, 'home', 'homes')}<div class="muted">${count(amps, 'amp', 'amps')}, ${Math.round(feet).toLocaleString()} ft of hardline, ` +
+      (over ? `${count(over, 'home', 'homes')} over the cost ceiling, ${count(Math.max(0, curMap.homes - served - over), 'home', 'homes')} unserved.` : `${count(curMap.homes - served, 'home', 'homes')} unserved.`) + `</div>` +
+      `<div class="muted">${fiberLine}</div>` +
+      `<div class="${issues ? 'bad' : 'good'}">${issues ? `${count(issues, 'design issue', 'design issues')}. Pick a node to see them.` : 'No design issues.'}</div></div>`;
+  } else $('dResult').innerHTML = '';
+
+  const lock = curMap.locked;
+  document.querySelector('#pNodes tbody').innerHTML = nodes.map(n => {
+    const issues = issueCounts[n.service_group];
+    return `<tr class="pick${n.service_group === sg() ? ' sel' : ''}" tabindex="0" data-sg="${esc(n.service_group)}"><td>${esc(nodeNumber(n.service_group))}</td><td>${n.homes_passed ?? '–'}</td><td>${n.amps}</td><td>${Math.round(n.hardline_ft).toLocaleString()}</td><td class="${issues ? 'bad' : ''}">${issues ?? '–'}</td><td>${n.pin !== null ? `<button class="mini" data-unpin="${n.pin}" title="Releases this node's position, and the map re-solves. A node that's only there because it was added goes away." ${lock ? 'disabled' : ''}>Unpin</button>` : ''}</td></tr>`;
+  }).join('');
+  applyLocks();
+  if (!MAP_OK) return;
+
+  nodes.forEach(n => {
+    if (!n.site) return;
+    const el = document.createElement('div');
+    el.className = `site${n.pin !== null ? ' pinned' : ''}${n.service_group === sg() ? ' sel' : ''}${lock ? ' locked' : ''}`;
+    el.style.background = colorOf[n.service_group];
+    el.textContent = nodeNumber(n.service_group);
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    const label = `Node ${nodeNumber(n.service_group)}: ${n.homes_passed ?? '?'} homes${n.pin !== null ? ', pinned' : ''}.`;
+    el.title = lock ? `${label} The map is locked.` : `${label} Drag to pin it.`;
+    el.dataset.sg = n.service_group;
+    el.addEventListener('click', e => { e.stopPropagation(); chooseNode(n.service_group); });
+    const marker = new maplibregl.Marker({element: el, draggable: !lock}).setLngLat([n.site.lon_deg, n.site.lat_deg]).addTo(map);
+    // After the marker exists: MapLibre writes its own generic label on the element.
+    el.setAttribute('aria-label', lock ? `${label} Enter selects it.` : `${label} Enter selects it. Arrow keys move it, then Enter pins it there, Esc puts it back.`);
+    const commit = () => {
+      const at = marker.getLngLat();
+      const pins = currentPins();
+      const geo = {lon_deg: at.lng, lat_deg: at.lat};
+      if (n.pin !== null) pins[n.pin] = {geo}; else pins.push({geo});
+      resolveWith(pins);
+    };
+    marker.on('dragend', commit);
+    keyMove(el, marker, commit, () => chooseNode(n.service_group), !lock);
+    siteMarkers.push(marker);
+  });
+  const hq = document.createElement('div');
+  hq.className = 'headend';
+  hq.textContent = 'H';
+  hq.tabIndex = 0;
+  hq.setAttribute('role', 'button');
+  hq.title = 'Headend. Drag to move it: this moves the fiber route only.';
+  headendMarker = new maplibregl.Marker({element: hq, draggable: true}).setLngLat([curMap.headend.lon_deg, curMap.headend.lat_deg]).addTo(map);
+  hq.setAttribute('aria-label', 'Headend. Arrow keys move it, then Enter places it. It moves the fiber route only.');
+  const moveHeadend = () => {
+    const at = headendMarker.getLngLat();
+    guarded(async () => {
+      try {
+        await tool('set_headend', {map_id: curMap.map_id, headend: {lon_deg: at.lng, lat_deg: at.lat}});
+      } finally { await selectMap(curMap.map_id, false, false); }
+    }, 'pDesignMsg');
+  };
+  headendMarker.on('dragend', moveHeadend);
+  keyMove(hq, headendMarker, moveHeadend, null, true);
+  applyLayerToggles();
+}
+
+// Keyboard moves for a marker: arrows nudge it, Enter places it (or selects, if it hasn't moved), Esc puts it back.
+function keyMove(el, marker, commit, select, movable) {
+  const home = marker.getLngLat();
+  let moved = false;
+  el.addEventListener('keydown', e => {
+    const d = {ArrowUp: [0, -15], ArrowDown: [0, 15], ArrowLeft: [-15, 0], ArrowRight: [15, 0]}[e.key];
+    if (d && movable) {
+      e.preventDefault();
+      const p = map.project(marker.getLngLat());
+      marker.setLngLat(map.unproject([p.x + d[0], p.y + d[1]]));
+      moved = true;
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (moved) { moved = false; commit(); } else if (select) select();
+    } else if (e.key === 'Escape' && moved) {
+      marker.setLngLat(home); moved = false;
+    }
+  });
+}
+
+function markSelectedSite() {
+  document.querySelectorAll('.site').forEach(el => el.classList.toggle('sel', el.dataset.sg === sg()));
+  document.querySelectorAll('#pNodes tr.pick, #mRegion tr.pick').forEach(tr => tr.classList.toggle('sel', tr.dataset.sg === sg()));
+}
+
+function chooseNode(id, fitView = false) {
+  if (![...$('sg').options].some(o => o.value === id)) { $('sgFind').value = ''; buildPicker(id); }
+  $('sg').value = id;
+  guarded(() => loadNode(fitView));
+}
+
+function currentPins() {
+  return ((curMap && curMap.design_input && curMap.design_input.controls.pinned_nodes) || []).map(p => ({geo: p.geo}));
+}
+
+function resolveWith(pins) {
+  return guarded(async () => {
+    try {
+      await designMap(pins);
+    } finally {
+      // A refused re-solve leaves the markers where they were dragged, so they're drawn again from the twin.
+      await selectMap(curMap.map_id, false, false);
+    }
+  }, 'pDesignMsg');
+}
+
+async function designMap(pins) {
+  const controls = controlsFromForm(pins);
+  const d = await tool('design_region', {map_id: curMap.map_id, profile: $('dProfile').value, controls});
+  issueCounts = {};
+  d.nodes.forEach(n => issueCounts[n.service_group] = (n.physics_issues || []).length + (n.topology_issues || []).length + (n.issues || []).length);
+  if (!d.nodes.length) {
+    say('pDesignMsg', d.over_ceiling && d.over_ceiling.homes ? `Nothing built: all ${count(d.over_ceiling.homes, 'home', 'homes')} are over the rules' cost ceiling, where coax isn't the answer.` : 'Nothing built.', 'warn');
+  }
+  const keep = d.nodes.some(n => n.service_group === sg()) ? sg() : (d.nodes[0] || {}).service_group;
+  await refreshMaps();
+  await refreshGroups(keep);
+  await selectMap(curMap.map_id, false, false);
+  await loadNode(false);
+}
+
+async function addNodeAt(at) {
+  setAddMode(false);
+  resolveWith([...currentPins(), {geo: {lon_deg: at.lng, lat_deg: at.lat}}]);
+}
+
+$('pDesign').onclick = () => guarded(async () => {
+  if (!curMap) throw new Error('Choose or import a map first.');
+  await designMap(currentPins());
+}, 'pDesignMsg');
+$('pAdd').onclick = () => { if (!MAP_OK) { say('pDesignMsg', 'Adding a node needs the map, and this browser has no WebGL.'); return; } setAddMode(!addMode); };
+$('pClear').onclick = () => resolveWith([]);
+$('pDiscard').onclick = () => guarded(async () => {
+  if (!curMap) return;
+  const nodes = curMap.node_sites.length;
+  const lock = curMap.locked;
+  const what = `Discard ${esc(mapName(curMap.map_id))}${nodes ? ` and its ${count(nodes, 'node', 'nodes')}` : ''}?`;
+  const why = lock ? ` ${esc(nodeShort(lock.service_group))} ${esc(lock.reason.replace('. Clear it first', ''))}: discarding removes its records, faults, work orders and any verified labels with it.` : ' This can\'t be undone.';
+  if (!await ask('pDiscardMsg', what + why, 'Discard', true)) return;
+  await tool('discard_map', {map_id: curMap.map_id, force: !!lock});
+  curMap = null;
+  issueCounts = {};
+  await refreshMaps();
+  await refreshGroups();
+  renderMap();
+  await loadNode();
+}, 'pDiscardMsg');
+document.querySelector('#pNodes tbody').onclick = e => {
+  if (e.target.dataset.unpin !== undefined) {
+    e.stopPropagation();
+    const pins = currentPins();
+    pins.splice(Number(e.target.dataset.unpin), 1);
+    resolveWith(pins);
+    return;
+  }
+  const tr = e.target.closest('tr[data-sg]');
+  if (tr) chooseNode(tr.dataset.sg);
+};
+
+$('dGo').onclick = () => guarded(async () => {
+  // Every field checked before any refusal, so each wrong one is marked at once.
+  const homesOk = readNum('dHomes', 'Homes', 10, 20000, true) !== null;
+  controlsFromForm([]);
+  if (!homesOk) throw new Error('Fix the marked fields first.');
+  const v = {homes: Number($('dHomes').value)};
+  stopPlacing();
+  const m = await tool('generate_layout', {family: $('dFamily').value, seed: Number($('dSeed').value), homes: v.homes});
+  await refreshMaps();
+  await selectMap(m.map_id, false, false);
+  await designMap([]);
+  await selectMap(m.map_id, true);
+}, 'genMsg');
+// Marking built is one-way: no tool moves a record back to Designed, and a map with built nodes can't be re-solved.
+$('dBuilt').onclick = () => guarded(async () => {
+  if (!await ask('dBuiltMsg', `Mark every element of ${esc(nodeShort(sg()))} built? This is one-way. ${mapOf(sg()) ? 'Its map can no longer be re-solved.' : ''}`, 'Mark built')) return;
+  await tool('mark_built', {service_group: sg()});
+  await drawPlant(false);
+  if (curMap) await selectMap(curMap.map_id, false, false);
+}, 'dBuiltMsg');
+$('dBuiltMap').onclick = () => guarded(async () => {
+  if (!curMap) return;
+  const ids = curMap.node_sites.map(n => n.service_group);
+  if (!await ask('pDesignMsg', `Mark all ${count(ids.length, 'node', 'nodes')} on ${esc(mapName(curMap.map_id))} built? This is one-way, and the map can no longer be re-solved. Other maps aren't touched.`, 'Mark built')) return;
+  for (const id of ids) await tool('mark_built', {service_group: id});
+  await drawPlant(false);
+  await selectMap(curMap.map_id, false, false);
+  say('pDesignMsg', `${count(ids.length, 'node', 'nodes')} marked built.`, 'ok');
+}, 'pDesignMsg');
+
+// Issues by kind: on a whole node the list runs long, and the kinds are what decide the plan.
+function issueSummary(issues) {
+  const kinds = {};
+  for (const i of issues) { const k = i.split(/[ {]/)[0]; (kinds[k] = kinds[k] || []).push(i); }
+  return Object.entries(kinds).map(([k, l]) => `<div class="bad">${l.length} × ${esc(k)}</div><div class="muted">${esc(l[0])}</div>`).join('');
+}
+
+let plan = null;
+$('mPlan').onclick = () => guarded(async () => {
+  const p = await tool('plan_migration', {service_group: sg(), to_profile: $('mTo').value});
+  plan = p;
+  const parts = p.parts_must_change.map(c => `<tr><td>${esc(c.from)} → ${esc(c.to || 'no qualifying part')}</td><td>${c.count}</td></tr>`).join('');
+  const changed = p.parts_must_change.reduce((a, c) => a + c.count, 0);
+  const o = p.optics_what_if;
+  $('mResult').innerHTML = `<div class="card"><b>${esc(profileName(p.from_profile))} → ${esc(profileName(p.to_profile))}</b>
+    <table style="margin-top:4px"><thead><tr><th></th><th>Before</th><th>After</th></tr></thead><tbody>
+    <tr><td>Typical modem down, Mbit/s</td><td>${fmt(p.ds_capacity_before_mbps, 0)}</td><td>${fmt(p.ds_capacity_after_mbps, 0)}</td></tr>
+    <tr><td>Typical modem up, Mbit/s</td><td>${fmt(p.us_capacity_before_mbps, 0)}</td><td>${fmt(p.us_capacity_after_mbps, 0)}</td></tr>
+    <tr><td>Design issues</td><td>${p.issues_before.length}</td><td>${p.issues_after.length}</td></tr></tbody></table>
+    <div class="${p.modems_losing_service ? 'bad' : 'muted'}" style="margin-top:4px">${count(p.modems_losing_service, 'modem loses', 'modems lose')} service.</div>
+    ${issueSummary(p.issues_after)}
+    ${parts ? `<h2>Parts that must change</h2><table><thead><tr><th>Part</th><th>Count</th></tr></thead><tbody>${parts}</tbody></table>` : '<div class="muted">No parts must change.</div>'}
+    ${o ? `<div class="muted" style="margin-top:6px">Removing the analog optics may add ${fmt(o.mean_gain_db)} dB of RxMER on average across D3.1 modems, assuming the optics' CNR is ${fmt(o.assumed_cnr_db)} dB. ${esc(o.label)}</div>` : ''}
+    <div class="card warnbox"><b>Applying</b> marks ${count(changed, 'changed part', 'changed parts')} Designed${faults.length ? ` and clears this node's ${count(faults.length, 'injected fault', 'injected faults')}` : ''}. The node keeps its id, ${esc(sg())}.</div></div>`;
+  $('mApply').style.display = '';
+}, 'migMsg');
+$('mApply').onclick = () => guarded(async () => {
+  if (!await ask('migMsg', `Move ${esc(nodeShort(sg()))} to ${esc(profileName($('mTo').value))}?${faults.length ? ` Its ${count(faults.length, 'fault', 'faults')} will be cleared.` : ''}`, 'Apply')) return;
+  const r = await tool('apply_migration', {service_group: sg(), to_profile: $('mTo').value});
+  await refreshGroups(sg());
+  await loadNode();
+  const stale = /lowsplit|highsplit/.test(sg()) && !sg().includes(r.profile.includes('lowsplit') ? 'lowsplit' : 'highsplit');
+  $('mResult').innerHTML = `<div class="card">${esc(nodeShort(sg()))} now runs <b>${esc(profileName(r.profile))}</b>, with ${count(r.issues_after.length, 'design issue', 'design issues')}.${stale ? ` <span class="muted">Its id still names its old profile; the header shows the one it runs now.</span>` : ''}</div>`;
+}, 'migMsg');
+
+addEventListener('resize', drawPlot);
+// Once per browser: the page says it's a simulation here, and nowhere else.
+try {
+  if (!localStorage.getItem('hfcTwinIntroSeen')) {
+    $('intro').hidden = false;
+    $('introGo').focus();
+  }
+} catch (e) { /* storage blocked: the card shows each load, which is still once a visit */ $('intro').hidden = false; }
+$('introGo').onclick = () => { $('intro').hidden = true; try { localStorage.setItem('hfcTwinIntroSeen', '1'); } catch (e) { /* nothing to keep it in */ } };
+$('intro').onkeydown = e => { if (e.key === 'Escape') $('introGo').click(); };
+// ---- Design as three steps (task 29) --------------------------------------------------------------------------------
+// The current step is open with one primary button. A step that's done is a line with a way back into it; one not yet reachable
+// says what it waits for. The tool strip mirrors the buttons, and marks the next thing to do.
+const openSteps = new Set();
+function setStep(id, state, sum) {
+  const el = $(id);
+  el.dataset.state = state;
+  el.classList.toggle('open', state === 'current' || (state === 'done' && openSteps.has(id)));
+  el.setAttribute('aria-current', state === 'current' ? 'step' : 'false');
+  $(`${id.replace('step', 's')}Sum`).textContent = sum;
+  const b = $(`${id.replace('step', 's')}Open`);
+  if (b) {
+    b.hidden = state !== 'done';
+    b.setAttribute('aria-expanded', String(el.classList.contains('open')));
+    b.textContent = el.classList.contains('open') ? 'Close' : id === 'step1' ? 'Change' : 'Open';
+  }
+}
+function settingsSummary() {
+  const rules = $('dRules').value;
+  return `${profileName($('dProfile').value)}, ${rules ? `${rules} rules` : 'version 1 designer'}, ${$('dPerNode').value} homes a node, take rate ${$('dTake').value}, seed ${$('dSeed').value}`;
+}
+function renderSteps() {
+  if (!$('step1')) return;
+  const nodes = curMap ? curMap.node_sites.length : 0;
+  const issues = curMap ? curMap.node_sites.reduce((a, n) => a + (issueCounts[n.service_group] || 0), 0) : 0;
+  const s1 = curMap && !placing ? 'done' : 'current';
+  const s2 = s1 !== 'done' ? 'wait' : nodes ? 'done' : 'current';
+  const s3 = s2 === 'done' ? 'current' : 'wait';
+  setStep('step1', s1, s1 === 'done' ? `${mapName(curMap.map_id)}.` : '');
+  setStep('step2', s2, s2 === 'wait' ? 'Waits for a place.' : nodes ? `${count(nodes, 'node', 'nodes')}, ${issues ? count(issues, 'design issue', 'design issues') : 'no design issues'}.` : '');
+  setStep('step3', s3, s3 === 'wait' ? 'Waits for a designed network.' : '');
+  $('dSettingsSum').textContent = settingsSummary();
+
+  // Import this view: only while picking a place, and only a view small enough to import.
+  let viewWhy = '';
+  if (!MAP_OK) viewWhy = 'Importing needs the map, and this browser has no WebGL.';
+  else if (!placing) viewWhy = 'Find a place first.';
+  else {
+    const size = km2(viewArea());
+    viewWhy = size > VIEW_KM2 ? `This view is ${size >= 10 ? size.toFixed(0) : size.toFixed(1)} km². Zoom in until it's ${VIEW_KM2} km² or less, a few blocks.` : '';
+    $('pView').textContent = size > VIEW_KM2 ? 'Import this view' : `Import this view, ${size.toFixed(1)} km²`;
+  }
+  $('pView').disabled = !!viewWhy || working > 0;
+  $('pViewWhy').textContent = viewWhy;
+
+  // Run it: the scenario the Operate panel holds, so both places start the same run.
+  const sc = $('oScenario').selectedOptions[0];
+  $('sRunWhat').textContent = `${$('oScenario').value ? sc.textContent : 'Free play'}, seed ${$('oSeed').value}, hazards at ${$('oIntensity').value} times the sourced rates. Change these in Operate.`;
+  $('sRun').disabled = s3 !== 'current' || working > 0;
+  $('sRunWhy').textContent = s3 === 'current' ? '' : 'Design the network first.';
+
+  // The strip.
+  const mirror = (tool, button) => { $(tool).disabled = $(button).disabled; $(tool).title = $(button).title || $(`${button}Why`)?.textContent || ''; };
+  mirror('tView', 'pView'); mirror('tDesign', 'pDesign'); mirror('tRun', 'sRun');
+  $('tDraw').disabled = !MAP_OK || working > 0;
+  $('tAdd').disabled = !nodes || $('pAdd').disabled;
+  $('tAdd').title = nodes ? '' : 'Design the network first.';
+  const next = s1 === 'current' ? ($('pView').disabled ? 'tFind' : 'tView') : s2 === 'current' ? 'tDesign' : 'tRun';
+  document.querySelectorAll('#dTools .gTool').forEach(b => b.classList.toggle('next', b.id === next));
+}
+for (const id of ['step1', 'step2']) {
+  $(`${id.replace('step', 's')}Open`).onclick = () => {
+    if (id === 'step1') { quietly(startPlacing); $('pPlace').focus(); return; }
+    openSteps.has(id) ? openSteps.delete(id) : openSteps.add(id);
+    renderSteps();
+  };
+}
+for (const id of ['dProfile', 'dRules', 'dMode', 'dPerNode', 'dTake', 'dSeed']) $(id).addEventListener('change', renderSteps);
+for (const id of ['oScenario', 'oSeed', 'oIntensity']) $(id).addEventListener('change', renderSteps);
+const openPlace = async () => { if (!placing) await startPlacing(); };
+$('tFind').onclick = () => quietly(async () => { await openPlace(); $('pPlace').focus(); });
+$('tView').onclick = () => $('pView').click();
+$('tDraw').onclick = () => quietly(async () => { await openPlace(); $('pDraw').click(); });
+$('tTown').onclick = () => quietly(async () => { await openPlace(); $('genBox').open = true; $('dHomes').focus(); });
+$('tDesign').onclick = () => $('pDesign').click();
+$('tAdd').onclick = () => { openSteps.add('step2'); renderSteps(); $('pAdd').click(); };
+$('tRun').onclick = () => $('sRun').click();
+$('sRun').onclick = () => { $('t-ops').click(); $('oStart').click(); };
+if (matchMedia('(max-width: 760px)').matches) $('layers').open = false;
+guarded(async () => {
+  await refreshMaps();
+  await refreshRules();
+  await refreshGroups();
+  await refreshLabels();
+  await setupLayers();
+  const many = groups.length > 30;
+  $('rProblems').checked = many;
+  await loadNode();
+  // The page opens in Design on step 1, picking a place (task 29).
+  if (onDesign() && !curMap) await startPlacing();
+});
+</script>
+<script src="/operate.js"></script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+{
+  "note": "© OpenStreetMap contributors, under the ODbL. The streets are real and any plant on them is invented.",
+  "areas": [
+    {
+      "name": "worthington_oh",
+      "south_deg": 40.085,
+      "west_deg": -83.032,
+      "north_deg": 40.101,
+      "east_deg": -83.012,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "d9461cd763a321ab",
+      "homes": 1317,
+      "street_miles": 30.810184689081034,
+      "clean_nodes": [
+        16,
+        16
+      ],
+      "nodes": [
+        20,
+        20
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "broomfield_co",
+      "south_deg": 39.8945,
+      "west_deg": -105.1,
+      "north_deg": 39.9105,
+      "east_deg": -105.08,
+      "split": "train",
+      "installation": "Underground",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "79ff4734b8fb3193",
+      "homes": 339,
+      "street_miles": 36.46230557259787,
+      "clean_nodes": [
+        7,
+        6
+      ],
+      "nodes": [
+        15,
+        17
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "seattle_ballard_wa",
+      "south_deg": 47.667,
+      "west_deg": -122.395,
+      "north_deg": 47.683,
+      "east_deg": -122.375,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "885fc689b4dbc98b",
+      "homes": 5752,
+      "street_miles": 47.735473065468646,
+      "clean_nodes": [
+        60,
+        62
+      ],
+      "nodes": [
+        64,
+        64
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "minneapolis_longfellow_mn",
+      "south_deg": 44.932,
+      "west_deg": -93.23,
+      "north_deg": 44.948,
+      "east_deg": -93.21,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "e963357da442123f",
+      "homes": 4193,
+      "street_miles": 60.61998981865459,
+      "clean_nodes": [
+        64,
+        64
+      ],
+      "nodes": [
+        64,
+        64
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "salt_lake_sugarhouse_ut",
+      "south_deg": 40.712,
+      "west_deg": -111.87,
+      "north_deg": 40.728,
+      "east_deg": -111.85,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "078aecb3b78857e9",
+      "homes": 1724,
+      "street_miles": 45.02186785121769,
+      "clean_nodes": [
+        16,
+        16
+      ],
+      "nodes": [
+        16,
+        16
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "austin_crestview_tx",
+      "south_deg": 30.337,
+      "west_deg": -97.745,
+      "north_deg": 30.353,
+      "east_deg": -97.725,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "12bade496d88c6e6",
+      "homes": 4068,
+      "street_miles": 48.525455257506295,
+      "clean_nodes": [
+        64,
+        64
+      ],
+      "nodes": [
+        64,
+        64
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "buffalo_north_ny",
+      "south_deg": 42.932,
+      "west_deg": -78.86,
+      "north_deg": 42.948,
+      "east_deg": -78.84,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": false,
+      "extract_hash": "",
+      "homes": 0,
+      "street_miles": 0.0,
+      "clean_nodes": [],
+      "nodes": [],
+      "meets_rule": false,
+      "used": false
+    },
+    {
+      "name": "charlotte_plaza_midwood_nc",
+      "south_deg": 35.212,
+      "west_deg": -80.81,
+      "north_deg": 35.228,
+      "east_deg": -80.79,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "a2ef1d5ae6f54bbb",
+      "homes": 2888,
+      "street_miles": 42.852945126341595,
+      "clean_nodes": [
+        33,
+        37
+      ],
+      "nodes": [
+        39,
+        43
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "irvine_woodbridge_ca",
+      "south_deg": 33.667,
+      "west_deg": -117.8,
+      "north_deg": 33.683,
+      "east_deg": -117.78,
+      "split": "train",
+      "installation": "Underground",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "18c385230bb535e6",
+      "homes": 2942,
+      "street_miles": 58.49204770300765,
+      "clean_nodes": [
+        44,
+        45
+      ],
+      "nodes": [
+        49,
+        54
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "plano_tx",
+      "south_deg": 33.022,
+      "west_deg": -96.75,
+      "north_deg": 33.038,
+      "east_deg": -96.73,
+      "split": "train",
+      "installation": "Underground",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "65d12549d51aed34",
+      "homes": 2166,
+      "street_miles": 63.55746911367461,
+      "clean_nodes": [
+        32,
+        34
+      ],
+      "nodes": [
+        32,
+        34
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "portland_sellwood_or",
+      "south_deg": 45.457,
+      "west_deg": -122.66,
+      "north_deg": 45.473,
+      "east_deg": -122.64,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "1a72d48cc08206cc",
+      "homes": 3100,
+      "street_miles": 36.266729334828796,
+      "clean_nodes": [
+        32,
+        32
+      ],
+      "nodes": [
+        32,
+        32
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "bozeman_mt",
+      "south_deg": 45.672,
+      "west_deg": -111.05,
+      "north_deg": 45.688,
+      "east_deg": -111.03,
+      "split": "train",
+      "installation": "Underground",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "8bc3163f68f1cef7",
+      "homes": 2600,
+      "street_miles": 57.47959228941453,
+      "clean_nodes": [
+        32,
+        32
+      ],
+      "nodes": [
+        33,
+        33
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "ames_ia",
+      "south_deg": 42.022,
+      "west_deg": -93.64,
+      "north_deg": 42.038,
+      "east_deg": -93.62,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "6e05863100793bd8",
+      "homes": 1298,
+      "street_miles": 35.722463951513376,
+      "clean_nodes": [
+        17,
+        17
+      ],
+      "nodes": [
+        17,
+        18
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "brattleboro_vt",
+      "south_deg": 42.842,
+      "west_deg": -72.57,
+      "north_deg": 42.858,
+      "east_deg": -72.55,
+      "split": "train",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "42b9c7f376476480",
+      "homes": 1547,
+      "street_miles": 27.58100484522746,
+      "clean_nodes": [
+        15,
+        15
+      ],
+      "nodes": [
+        16,
+        16
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "kansas_city_brookside_mo",
+      "south_deg": 39.022,
+      "west_deg": -94.6,
+      "north_deg": 39.038,
+      "east_deg": -94.58,
+      "split": "calibrate",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "e47d3300c569b0b0",
+      "homes": 1958,
+      "street_miles": 42.791930065329375,
+      "clean_nodes": [
+        32,
+        32
+      ],
+      "nodes": [
+        32,
+        32
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "tampa_seminole_heights_fl",
+      "south_deg": 27.992,
+      "west_deg": -82.47,
+      "north_deg": 28.008,
+      "east_deg": -82.45,
+      "split": "calibrate",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "aa9848c600faf845",
+      "homes": 2744,
+      "street_miles": 57.657027516961676,
+      "clean_nodes": [
+        31,
+        33
+      ],
+      "nodes": [
+        35,
+        36
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "cary_nc",
+      "south_deg": 35.782,
+      "west_deg": -78.79,
+      "north_deg": 35.798,
+      "east_deg": -78.77,
+      "split": "calibrate",
+      "installation": "Underground",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "7615c4708bf8cde3",
+      "homes": 1702,
+      "street_miles": 44.7554600277752,
+      "clean_nodes": [
+        17,
+        17
+      ],
+      "nodes": [
+        18,
+        18
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "northampton_ma",
+      "south_deg": 42.312,
+      "west_deg": -72.65,
+      "north_deg": 42.328,
+      "east_deg": -72.63,
+      "split": "calibrate",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "6cd4891594ece596",
+      "homes": 1954,
+      "street_miles": 33.94648692428333,
+      "clean_nodes": [
+        35,
+        35
+      ],
+      "nodes": [
+        36,
+        36
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "culver_city_ca",
+      "south_deg": 34.012,
+      "west_deg": -118.4,
+      "north_deg": 34.028,
+      "east_deg": -118.38,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "267ec2c4d0d6a087",
+      "homes": 3303,
+      "street_miles": 49.783971867554385,
+      "clean_nodes": [
+        32,
+        31
+      ],
+      "nodes": [
+        32,
+        32
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "lakewood_oh",
+      "south_deg": 41.472,
+      "west_deg": -81.81,
+      "north_deg": 41.488,
+      "east_deg": -81.79,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "b9bb37eaa3e1c051",
+      "homes": 1048,
+      "street_miles": 39.77658732939676,
+      "clean_nodes": [
+        16,
+        16
+      ],
+      "nodes": [
+        16,
+        16
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "albany_ny",
+      "south_deg": 42.652,
+      "west_deg": -73.8,
+      "north_deg": 42.668,
+      "east_deg": -73.78,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "9f24945d924e6eb9",
+      "homes": 3634,
+      "street_miles": 44.367642131348916,
+      "clean_nodes": [
+        32,
+        32
+      ],
+      "nodes": [
+        32,
+        32
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "lexington_ky",
+      "south_deg": 38.022,
+      "west_deg": -84.5,
+      "north_deg": 38.038,
+      "east_deg": -84.48,
+      "split": "test",
+      "installation": "Underground",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "2d2d47da1f8cafc3",
+      "homes": 4006,
+      "street_miles": 43.09346521319099,
+      "clean_nodes": [
+        64,
+        64
+      ],
+      "nodes": [
+        64,
+        64
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "alamo_heights_tx",
+      "south_deg": 29.472,
+      "west_deg": -98.48,
+      "north_deg": 29.488,
+      "east_deg": -98.46,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "df9b47e5fff5b5ab",
+      "homes": 180,
+      "street_miles": 45.13971593245503,
+      "clean_nodes": [
+        2,
+        2
+      ],
+      "nodes": [
+        2,
+        2
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "wauwatosa_wi",
+      "south_deg": 43.042,
+      "west_deg": -88.04,
+      "north_deg": 43.058,
+      "east_deg": -88.02,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "b1c1b6ce9ea7d2cd",
+      "homes": 391,
+      "street_miles": 27.461094008535795,
+      "clean_nodes": [
+        8,
+        8
+      ],
+      "nodes": [
+        12,
+        10
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "albuquerque_nm",
+      "south_deg": 35.082,
+      "west_deg": -106.58,
+      "north_deg": 35.098,
+      "east_deg": -106.56,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "71e2c7f2277d4e2e",
+      "homes": 2135,
+      "street_miles": 56.642114084461696,
+      "clean_nodes": [
+        33,
+        33
+      ],
+      "nodes": [
+        33,
+        33
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "keene_nh",
+      "south_deg": 42.922,
+      "west_deg": -72.29,
+      "north_deg": 42.938,
+      "east_deg": -72.27,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": false,
+      "fetched": true,
+      "extract_hash": "9f81eb585673ffc3",
+      "homes": 973,
+      "street_miles": 42.94991060813771,
+      "clean_nodes": [
+        16,
+        16
+      ],
+      "nodes": [
+        16,
+        16
+      ],
+      "meets_rule": true,
+      "used": true
+    },
+    {
+      "name": "greensboro_nc",
+      "south_deg": 36.072,
+      "west_deg": -79.83,
+      "north_deg": 36.088,
+      "east_deg": -79.81,
+      "split": "test",
+      "installation": "Underground",
+      "reserve": true,
+      "fetched": true,
+      "extract_hash": "423ddc9417f184c2",
+      "homes": 1119,
+      "street_miles": 44.90903838087948,
+      "clean_nodes": [
+        16,
+        16
+      ],
+      "nodes": [
+        17,
+        17
+      ],
+      "meets_rule": true,
+      "used": false
+    },
+    {
+      "name": "bend_or",
+      "south_deg": 44.052,
+      "west_deg": -121.32,
+      "north_deg": 44.068,
+      "east_deg": -121.3,
+      "split": "test",
+      "installation": "Underground",
+      "reserve": true,
+      "fetched": true,
+      "extract_hash": "fe40c1e485f2546c",
+      "homes": 1718,
+      "street_miles": 55.588726676706344,
+      "clean_nodes": [
+        18,
+        18
+      ],
+      "nodes": [
+        23,
+        23
+      ],
+      "meets_rule": true,
+      "used": false
+    },
+    {
+      "name": "omaha_ne",
+      "south_deg": 41.252,
+      "west_deg": -96.03,
+      "north_deg": 41.268,
+      "east_deg": -96.01,
+      "split": "test",
+      "installation": "Aerial",
+      "reserve": true,
+      "fetched": true,
+      "extract_hash": "b02bec313b45c53a",
+      "homes": 1000,
+      "street_miles": 42.41570603788586,
+      "clean_nodes": [
+        15,
+        15
+      ],
+      "nodes": [
+        17,
+        17
+      ],
+      "meets_rule": true,
+      "used": false
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "schema_version": "1",
+  "id": "generic-ops-1",
+  "rates": {
+    "aerial_damage_per_mile_year": {
+      "value": 0.05,
+      "unit": "per mile of aerial span per year, in still air",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Limbs, ice and vehicles on aerial plant; no published rate was found. Wind raises it (wind_damage_exponent)."
+    },
+    "agents_per_10000_homes": {
+      "value": 2.0,
+      "unit": "agents on shift per 10,000 homes served, 07:00 to 21:00",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement; one at night."
+    },
+    "amp_faults_per_amp_year": {
+      "value": 0.03,
+      "unit": "per amplifier per year",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "An amplifier drifting or failing."
+    },
+    "call_delay_min": {
+      "value": 20.0,
+      "unit": "minutes, mean, from noticing to calling, while awake",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement. Nobody calls between 23:00 and 07:00; a call that would has to wait for the morning."
+    },
+    "call_share_out": {
+      "value": 0.15,
+      "unit": "share of homes out that call",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "A utility roundtable slide put the share of customers who report a power outage at about 15 %; its page is gone and couldn't be read to confirm, and an internet outage isn't measured. Judgement until a source is read."
+    },
+    "call_share_slow": {
+      "value": 0.03,
+      "unit": "share of homes with poor service that call",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement: far fewer call about slow service than about none."
+    },
+    "callback_hours": {
+      "value": 4.0,
+      "unit": "hours, mean, before a household still out after its call calls again",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement: people call back when nothing changes."
+    },
+    "connector_wear_per_span_year": {
+      "value": 0.02,
+      "unit": "per span per year",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "A connector loosening or corroding until it reflects, over days."
+    },
+    "dig_ins_per_underground_mile_year": {
+      "value": 0.05,
+      "unit": "per mile of buried span per year",
+      "source_url": "https://commongroundalliance.com/Publications-Media/DIRT-Report/2022-DIRT-Report-PDF",
+      "confidence": "Generic",
+      "note": "CGA's DIRT report counts about 2 excavation damages per 1,000 locate requests, about half of them telecom; how many requests fall on a mile of buried coax isn't published, so this is judgement."
+    },
+    "drive_mph": {
+      "value": 25.0,
+      "unit": "miles per hour along the streets",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "A neighbourhood speed."
+    },
+    "escalate_after_tickets": {
+      "value": 3.0,
+      "unit": "tickets on one node, with a truck already sent, before dispatch sends a line crew to what they share",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement: how dispatch without a twin groups calls into an outage."
+    },
+    "fiber_cuts_per_mile_year": {
+      "value": 0.01,
+      "unit": "per mile of fiber cable per year",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "No published rate was found."
+    },
+    "handle_min": {
+      "value": 8.8,
+      "unit": "minutes, mean, per call",
+      "source_url": "https://www.outsourceaccelerator.com/glossary/call-length",
+      "confidence": "Published",
+      "note": "Telecom average handle time, 8 minutes 48 seconds, against 5:24 for retail, from a Cornell report relayed by Call Centre Helper; the page says neither is dated at its source."
+    },
+    "line_trucks_per_10000_homes": {
+      "value": 1.0,
+      "unit": "line crews with bucket trucks per 10,000 homes, 07:00 to 19:00",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement; one on call at night."
+    },
+    "no_trouble_found_min": {
+      "value": 45.0,
+      "unit": "minutes on site finding nothing",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "patience_min": {
+      "value": 6.0,
+      "unit": "minutes, mean, a caller waits before giving up",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "plant_downtime_minutes_per_home_year": {
+      "value": 125.0,
+      "unit": "minutes per home per year",
+      "source_url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/6535480",
+      "confidence": "Generic",
+      "note": "HFC downtime from causes other than AC power (amplifier failure, water, cable cuts), 125 minutes a line a year beside 622 from AC power, as a search summary of this patent gave it; the patent is a scanned image and wasn't read to confirm. A check on the plant rates, not one the world draws from."
+    },
+    "rain_factor_per_mm_hr": {
+      "value": 0.5,
+      "unit": "added to the dry rate's multiplier per mm/h of rain",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "redial_min": {
+      "value": 30.0,
+      "unit": "minutes, mean, before a caller who gave up tries again while still out",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "repair_active_min": {
+      "value": 90.0,
+      "unit": "minutes on site: an amplifier or node module swapped",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "repair_aerial_min": {
+      "value": 240.0,
+      "unit": "minutes on site: an aerial span cut, re-spliced from a bucket",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement, between the quick and the buried repairs."
+    },
+    "repair_cable_min": {
+      "value": 480.0,
+      "unit": "minutes on site: a buried span cut, found and spliced",
+      "source_url": "https://isemag.com/2018/01/start-the-new-year-right/",
+      "confidence": "Published",
+      "note": "About 8 hours for section analysis, digging and the repair of a bad cable, the same author's estimate from training a large telco's technicians."
+    },
+    "repair_fiber_min": {
+      "value": 360.0,
+      "unit": "minutes on site: a fiber cut found and spliced",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "repair_quick_min": {
+      "value": 120.0,
+      "unit": "minutes on site: a drop, a connector, a tap",
+      "source_url": "https://isemag.com/2018/01/start-the-new-year-right/",
+      "confidence": "Published",
+      "note": "About 2 hours of technician time to restore service quickly, an outside-plant engineer's estimate for one case, which he calls a guess from 45 years in the industry."
+    },
+    "service_trucks_per_10000_homes": {
+      "value": 4.0,
+      "unit": "service techs per 10,000 homes, 07:00 to 19:00",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement; one on call at night."
+    },
+    "splicers": {
+      "value": 1.0,
+      "unit": "fiber splicing crews, on call",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Judgement."
+    },
+    "storm_outage_hours": {
+      "value": 6.0,
+      "unit": "hours, mean",
+      "source_url": "https://www.eia.gov/todayinenergy/detail.php?id=61303",
+      "confidence": "Generic",
+      "note": "Customers averaged about 5.5 hours without power in 2022 against about 2 outside major events (EIA), so most of the hours come in storms; 6 hours for one outage in a storm is judgement, not a measured mean."
+    },
+    "tap_corrosion_per_tap_year": {
+      "value": 0.01,
+      "unit": "per tap per year",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "A tap corroding: mismatch and CPD with no blow."
+    },
+    "twin_reading_delay_min": {
+      "value": 5.0,
+      "unit": "minutes from a step to the twin's reading of it",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Collection and diagnosis time, so a reading never sits inside a step."
+    },
+    "utility_outage_hours": {
+      "value": 1.5,
+      "unit": "hours, mean",
+      "source_url": "https://www.eia.gov/todayinenergy/detail.php?id=61303",
+      "confidence": "Inferred",
+      "note": "Outside major events customers have averaged about two hours a year without power since 2013 (EIA), over about 1.4 outages: about 1.4 hours each, taken as 1.5. A storm's outages last longer (storm_outage_hours)."
+    },
+    "utility_outages_per_home_year": {
+      "value": 1.4,
+      "unit": "interruptions per home per year",
+      "source_url": "https://www.eia.gov/todayinenergy/detail.php?id=61303",
+      "confidence": "Published",
+      "note": "The U.S. average in 2022, 1.4 outages per customer (SAIFI), from the EIA's report on that year."
+    },
+    "vehicle_hits_per_structure_year": {
+      "value": 0.002,
+      "unit": "per pole or pedestal per year",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "A car into a pole or a pedestal. No published rate for cable plant was found."
+    },
+    "water_per_device_year": {
+      "value": 0.005,
+      "unit": "per tap, amp or node per year, in dry weather",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Water inside a housing; rain raises it."
+    },
+    "water_per_span_year": {
+      "value": 0.01,
+      "unit": "per span per year, in dry weather",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Water in a span's cable; rain raises it (rain_factor_per_mm_hr)."
+    },
+    "wind_damage_exponent": {
+      "value": 4.0,
+      "unit": "power of wind speed over 8 m/s",
+      "source_url": null,
+      "confidence": "Generic",
+      "note": "Damage rises steeply with wind above a gale: the aerial rate is multiplied by 1 + (wind / 8 m/s)^4. Judgement."
+    }
+  }
+}

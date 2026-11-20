@@ -1,0 +1,304 @@
+{
+  "schema_version": "3",
+  "seed": 1,
+  "faults": [
+    {
+      "onset": {
+        "Ramp": {
+          "start": 0,
+          "end": 86400
+        }
+      },
+      "kind": {
+        "WaterIngress": {
+          "span_id": "span-2",
+          "pos_ft": 100.0,
+          "affected_len_ft": 50.0,
+          "k_w_db_per_100ft": 2.0,
+          "rain_coupling_per_mm_per_hr": 0.05,
+          "impedance_variation_pct": 5.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "ConnectorReflection": {
+          "location": {
+            "Span": {
+              "span_id": "span-3",
+              "pos_ft": 150.0
+            }
+          },
+          "return_loss_db": 10.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "Suckout": {
+          "location": {
+            "Port": {
+              "element_id": "tap-3",
+              "port": "through"
+            }
+          },
+          "f0_mhz": 450.0,
+          "depth_db": 6.0,
+          "width_mhz": 30.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "FrequencySelectiveLoss": {
+          "location": {
+            "Port": {
+              "element_id": "tap-2",
+              "port": "tap-2"
+            }
+          },
+          "shape": "LowPass",
+          "f_lo_mhz": 1002.0,
+          "f_hi_mhz": 1218.0,
+          "depth_db": 20.0,
+          "stop_return_loss_db": 6.0,
+          "skirt_mhz": null
+        }
+      }
+    },
+    {
+      "onset": {
+        "Ramp": {
+          "start": 0,
+          "end": 86400
+        }
+      },
+      "kind": {
+        "AmpDrift": {
+          "amp_id": "amp-2",
+          "state": {
+            "Drift": {
+              "gain_delta_db": -2.0,
+              "tilt_delta_db": 1.0,
+              "compression_onset_dbmv": 54.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "UpstreamIngress": {
+          "entry_location": {
+            "Span": {
+              "span_id": "drop-4",
+              "pos_ft": 60.0
+            }
+          },
+          "f_mhz": 20.0,
+          "bw_mhz": 2.0,
+          "power_dbmv": -20.0,
+          "schedule": {
+            "hourly_multipliers": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ]
+          },
+          "burst": {
+            "duration_ms": 10.0,
+            "rate_per_s": 5.0
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "DownstreamIngress": {
+          "entry_location": {
+            "Port": {
+              "element_id": "modem-4",
+              "port": "rf"
+            }
+          },
+          "f_mhz": 700.0,
+          "bw_mhz": 10.0,
+          "power_dbmv": -30.0,
+          "schedule": {
+            "hourly_multipliers": [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "PowerSupplySag": {
+          "psu_id": "psu-1",
+          "v_delta": 12.0,
+          "schedule": {
+            "hourly_multipliers": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ]
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "BadDrop": {
+          "modem_id": "modem-6",
+          "extra_loss_db": 6.0,
+          "return_loss_db": 12.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "ResonantPeak": {
+          "amp_id": "amp-1",
+          "f0_mhz": 900.0,
+          "gain_db": 12.0,
+          "width_mhz": 8.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "AdjacentLevelOffset": {
+          "f_lo_mhz": 600.0,
+          "f_hi_mhz": 792.0,
+          "offset_db": 8.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "ForwardOptics": {
+          "cnr_loss_db": 15.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "CommonPathDistortion": {
+          "location": {
+            "Span": {
+              "span_id": "span-3",
+              "pos_ft": 100.0
+            }
+          },
+          "second_order_dbmv_per_mhz": -25.0,
+          "third_over_second_db": -6.0,
+          "schedule": {
+            "hourly_multipliers": [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

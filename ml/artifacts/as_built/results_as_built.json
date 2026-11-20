@@ -1,0 +1,1487 @@
+{
+ "origin": "Synthetic",
+ "note": "Real streets on some maps, invented version 2 plant, simulated faults and telemetry. Nothing here is a field result.",
+ "test": {
+  "gbdt": {
+   "hybrid": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.6035171862509991,
+    "top3": 0.7402078337330136,
+    "top3_95": [
+     0.7151979245814496,
+     0.7637469876688295
+    ],
+    "healthy_false_alarm": 0.4452054794520548,
+    "ece": 0.10507620796046424,
+    "mean_confidence": 0.5610056451609481
+   },
+   "hybrid_raw_posterior": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.6035171862509991,
+    "top3": 0.7402078337330136,
+    "top3_95": [
+     0.7151979245814496,
+     0.7637469876688295
+    ],
+    "healthy_false_alarm": 0.4452054794520548,
+    "ece": 0.2614817253428623,
+    "mean_confidence": 0.8217972397576775
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.5679347826086957,
+    "mean_confidence": 0.5610056451609481,
+    "ece_95": [
+     0.09201048684287585,
+     0.12484481410627664
+    ],
+    "ece_if_calibrated_mean": 0.024582378627054386,
+    "ece_if_calibrated_95th": 0.03565148233116203
+   },
+   "proposal_only": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.6354916067146283,
+    "top3": 0.8033573141486811,
+    "top3_95": [
+     0.7804175063764001,
+     0.824439712255816
+    ],
+    "healthy_false_alarm": 0.4931506849315068,
+    "ece": 0.08307169042956532,
+    "mean_confidence": 0.6344230512955661
+   },
+   "sims": 158.5455163043478,
+   "by_class": {
+    "AmpDrift": {
+     "n": 76,
+     "top3": 0.8947368421052632
+    },
+    "BadDrop": {
+     "n": 66,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 23,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 79,
+     "top3": 0.4936708860759494
+    },
+    "DownstreamIngress": {
+     "n": 92,
+     "top3": 0.7065217391304348
+    },
+    "FiberCut": {
+     "n": 80,
+     "top3": 0.8875
+    },
+    "FiberEventLoss": {
+     "n": 75,
+     "top3": 0.6133333333333333
+    },
+    "FrequencySelectiveLoss": {
+     "n": 83,
+     "top3": 0.7831325301204819
+    },
+    "GcpLoss": {
+     "n": 47,
+     "top3": 1.0
+    },
+    "InHomeWiring": {
+     "n": 89,
+     "top3": 0.2247191011235955
+    },
+    "Misalignment": {
+     "n": 93,
+     "top3": 0.7419354838709677
+    },
+    "OpticalTransmitterDrift": {
+     "n": 70,
+     "top3": 0.44285714285714284
+    },
+    "PowerSupplySag": {
+     "n": 80,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 47,
+     "top3": 0.7872340425531915
+    },
+    "RpdFailure": {
+     "n": 13,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 93,
+     "top3": 0.946236559139785
+    },
+    "TimingLoss": {
+     "n": 54,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 91,
+     "top3": 0.4835164835164835
+    }
+   },
+   "floor": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.5035971223021583,
+    "top3": 0.5715427657873701,
+    "top3_95": [
+     0.5439424712724724,
+     0.5987050150716205
+    ],
+    "healthy_false_alarm": 0.7534246575342466,
+    "ece": 0.3622216979455257,
+    "mean_confidence": 0.8201021327281345
+   },
+   "floor_sims": 126.9538043478261,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 76,
+     "top3": 0.9078947368421053
+    },
+    "BadDrop": {
+     "n": 66,
+     "top3": 0.9393939393939394
+    },
+    "CinLinkCut": {
+     "n": 23,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 79,
+     "top3": 0.3037974683544304
+    },
+    "DownstreamIngress": {
+     "n": 92,
+     "top3": 0.391304347826087
+    },
+    "FiberCut": {
+     "n": 80,
+     "top3": 0.6125
+    },
+    "FiberEventLoss": {
+     "n": 75,
+     "top3": 0.08
+    },
+    "FrequencySelectiveLoss": {
+     "n": 83,
+     "top3": 0.5421686746987951
+    },
+    "GcpLoss": {
+     "n": 47,
+     "top3": 1.0
+    },
+    "InHomeWiring": {
+     "n": 89,
+     "top3": 0.2247191011235955
+    },
+    "Misalignment": {
+     "n": 93,
+     "top3": 0.7204301075268817
+    },
+    "OpticalTransmitterDrift": {
+     "n": 70,
+     "top3": 0.05714285714285714
+    },
+    "PowerSupplySag": {
+     "n": 80,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 47,
+     "top3": 0.5106382978723404
+    },
+    "RpdFailure": {
+     "n": 13,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 93,
+     "top3": 0.6881720430107527
+    },
+    "TimingLoss": {
+     "n": 54,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 91,
+     "top3": 0.3076923076923077
+    }
+   }
+  },
+  "gnn": {
+   "hybrid": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.6003197442046363,
+    "top3": 0.7513988808952837,
+    "top3_95": [
+     0.726703070022058,
+     0.7745554155110961
+    ],
+    "healthy_false_alarm": 0.3424657534246575,
+    "ece": 0.08715992178472699,
+    "mean_confidence": 0.572769329762869
+   },
+   "hybrid_raw_posterior": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.6003197442046363,
+    "top3": 0.7513988808952837,
+    "top3_95": [
+     0.726703070022058,
+     0.7745554155110961
+    ],
+    "healthy_false_alarm": 0.3424657534246575,
+    "ece": 0.2504615066421304,
+    "mean_confidence": 0.8173451415147236
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.5754076086956522,
+    "mean_confidence": 0.572769329762869,
+    "ece_95": [
+     0.07134074526193847,
+     0.10405777937402548
+    ],
+    "ece_if_calibrated_mean": 0.02219570044363456,
+    "ece_if_calibrated_95th": 0.03192072753642724
+   },
+   "proposal_only": {
+    "rows": 1472,
+    "placeable": 1251,
+    "top1": 0.7130295763389288,
+    "top3": 0.8880895283772982,
+    "top3_95": [
+     0.8694178389139212,
+     0.9043850060029192
+    ],
+    "healthy_false_alarm": 0.2671232876712329,
+    "ece": 0.066495751564022,
+    "mean_confidence": 0.7286565150371578
+   },
+   "sims": 155.88790760869566,
+   "by_class": {
+    "AmpDrift": {
+     "n": 76,
+     "top3": 0.9078947368421053
+    },
+    "BadDrop": {
+     "n": 66,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 23,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 79,
+     "top3": 0.4936708860759494
+    },
+    "DownstreamIngress": {
+     "n": 92,
+     "top3": 0.7391304347826086
+    },
+    "FiberCut": {
+     "n": 80,
+     "top3": 0.8625
+    },
+    "FiberEventLoss": {
+     "n": 75,
+     "top3": 0.5866666666666667
+    },
+    "FrequencySelectiveLoss": {
+     "n": 83,
+     "top3": 0.7951807228915663
+    },
+    "GcpLoss": {
+     "n": 47,
+     "top3": 1.0
+    },
+    "InHomeWiring": {
+     "n": 89,
+     "top3": 0.23595505617977527
+    },
+    "Misalignment": {
+     "n": 93,
+     "top3": 0.7741935483870968
+    },
+    "OpticalTransmitterDrift": {
+     "n": 70,
+     "top3": 0.42857142857142855
+    },
+    "PowerSupplySag": {
+     "n": 80,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 47,
+     "top3": 0.7872340425531915
+    },
+    "RpdFailure": {
+     "n": 13,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 93,
+     "top3": 0.9354838709677419
+    },
+    "TimingLoss": {
+     "n": 54,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 91,
+     "top3": 0.6043956043956044
+    }
+   }
+  }
+ },
+ "test_paired": {
+  "gnn_minus_gbdt": {
+   "nodes": 254,
+   "placeable": 1251,
+   "top1_difference": -0.0031974420463629096,
+   "top1_95": [
+    -0.014948859166011016,
+    0.008560311284046693
+   ],
+   "top3_difference": 0.011191047162270184,
+   "top3_95": [
+    0.001605008025682183,
+    0.02071837251632446
+   ]
+  },
+  "gnn_minus_gbdt_proposal_only": {
+   "nodes": 254,
+   "placeable": 1251,
+   "top1_difference": 0.07753796962430055,
+   "top1_95": [
+    0.052793330844842605,
+    0.1021557022270638
+   ],
+   "top3_difference": 0.08473221422861711,
+   "top3_95": [
+    0.067578167467548,
+    0.10199585253568944
+   ]
+  },
+  "gbdt_minus_floor": {
+   "nodes": 254,
+   "placeable": 1251,
+   "top1_difference": 0.09992006394884093,
+   "top1_95": [
+    0.0802790292660067,
+    0.1210678820243913
+   ],
+   "top3_difference": 0.16866506794564348,
+   "top3_95": [
+    0.14744619397625988,
+    0.1913393200646336
+   ]
+  }
+ },
+ "by_map": {
+  "alamo_heights_tx": {
+   "runs": 70,
+   "placeable": 58,
+   "gbdt_top1": 0.5344827586206896,
+   "gbdt_top3": 0.7068965517241379,
+   "gbdt_false_alarm": 0.2857142857142857,
+   "gnn_top1": 0.5862068965517241,
+   "gnn_top3": 0.7413793103448276,
+   "gnn_false_alarm": 0.14285714285714285
+  },
+  "albany_ny": {
+   "runs": 303,
+   "placeable": 263,
+   "gbdt_top1": 0.6311787072243346,
+   "gbdt_top3": 0.7604562737642585,
+   "gbdt_false_alarm": 0.48,
+   "gnn_top1": 0.6083650190114068,
+   "gnn_top3": 0.7642585551330798,
+   "gnn_false_alarm": 0.48
+  },
+  "albuquerque_nm": {
+   "runs": 245,
+   "placeable": 200,
+   "gbdt_top1": 0.61,
+   "gbdt_top3": 0.76,
+   "gbdt_false_alarm": 0.42424242424242425,
+   "gnn_top1": 0.6,
+   "gnn_top3": 0.76,
+   "gnn_false_alarm": 0.21212121212121213
+  },
+  "culver_city_ca": {
+   "runs": 230,
+   "placeable": 192,
+   "gbdt_top1": 0.5885416666666666,
+   "gbdt_top3": 0.7083333333333334,
+   "gbdt_false_alarm": 0.391304347826087,
+   "gnn_top1": 0.59375,
+   "gnn_top3": 0.6979166666666666,
+   "gnn_false_alarm": 0.391304347826087
+  },
+  "keene_nh": {
+   "runs": 132,
+   "placeable": 117,
+   "gbdt_top1": 0.5982905982905983,
+   "gbdt_top3": 0.7606837606837606,
+   "gbdt_false_alarm": 0.3,
+   "gnn_top1": 0.6068376068376068,
+   "gnn_top3": 0.7948717948717948,
+   "gnn_false_alarm": 0.2
+  },
+  "lakewood_oh": {
+   "runs": 128,
+   "placeable": 109,
+   "gbdt_top1": 0.6146788990825688,
+   "gbdt_top3": 0.7614678899082569,
+   "gbdt_false_alarm": 0.5,
+   "gnn_top1": 0.5963302752293578,
+   "gnn_top3": 0.7798165137614679,
+   "gnn_false_alarm": 0.25
+  },
+  "lexington_ky": {
+   "runs": 287,
+   "placeable": 246,
+   "gbdt_top1": 0.6138211382113821,
+   "gbdt_top3": 0.7317073170731707,
+   "gbdt_false_alarm": 0.5555555555555556,
+   "gnn_top1": 0.6138211382113821,
+   "gnn_top3": 0.7560975609756098,
+   "gnn_false_alarm": 0.5185185185185185
+  },
+  "wauwatosa_wi": {
+   "runs": 77,
+   "placeable": 66,
+   "gbdt_top1": 0.5303030303030303,
+   "gbdt_top3": 0.6818181818181818,
+   "gbdt_false_alarm": 0.4444444444444444,
+   "gnn_top1": 0.5454545454545454,
+   "gnn_top3": 0.696969696969697,
+   "gnn_false_alarm": 0.2222222222222222
+  }
+ },
+ "by_profile": {
+  "d31_highsplit_1218_rpd": {
+   "runs": 951,
+   "placeable": 813,
+   "gbdt_top1": 0.6211562115621156,
+   "gbdt_top3": 0.7539975399753998,
+   "gbdt_false_alarm": 0.46153846153846156,
+   "gnn_top1": 0.6260762607626076,
+   "gnn_top3": 0.7638376383763837,
+   "gnn_false_alarm": 0.4175824175824176
+  },
+  "d31_lowsplit_1002_iccap": {
+   "runs": 521,
+   "placeable": 438,
+   "gbdt_top1": 0.5707762557077626,
+   "gbdt_top3": 0.7146118721461188,
+   "gbdt_false_alarm": 0.41818181818181815,
+   "gnn_top1": 0.5525114155251142,
+   "gnn_top3": 0.728310502283105,
+   "gnn_false_alarm": 0.21818181818181817
+  }
+ },
+ "shipped_gbdt_proposal_only": {
+  "rows": 1472,
+  "placeable": 1251,
+  "top1": 0.4364508393285372,
+  "top3": 0.6466826538768985,
+  "top3_95": [
+   0.6197819751298487,
+   0.6726852175421189
+  ],
+  "healthy_false_alarm": 1.0,
+  "ece": 0.47381230060872015,
+  "mean_confidence": 0.8435754484968245
+ },
+ "worlds": {
+  "Tap return loss low": {
+   "gbdt_top3": 0.33976833976833976,
+   "gnn_top3": 0.3088803088803089,
+   "gbdt_top1": 0.2857142857142857,
+   "gnn_top1": 0.25096525096525096,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0,
+   "placeable": 259,
+   "gnn_minus_gbdt": {
+    "nodes": 176,
+    "placeable": 259,
+    "top1_difference": -0.03474903474903475,
+    "top1_95": [
+     -0.05993072569063107,
+     -0.0121938876271354
+    ],
+    "top3_difference": -0.03088803088803089,
+    "top3_95": [
+     -0.055560394889663176,
+     -0.007633587786259542
+    ]
+   }
+  },
+  "Tap return loss high": {
+   "gbdt_top3": 0.694980694980695,
+   "gnn_top3": 0.6332046332046332,
+   "gbdt_top1": 0.5366795366795367,
+   "gnn_top1": 0.5019305019305019,
+   "gbdt_false_alarm": 0.8529411764705882,
+   "gnn_false_alarm": 0.9705882352941176,
+   "placeable": 259,
+   "gnn_minus_gbdt": {
+    "nodes": 176,
+    "placeable": 259,
+    "top1_difference": -0.03474903474903475,
+    "top1_95": [
+     -0.06498341698218425,
+     -0.007662835249042145
+    ],
+    "top3_difference": -0.06177606177606178,
+    "top3_95": [
+     -0.09375,
+     -0.032520325203252036
+    ]
+   }
+  },
+  "Active return loss low": {
+   "gbdt_top3": 0.4092664092664093,
+   "gnn_top3": 0.38996138996138996,
+   "gbdt_top1": 0.2972972972972973,
+   "gnn_top1": 0.28957528957528955,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0,
+   "placeable": 259,
+   "gnn_minus_gbdt": {
+    "nodes": 176,
+    "placeable": 259,
+    "top1_difference": -0.007722007722007722,
+    "top1_95": [
+     -0.029964556107440806,
+     0.012502626050420131
+    ],
+    "top3_difference": -0.019305019305019305,
+    "top3_95": [
+     -0.04545886622882821,
+     0.004167102510460245
+    ]
+   }
+  },
+  "Active return loss high": {
+   "gbdt_top3": 0.6988416988416989,
+   "gnn_top3": 0.6911196911196911,
+   "gbdt_top1": 0.5945945945945946,
+   "gnn_top1": 0.5714285714285714,
+   "gbdt_false_alarm": 0.7352941176470589,
+   "gnn_false_alarm": 0.8529411764705882,
+   "placeable": 259,
+   "gnn_minus_gbdt": {
+    "nodes": 176,
+    "placeable": 259,
+    "top1_difference": -0.023166023166023165,
+    "top1_95": [
+     -0.05128205128205128,
+     0.00393739690641436
+    ],
+    "top3_difference": -0.007722007722007722,
+    "top3_95": [
+     -0.032260965421211416,
+     0.015937848605577665
+    ]
+   }
+  },
+  "Hardline and drop loss low": {
+   "gbdt_top3": 0.6640926640926641,
+   "gnn_top3": 0.6563706563706564,
+   "gbdt_top1": 0.4864864864864865,
+   "gnn_top1": 0.4864864864864865,
+   "gbdt_false_alarm": 0.9117647058823529,
+   "gnn_false_alarm": 0.9117647058823529,
+   "placeable": 259,
+   "gnn_minus_gbdt": {
+    "nodes": 176,
+    "placeable": 259,
+    "top1_difference": 0.0,
+    "top1_95": [
+     -0.024489795918367346,
+     0.023809523809523808
+    ],
+    "top3_difference": -0.007722007722007722,
+    "top3_95": [
+     -0.03149813510153336,
+     0.016195977749251154
+    ]
+   }
+  },
+  "Hardline and drop loss high": {
+   "gbdt_top3": 0.6177606177606177,
+   "gnn_top3": 0.6332046332046332,
+   "gbdt_top1": 0.4594594594594595,
+   "gnn_top1": 0.4594594594594595,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 0.9705882352941176,
+   "placeable": 259,
+   "gnn_minus_gbdt": {
+    "nodes": 176,
+    "placeable": 259,
+    "top1_difference": 0.0,
+    "top1_95": [
+     -0.028674202362065925,
+     0.027777777777777776
+    ],
+    "top3_difference": 0.015444015444015444,
+    "top3_95": [
+     -0.01413806158505805,
+     0.04545853269537475
+    ]
+   }
+  }
+ },
+ "worlds_proposal_only": {
+  "Tap return loss low": {
+   "gbdt_top3": 0.46134020618556704,
+   "gnn_top3": 0.3943298969072165,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0
+  },
+  "Tap return loss high": {
+   "gbdt_top3": 0.7809278350515464,
+   "gnn_top3": 0.5025773195876289,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0
+  },
+  "Active return loss low": {
+   "gbdt_top3": 0.4484536082474227,
+   "gnn_top3": 0.4587628865979381,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0
+  },
+  "Active return loss high": {
+   "gbdt_top3": 0.7680412371134021,
+   "gnn_top3": 0.7474226804123711,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 0.94
+  },
+  "Modem return loss low": {
+   "gbdt_top3": 0.75,
+   "gnn_top3": 0.654639175257732,
+   "gbdt_false_alarm": 0.92,
+   "gnn_false_alarm": 0.96
+  },
+  "Modem return loss high": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.8634020618556701,
+   "gbdt_false_alarm": 0.58,
+   "gnn_false_alarm": 0.56
+  },
+  "Tap port isolation low": {
+   "gbdt_top3": 0.8041237113402062,
+   "gnn_top3": 0.8969072164948454,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "Tap port isolation high": {
+   "gbdt_top3": 0.8144329896907216,
+   "gnn_top3": 0.9072164948453608,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "Forward noise figure low": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "Forward noise figure high": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "Return noise figure low": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.8969072164948454,
+   "gbdt_false_alarm": 0.78,
+   "gnn_false_alarm": 0.02
+  },
+  "Return noise figure high": {
+   "gbdt_top3": 0.7963917525773195,
+   "gnn_top3": 0.8969072164948454,
+   "gbdt_false_alarm": 0.82,
+   "gnn_false_alarm": 0.88
+  },
+  "CIN at reference low": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "CIN at reference high": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "AGC range low": {
+   "gbdt_top3": 0.7860824742268041,
+   "gnn_top3": 0.8917525773195877,
+   "gbdt_false_alarm": 0.56,
+   "gnn_false_alarm": 0.44
+  },
+  "AGC range high": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.24
+  },
+  "Modem implementation MER low": {
+   "gbdt_top3": 0.7603092783505154,
+   "gnn_top3": 0.4845360824742268,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0
+  },
+  "Modem implementation MER high": {
+   "gbdt_top3": 0.7989690721649485,
+   "gnn_top3": 0.788659793814433,
+   "gbdt_false_alarm": 0.88,
+   "gnn_false_alarm": 0.94
+  },
+  "Hardline and drop loss low": {
+   "gbdt_top3": 0.711340206185567,
+   "gnn_top3": 0.7783505154639175,
+   "gbdt_false_alarm": 0.98,
+   "gnn_false_alarm": 0.84
+  },
+  "Hardline and drop loss high": {
+   "gbdt_top3": 0.6752577319587629,
+   "gnn_top3": 0.7551546391752577,
+   "gbdt_false_alarm": 0.98,
+   "gnn_false_alarm": 0.9
+  },
+  "Cable temperature coefficient low": {
+   "gbdt_top3": 0.8118556701030928,
+   "gnn_top3": 0.9072164948453608,
+   "gbdt_false_alarm": 0.52,
+   "gnn_false_alarm": 0.18
+  },
+  "Cable temperature coefficient high": {
+   "gbdt_top3": 0.8015463917525774,
+   "gnn_top3": 0.9020618556701031,
+   "gbdt_false_alarm": 0.48,
+   "gnn_false_alarm": 0.26
+  },
+  "Loop resistance low": {
+   "gbdt_top3": 0.7963917525773195,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.52,
+   "gnn_false_alarm": 0.24
+  },
+  "Loop resistance high": {
+   "gbdt_top3": 0.788659793814433,
+   "gnn_top3": 0.8994845360824743,
+   "gbdt_false_alarm": 0.44,
+   "gnn_false_alarm": 0.24
+  },
+  "Active power draw low": {
+   "gbdt_top3": 0.7989690721649485,
+   "gnn_top3": 0.8865979381443299,
+   "gbdt_false_alarm": 0.6,
+   "gnn_false_alarm": 0.24
+  },
+  "Active power draw high": {
+   "gbdt_top3": 0.7912371134020618,
+   "gnn_top3": 0.904639175257732,
+   "gbdt_false_alarm": 0.46,
+   "gnn_false_alarm": 0.22
+  }
+ },
+ "latency": {
+  "candidates": 81,
+  "gnn_ms": 6.1213510499999995,
+  "largest_candidates": 477,
+  "largest_ms": 32.264295749999995,
+  "origin": "Synthetic"
+ },
+ "decision": {
+  "rule": {
+   "localization": true,
+   "false_alarms": true,
+   "calibration": true,
+   "when_the_sim_is_wrong": false,
+   "latency": true
+  },
+  "gnn_replaces_gbdt": false
+ },
+ "design_bar": {
+  "gbdt": {
+   "top3": 0.7402078337330136,
+   "top3_95": [
+    0.7151979245814496,
+    0.7637469876688295
+   ],
+   "top3_at_least_80": false,
+   "ece": 0.10507620796046424,
+   "ece_under_5": false,
+   "floor_top3": 0.5715427657873701,
+   "beats_the_floor": true
+  },
+  "gnn": {
+   "top3": 0.7513988808952837,
+   "top3_95": [
+    0.726703070022058,
+    0.7745554155110961
+   ],
+   "top3_at_least_80": false,
+   "ece": 0.08715992178472699,
+   "ece_under_5": false,
+   "floor_top3": 0.5715427657873701,
+   "beats_the_floor": true
+  }
+ },
+ "new_bars": {
+  "inside_or_outside_the_home": {
+   "gbdt": {
+    "inside": {
+     "n": 89,
+     "in_its_home": 0.15730337078651685,
+     "95": [
+      0.09607722097921384,
+      0.24688972487264566
+     ],
+     "bar": 0.8
+    },
+    "outside": {
+     "n": 1237,
+     "called_in_a_home": 0.05982215036378335,
+     "95": [
+      0.04791899695642966,
+      0.0744508526682122
+     ],
+     "bar": 0.1
+    }
+   },
+   "gnn": {
+    "inside": {
+     "n": 89,
+     "in_its_home": 0.20224719101123595,
+     "95": [
+      0.1319367734752211,
+      0.29719844177311583
+     ],
+     "bar": 0.8
+    },
+    "outside": {
+     "n": 1237,
+     "called_in_a_home": 0.068714632174616,
+     "95": [
+      0.055911182811298504,
+      0.08418856884112835
+     ],
+     "bar": 0.1
+    }
+   }
+  },
+  "inside_or_outside_the_home_floor": {
+   "inside": {
+    "n": 89,
+    "in_its_home": 0.1797752808988764,
+    "95": [
+     0.11379795967440831,
+     0.2722531208756899
+    ],
+    "bar": 0.8
+   },
+   "outside": {
+    "n": 1237,
+    "called_in_a_home": 0.13500404203718674,
+    "95": [
+     0.11708629571344686,
+     0.15518181650974106
+    ],
+    "bar": 0.1
+   }
+  },
+  "coax_called_fiber_by_the_node": {
+   "gbdt": {
+    "n": 1101,
+    "called_fiber": 0.0,
+    "95": [
+     0.0,
+     0.003477059516947949
+    ]
+   },
+   "gnn": {
+    "n": 1101,
+    "called_fiber": 0.0,
+    "95": [
+     0.0,
+     0.003477059516947949
+    ]
+   }
+  },
+  "regions": 80,
+  "nodes_per_region": [
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   14,
+   15
+  ],
+  "names_the_cable": {
+   "n": 682,
+   "share": 1.0,
+   "95": [
+    0.994398706640134,
+    1.0000000000000002
+   ],
+   "bar": 0.9
+  },
+  "does_not_blame_fiber": {
+   "n": 320,
+   "called_fiber": 0.0,
+   "95": [
+    -8.673617379884035e-19,
+    0.011862589611711404
+   ],
+   "bar": 0.05
+  }
+ },
+ "stress": {
+  "gbdt": {
+   "installation": {
+    "Aerial": {
+     "rows": 1185,
+     "placeable": 1005,
+     "top1": 0.6009950248756218,
+     "top3": 0.7422885572139304,
+     "top3_95": [
+      0.7143604891780513,
+      0.768371388650936
+     ],
+     "healthy_false_alarm": 0.42016806722689076
+    },
+    "Underground": {
+     "rows": 287,
+     "placeable": 246,
+     "top1": 0.6138211382113821,
+     "top3": 0.7317073170731707,
+     "top3_95": [
+      0.6730881247284882,
+      0.7832009800482983
+     ],
+     "healthy_false_alarm": 0.5555555555555556
+    }
+   },
+   "design_mode": {
+    "Greenfield": {
+     "rows": 1019,
+     "placeable": 862,
+     "top1": 0.6102088167053364,
+     "top3": 0.740139211136891,
+     "top3_95": [
+      0.7098421507631295,
+      0.7683053533530969
+     ],
+     "healthy_false_alarm": 0.4174757281553398
+    },
+    "LegacyThenUpgrade": {
+     "rows": 453,
+     "placeable": 389,
+     "top1": 0.5886889460154242,
+     "top3": 0.7403598971722365,
+     "top3_95": [
+      0.6945892053294994,
+      0.781429627706513
+     ],
+     "healthy_false_alarm": 0.5116279069767442
+    }
+   },
+   "over_ceiling": {
+    "False": {
+     "rows": 1355,
+     "placeable": 1154,
+     "top1": 0.6109185441941074,
+     "top3": 0.7452339688041595,
+     "top3_95": [
+      0.7193085752195383,
+      0.7695320399388736
+     ],
+     "healthy_false_alarm": 0.4732824427480916
+    },
+    "True": {
+     "rows": 117,
+     "placeable": 97,
+     "top1": 0.5154639175257731,
+     "top3": 0.6804123711340206,
+     "top3_95": [
+      0.5822644606203154,
+      0.7648145226564275
+     ],
+     "healthy_false_alarm": 0.2
+    }
+   },
+   "held_out_folds": {
+    "family:UrbanGrid": {
+     "train_rows": 26000,
+     "temperature": 1.0,
+     "nll": 1.1097471841990214,
+     "rows": 5920,
+     "placeable": 5032,
+     "top1": 0.6615659777424483,
+     "top3": 0.8096184419713831,
+     "healthy_false_alarm": 0.8344594594594594,
+     "ece": 0.04794007628116045
+    },
+    "family:Suburban": {
+     "train_rows": 25320,
+     "temperature": 1.0,
+     "nll": 1.1541639374887724,
+     "rows": 6560,
+     "placeable": 5576,
+     "top1": 0.6330703012912482,
+     "top3": 0.8237087517934003,
+     "healthy_false_alarm": 0.5564024390243902,
+     "ece": 0.029831618611969906
+    },
+    "family:Rural": {
+     "train_rows": 9880,
+     "temperature": 1.0,
+     "nll": 1.3453227654585702,
+     "rows": 24800,
+     "placeable": 21074,
+     "top1": 0.5718895321248932,
+     "top3": 0.7623137515421847,
+     "healthy_false_alarm": 0.9919549477071601,
+     "ece": 0.10429161790958387
+    },
+    "profile:lowsplit": {
+     "train_rows": 15104,
+     "temperature": 1.0,
+     "nll": 1.3699073836782503,
+     "rows": 14360,
+     "placeable": 12206,
+     "top1": 0.5628379485498934,
+     "top3": 0.7623300016385385,
+     "healthy_false_alarm": 0.49442896935933145,
+     "ece": 0.04312586101806517
+    },
+    "profile:highsplit": {
+     "train_rows": 11960,
+     "temperature": 0.9170040432046712,
+     "nll": 1.3847219823236783,
+     "rows": 18336,
+     "placeable": 14892,
+     "top1": 0.49254633360193395,
+     "top3": 0.7698764437281762,
+     "healthy_false_alarm": 0.2619669277632724,
+     "ece": 0.044858462327083654
+    }
+   }
+  },
+  "gnn": {
+   "installation": {
+    "Aerial": {
+     "rows": 1185,
+     "placeable": 1005,
+     "top1": 0.5970149253731343,
+     "top3": 0.7502487562189055,
+     "top3_95": [
+      0.7225671629895429,
+      0.7760244890596986
+     ],
+     "healthy_false_alarm": 0.3025210084033613
+    },
+    "Underground": {
+     "rows": 287,
+     "placeable": 246,
+     "top1": 0.6138211382113821,
+     "top3": 0.7560975609756098,
+     "top3_95": [
+      0.6987642374895228,
+      0.8055552993690308
+     ],
+     "healthy_false_alarm": 0.5185185185185185
+    }
+   },
+   "design_mode": {
+    "Greenfield": {
+     "rows": 1019,
+     "placeable": 862,
+     "top1": 0.6032482598607889,
+     "top3": 0.7517401392111369,
+     "top3_95": [
+      0.7218259674897064,
+      0.7794204498688496
+     ],
+     "healthy_false_alarm": 0.2912621359223301
+    },
+    "LegacyThenUpgrade": {
+     "rows": 453,
+     "placeable": 389,
+     "top1": 0.5938303341902313,
+     "top3": 0.7506426735218509,
+     "top3_95": [
+      0.7053381121823097,
+      0.7910451629087194
+     ],
+     "healthy_false_alarm": 0.46511627906976744
+    }
+   },
+   "over_ceiling": {
+    "False": {
+     "rows": 1355,
+     "placeable": 1154,
+     "top1": 0.6031195840554593,
+     "top3": 0.7530329289428076,
+     "top3_95": [
+      0.7273388416699965,
+      0.777047941461651
+     ],
+     "healthy_false_alarm": 0.37404580152671757
+    },
+    "True": {
+     "rows": 117,
+     "placeable": 97,
+     "top1": 0.5670103092783505,
+     "top3": 0.7319587628865979,
+     "top3_95": [
+      0.6362187242783012,
+      0.8100256827917968
+     ],
+     "healthy_false_alarm": 0.06666666666666667
+    }
+   },
+   "held_out_folds": {
+    "family:UrbanGrid": {
+     "fold": "family:UrbanGrid",
+     "train_rows": 26000,
+     "temperature": 1.0905077326652577,
+     "nll": 0.8524319265138388,
+     "rows": 5920,
+     "placeable": 5032,
+     "top1": 0.7601351351351351,
+     "top3": 0.845389507154213,
+     "healthy_false_alarm": 0.7989864864864865,
+     "ece": 0.02511504079605377,
+     "fit_s": 1753.5523307323456
+    },
+    "family:Suburban": {
+     "fold": "family:Suburban",
+     "train_rows": 25320,
+     "temperature": 1.0,
+     "nll": 0.8922812289686869,
+     "rows": 6560,
+     "placeable": 5576,
+     "top1": 0.7693687230989957,
+     "top3": 0.9001076040172167,
+     "healthy_false_alarm": 0.5350609756097561,
+     "ece": 0.015934603962274967,
+     "fit_s": 1777.1793689727783
+    },
+    "family:Rural": {
+     "fold": "family:Rural",
+     "train_rows": 9880,
+     "temperature": 1.0,
+     "nll": 0.8997322147984248,
+     "rows": 24800,
+     "placeable": 21074,
+     "top1": 0.6282623137515422,
+     "top3": 0.7957672961943627,
+     "healthy_false_alarm": 0.5711987127916331,
+     "ece": 0.09312916120183799,
+     "fit_s": 1599.7647154331207
+    },
+    "profile:lowsplit": {
+     "fold": "profile:lowsplit",
+     "train_rows": 15104,
+     "temperature": 1.0905077326652577,
+     "nll": 1.0468533905835948,
+     "rows": 14360,
+     "placeable": 12206,
+     "top1": 0.47992790430935606,
+     "top3": 0.6514009503522857,
+     "healthy_false_alarm": 1.0,
+     "ece": 0.38080340976772364,
+     "fit_s": 1333.4868700504303
+    },
+    "profile:highsplit": {
+     "fold": "profile:highsplit",
+     "train_rows": 11960,
+     "temperature": 1.0905077326652577,
+     "nll": 1.0935628909730903,
+     "rows": 18336,
+     "placeable": 14892,
+     "top1": 0.5580177276390008,
+     "top3": 0.7448965887724953,
+     "healthy_false_alarm": 0.6492602262837249,
+     "ece": 0.09405412390786687,
+     "fit_s": 1141.7757608890533
+    }
+   }
+  }
+ },
+ "full_profiles_readout": {
+  "gbdt": {
+   "hybrid": {
+    "rows": 311,
+    "placeable": 265,
+    "top1": 0.6490566037735849,
+    "top3": 0.7509433962264151,
+    "top3_95": [
+     0.69553691784564,
+     0.7991781857692769
+    ],
+    "healthy_false_alarm": 0.5806451612903226,
+    "ece": 0.10407011773281684,
+    "mean_confidence": 0.5908865590242831
+   },
+   "hybrid_raw_posterior": {
+    "rows": 311,
+    "placeable": 265,
+    "top1": 0.6490566037735849,
+    "top3": 0.7509433962264151,
+    "top3_95": [
+     0.69553691784564,
+     0.7991781857692769
+    ],
+    "healthy_false_alarm": 0.5806451612903226,
+    "ece": 0.26578925994013053,
+    "mean_confidence": 0.8465299301047244
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.594855305466238,
+    "mean_confidence": 0.5908865590242831,
+    "ece_95": [
+     0.0831428764870803,
+     0.15014361757141229
+    ],
+    "ece_if_calibrated_mean": 0.05324544726524542,
+    "ece_if_calibrated_95th": 0.07678157363595357
+   },
+   "proposal_only": {
+    "rows": 311,
+    "placeable": 265,
+    "top1": 0.6377358490566037,
+    "top3": 0.7886792452830189,
+    "top3_95": [
+     0.7355790993231143,
+     0.8335292529556998
+    ],
+    "healthy_false_alarm": 0.7419354838709677,
+    "ece": 0.12688992377511066,
+    "mean_confidence": 0.6796031944243115
+   },
+   "sims": 156.97106109324758,
+   "by_class": {
+    "AmpDrift": {
+     "n": 15,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 20,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 4,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 21,
+     "top3": 0.5238095238095238
+    },
+    "DownstreamIngress": {
+     "n": 13,
+     "top3": 0.5384615384615384
+    },
+    "FiberCut": {
+     "n": 19,
+     "top3": 0.7894736842105263
+    },
+    "FiberEventLoss": {
+     "n": 14,
+     "top3": 0.5
+    },
+    "FrequencySelectiveLoss": {
+     "n": 13,
+     "top3": 0.8461538461538461
+    },
+    "GcpLoss": {
+     "n": 12,
+     "top3": 1.0
+    },
+    "InHomeWiring": {
+     "n": 24,
+     "top3": 0.2916666666666667
+    },
+    "Misalignment": {
+     "n": 15,
+     "top3": 0.9333333333333333
+    },
+    "OpticalTransmitterDrift": {
+     "n": 15,
+     "top3": 0.6666666666666666
+    },
+    "PowerSupplySag": {
+     "n": 28,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "RpdFailure": {
+     "n": 7,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 10,
+     "top3": 0.8
+    },
+    "TimingLoss": {
+     "n": 7,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 20,
+     "top3": 0.4
+    }
+   }
+  },
+  "gnn": {
+   "hybrid": {
+    "rows": 311,
+    "placeable": 265,
+    "top1": 0.6566037735849056,
+    "top3": 0.7547169811320755,
+    "top3_95": [
+     0.699516558026281,
+     0.8026378704550257
+    ],
+    "healthy_false_alarm": 0.7096774193548387,
+    "ece": 0.06126507897083003,
+    "mean_confidence": 0.5949477923296855
+   },
+   "hybrid_raw_posterior": {
+    "rows": 311,
+    "placeable": 265,
+    "top1": 0.6566037735849056,
+    "top3": 0.7547169811320755,
+    "top3_95": [
+     0.699516558026281,
+     0.8026378704550257
+    ],
+    "healthy_false_alarm": 0.7096774193548387,
+    "ece": 0.28282271302779394,
+    "mean_confidence": 0.8699519272742634
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.5884244372990354,
+    "mean_confidence": 0.5949477923296855,
+    "ece_95": [
+     0.045114221608064636,
+     0.10449987695040339
+    ],
+    "ece_if_calibrated_mean": 0.04959108651913662,
+    "ece_if_calibrated_95th": 0.07146054000725623
+   },
+   "proposal_only": {
+    "rows": 311,
+    "placeable": 265,
+    "top1": 0.7320754716981132,
+    "top3": 0.8415094339622642,
+    "top3_95": [
+     0.792702037904567,
+     0.8805568625037031
+    ],
+    "healthy_false_alarm": 1.0,
+    "ece": 0.1685947397572165,
+    "mean_confidence": 0.785767503592852
+   },
+   "sims": 152.95176848874598,
+   "by_class": {
+    "AmpDrift": {
+     "n": 15,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 20,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 4,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 21,
+     "top3": 0.5714285714285714
+    },
+    "DownstreamIngress": {
+     "n": 13,
+     "top3": 0.5384615384615384
+    },
+    "FiberCut": {
+     "n": 19,
+     "top3": 0.7368421052631579
+    },
+    "FiberEventLoss": {
+     "n": 14,
+     "top3": 0.5
+    },
+    "FrequencySelectiveLoss": {
+     "n": 13,
+     "top3": 0.8461538461538461
+    },
+    "GcpLoss": {
+     "n": 12,
+     "top3": 1.0
+    },
+    "InHomeWiring": {
+     "n": 24,
+     "top3": 0.2916666666666667
+    },
+    "Misalignment": {
+     "n": 15,
+     "top3": 0.9333333333333333
+    },
+    "OpticalTransmitterDrift": {
+     "n": 15,
+     "top3": 0.6
+    },
+    "PowerSupplySag": {
+     "n": 28,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "RpdFailure": {
+     "n": 7,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 10,
+     "top3": 0.7
+    },
+    "TimingLoss": {
+     "n": 7,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 20,
+     "top3": 0.55
+    }
+   }
+  }
+ }
+}

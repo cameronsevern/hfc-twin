@@ -1,0 +1,191 @@
+{
+ "origin": "Synthetic",
+ "note": "Real streets, invented plant, simulated faults and telemetry. A score here says how well the model reads this sim.",
+ "weights": 120906,
+ "rule": {
+  "catches_10_db": true,
+  "catches_20_db": true,
+  "quiet_when_healthy": true,
+  "macro_f1": true,
+  "no_shape_under_0.7": true,
+  "finds_the_band": true,
+  "sizes_it": true,
+  "says_dont_know": true,
+  "runs_under_50_ms": true,
+  "under_200k_weights": true
+ },
+ "ready": true,
+ "test": {
+  "captures": 29206,
+  "healthy_captures": 19910,
+  "severe_10_db": {
+   "captures": 5118,
+   "not_normal": 1.0
+  },
+  "severe_20_db": {
+   "captures": 3157,
+   "not_normal": 1.0
+  },
+  "healthy_false_alarm": 0.0034655951783023604,
+  "macro_f1": 0.8989194046560165,
+  "shapes": {
+   "Ingress": {
+    "f1": 0.9447791164658634,
+    "precision": 0.9611848825331971,
+    "recall": 0.928923988153998,
+    "captures": 1013
+   },
+   "Spike": {
+    "f1": 0.988906497622821,
+    "precision": 0.9894291754756871,
+    "recall": 0.9883843717001056,
+    "captures": 947
+   },
+   "Dip": {
+    "f1": 0.9043280182232346,
+    "precision": 0.9566265060240964,
+    "recall": 0.857451403887689,
+    "captures": 926
+   },
+   "RollOff": {
+    "f1": 0.9065472859541129,
+    "precision": 0.9310344827586207,
+    "recall": 0.8833151581243184,
+    "captures": 917
+   },
+   "BandLoss": {
+    "f1": 0.9100985221674877,
+    "precision": 0.9535483870967741,
+    "recall": 0.8704358068315665,
+    "captures": 849
+   },
+   "Ripple": {
+    "f1": 0.7598039215686275,
+    "precision": 0.7345971563981043,
+    "recall": 0.7868020304568528,
+    "captures": 197
+   },
+   "Wave": {
+    "f1": 0.8702363724071395,
+    "precision": 0.8948412698412699,
+    "recall": 0.8469483568075117,
+    "captures": 1065
+   },
+   "LowMer": {
+    "f1": 0.890383854372774,
+    "precision": 0.8851298190401259,
+    "recall": 0.8957006369426752,
+    "captures": 1256
+   },
+   "Edge": {
+    "f1": 0.9151910531220876,
+    "precision": 0.9194756554307116,
+    "recall": 0.9109461966604824,
+    "captures": 1078
+   }
+  },
+  "band_iou_median": {
+   "Ingress": 1.0,
+   "Dip": 0.9319188381913688,
+   "BandLoss": 0.9897435897435898,
+   "RollOff": 0.9253731343283582
+  },
+  "fall_mae_db": 1.0674018859863281,
+  "unknown_share": 0.0568033965623502,
+  "not_normal_by_worst_fall": {
+   "1.5-3": {
+    "captures": 1352,
+    "not_normal": 0.2995562130177515
+   },
+   "3-6": {
+    "captures": 1042,
+    "not_normal": 0.8733205374280231
+   },
+   "6-10": {
+    "captures": 1004,
+    "not_normal": 0.9950199203187251
+   },
+   "10-20": {
+    "captures": 2320,
+    "not_normal": 1.0
+   },
+   "20-30": {
+    "captures": 1526,
+    "not_normal": 1.0
+   },
+   "30-1000": {
+    "captures": 2052,
+    "not_normal": 1.0
+   }
+  },
+  "by_map": {
+   "alamo_heights_tx": {
+    "captures": 1168,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.0
+   },
+   "albany_ny": {
+    "captures": 6131,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.0026397888168946484
+   },
+   "albuquerque_nm": {
+    "captures": 4770,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.0018226002430133657
+   },
+   "culver_city_ca": {
+    "captures": 5001,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.004435245416913069
+   },
+   "keene_nh": {
+    "captures": 2533,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.0040137614678899085
+   },
+   "lakewood_oh": {
+    "captures": 2688,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.0016172506738544475
+   },
+   "lexington_ky": {
+    "captures": 5584,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.002633658151171978
+   },
+   "wauwatosa_wi": {
+    "captures": 1331,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.019165727170236752
+   }
+  },
+  "by_profile": {
+   "d31_highsplit_1218_rpd": {
+    "captures": 19427,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.0035291349698062897
+   },
+   "d31_lowsplit_1002_iccap": {
+    "captures": 9779,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.003352423522838385
+   }
+  },
+  "several_at_once": {
+   "single": {
+    "captures": 7482,
+    "all_visible_shapes_named": 0.9147286821705426
+   },
+   "several": {
+    "captures": 380,
+    "all_visible_shapes_named": 0.45789473684210524
+   }
+  }
+ },
+ "latency": {
+  "ms": 26.17468845,
+  "runs": 20,
+  "threads": 1
+ }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "1",
+  "scenarios": [
+    {
+      "id": "stormy-monday",
+      "title": "A stormy Monday",
+      "blurb": "A storm blows in at dawn for six hours, wind 25 m/s and rain 20 mm/h. Just after noon, as the crews catch up, an excavator finds a buried cable, a car hits the plant, and a fiber cable is cut.",
+      "seed": 26,
+      "intensity": 50,
+      "actions": [
+        {"at_s": 60, "action": {"Storm": {"hours": 6, "wind_m_per_s": 25, "rain_mm_per_hr": 20}}},
+        {"at_s": 21660, "action": {"DigIn": {"near": null}}},
+        {"at_s": 21660, "action": {"CarHit": {"near": null}}},
+        {"at_s": 21660, "action": "FiberCut"}
+      ]
+    },
+    {
+      "id": "construction-season",
+      "title": "Construction season",
+      "blurb": "A dry, busy weekday: excavators find buried cable mid-morning, before lunch and mid-afternoon, and a car hits the plant in the evening rush.",
+      "seed": 7,
+      "intensity": 50,
+      "actions": [
+        {"at_s": 10800, "action": {"DigIn": {"near": null}}},
+        {"at_s": 19800, "action": {"DigIn": {"near": null}}},
+        {"at_s": 28800, "action": {"DigIn": {"near": null}}},
+        {"at_s": 39600, "action": {"CarHit": {"near": null}}}
+      ]
+    },
+    {
+      "id": "heat-wave",
+      "title": "A heat wave",
+      "blurb": "From mid-morning the air runs 12 °C above normal for eight hours, the plant's amplifiers and cable with it, and mid-afternoon a fiber cable is cut.",
+      "seed": 12,
+      "intensity": 50,
+      "actions": [
+        {"at_s": 14400, "action": {"HeatWave": {"hours": 8, "delta_c": 12}}},
+        {"at_s": 32400, "action": "FiberCut"}
+      ]
+    }
+  ]
+}

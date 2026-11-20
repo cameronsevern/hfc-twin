@@ -1,0 +1,18 @@
+[package]
+name = "diagnosis"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "Diagnosis as the inverse of the sim: topology as prior, the sim as likelihood, the policy table for the fix."
+
+[dependencies]
+schema = { path = "../schema" }
+plant-graph = { path = "../plant-graph" }
+sim = { path = "../sim" }
+features = { path = "../features" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["float_roundtrip"] }
+thiserror = "2"

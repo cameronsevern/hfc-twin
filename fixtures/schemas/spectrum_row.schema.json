@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpectrumRow",
+  "description": "One capture and its labels.",
+  "type": "object",
+  "properties": {
+    "causes": {
+      "description": "Causes in the fault set.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CauseClass"
+      }
+    },
+    "channel": {
+      "description": "The OFDM channel.",
+      "$ref": "#/$defs/ChannelId"
+    },
+    "fall_hex": {
+      "description": "Per bin, the fall in quarter dB, in hex.",
+      "type": "string"
+    },
+    "fault_schema": {
+      "description": "The fault schema it was made under.",
+      "type": "string"
+    },
+    "first_mhz": {
+      "description": "Centre of the first bin, MHz.",
+      "type": "number",
+      "format": "double"
+    },
+    "map": {
+      "description": "The street map, where there is one.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mean_hex": {
+      "description": "Per bin, mean in quarter dB, in hex. `ff` marks padding.",
+      "type": "string"
+    },
+    "min_hex": {
+      "description": "Per bin, lowest subcarrier in quarter dB, in hex. `ff` marks padding.",
+      "type": "string"
+    },
+    "modem": {
+      "description": "The modem.",
+      "$ref": "#/$defs/ElementId"
+    },
+    "observation_schema": {
+      "description": "The observation schema it was made under.",
+      "type": "string"
+    },
+    "origin": {
+      "description": "Whether this is simulated or real.",
+      "$ref": "#/$defs/Origin"
+    },
+    "profile": {
+      "description": "The architecture profile.",
+      "$ref": "#/$defs/ProfileId"
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "seed": {
+      "description": "The seed that made it.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "service_group": {
+      "description": "The node's service group.",
+      "type": "string"
+    },
+    "shapes": {
+      "description": "Shapes visible on this modem.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ShapeLabel"
+      }
+    },
+    "shapes_hex": {
+      "description": "Per bin, a mask of `Shape::bit`, as little-endian u16, in hex.",
+      "type": "string"
+    },
+    "worst_fall_db": {
+      "description": "Largest fall against the healthy run, all faults together, dB.",
+      "type": "number",
+      "format": "double"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "origin",
+    "observation_schema",
+    "fault_schema",
+    "profile",
+    "service_group",
+    "modem",
+    "channel",
+    "first_mhz",
+    "seed",
+    "causes",
+    "shapes",
+    "worst_fall_db",
+    "min_hex",
+    "mean_hex",
+    "fall_hex",
+    "shapes_hex"
+  ],
+  "$defs": {
+    "CauseClass": {
+      "description": "What caused a problem: one variant per fault class in §8, plus `Unknown`.",
+      "oneOf": [
+        {
+          "description": "`FaultKind::WaterIngress`.",
+          "type": "string",
+          "const": "WaterIngress"
+        },
+        {
+          "description": "`FaultKind::ConnectorReflection`.",
+          "type": "string",
+          "const": "ConnectorReflection"
+        },
+        {
+          "description": "`FaultKind::Suckout`.",
+          "type": "string",
+          "const": "Suckout"
+        },
+        {
+          "description": "`FaultKind::FrequencySelectiveLoss`.",
+          "type": "string",
+          "const": "FrequencySelectiveLoss"
+        },
+        {
+          "description": "`FaultKind::AmpDrift`.",
+          "type": "string",
+          "const": "AmpDrift"
+        },
+        {
+          "description": "`FaultKind::UpstreamIngress`.",
+          "type": "string",
+          "const": "UpstreamIngress"
+        },
+        {
+          "description": "`FaultKind::DownstreamIngress`.",
+          "type": "string",
+          "const": "DownstreamIngress"
+        },
+        {
+          "description": "`FaultKind::PowerSupplySag`.",
+          "type": "string",
+          "const": "PowerSupplySag"
+        },
+        {
+          "description": "`FaultKind::ResonantPeak`.",
+          "type": "string",
+          "const": "ResonantPeak"
+        },
+        {
+          "description": "`FaultKind::AdjacentLevelOffset`.",
+          "type": "string",
+          "const": "AdjacentLevelOffset"
+        },
+        {
+          "description": "`FaultKind::ForwardOptics`.",
+          "type": "string",
+          "const": "ForwardOptics"
+        },
+        {
+          "description": "`FaultKind::CommonPathDistortion`.",
+          "type": "string",
+          "const": "CommonPathDistortion"
+        },
+        {
+          "description": "`FaultKind::BadDrop`.",
+          "type": "string",
+          "const": "BadDrop"
+        },
+        {
+          "description": "An RPD stopped.",
+          "type": "string",
+          "const": "RpdFailure"
+        },
+        {
+          "description": "The fiber to an RPD is cut.",
+          "type": "string",
+          "const": "CinLinkCut"
+        },
+        {
+          "description": "The control plane to an RPD is lost.",
+          "type": "string",
+          "const": "GcpLoss"
+        },
+        {
+          "description": "An RPD lost its timing.",
+          "type": "string",
+          "const": "TimingLoss"
+        },
+        {
+          "description": "An RPD's RF output is set wrong.",
+          "type": "string",
+          "const": "RfmMisalignment"
+        },
+        {
+          "description": "A fault inside one home, past its ground block: a part, a connector or the cable between them. Version 5.",
+          "type": "string",
+          "const": "InHomeWiring"
+        },
+        {
+          "description": "`FaultKind::Misalignment`: a wrong pad or equalizer at a fitted active. Version 5.",
+          "type": "string",
+          "const": "Misalignment"
+        },
+        {
+          "description": "`FiberFaultKind::FiberCut`. Version 5.",
+          "type": "string",
+          "const": "FiberCut"
+        },
+        {
+          "description": "`FiberFaultKind::EventLoss`: a lossy splice, connector or bend. Version 5.",
+          "type": "string",
+          "const": "FiberEventLoss"
+        },
+        {
+          "description": "`FiberFaultKind::TransmitterDrift`. Version 5.",
+          "type": "string",
+          "const": "OpticalTransmitterDrift"
+        },
+        {
+          "description": "No fault class explains the telemetry.",
+          "type": "string",
+          "const": "Unknown"
+        }
+      ]
+    },
+    "ChannelId": {
+      "description": "A channel in a channel plan, stable across migrations (§9).",
+      "type": "string"
+    },
+    "ElementId": {
+      "description": "A plant element or power supply, such as `amp-1`.",
+      "type": "string"
+    },
+    "Origin": {
+      "description": "Whether a plant or observation is simulated or measured (invariant 11).",
+      "oneOf": [
+        {
+          "description": "Generated by this project; never to be presented as real.",
+          "type": "string",
+          "const": "Synthetic"
+        },
+        {
+          "description": "Measured on, or imported from, a real network.",
+          "type": "string",
+          "const": "Field"
+        }
+      ]
+    },
+    "ProfileId": {
+      "description": "An architecture profile.",
+      "type": "string"
+    },
+    "Shape": {
+      "description": "What a stretch of the curve looks like. Not a cause: one roll-off can have several.",
+      "oneOf": [
+        {
+          "description": "Band of noise, 1 MHz or wider.",
+          "type": "string",
+          "const": "Ingress"
+        },
+        {
+          "description": "Narrow noise, under 1 MHz, alone or as a comb.",
+          "type": "string",
+          "const": "Spike"
+        },
+        {
+          "description": "A rounded dip, from a suckout or a resonance.",
+          "type": "string",
+          "const": "Dip"
+        },
+        {
+          "description": "A gradual fall towards a band edge.",
+          "type": "string",
+          "const": "RollOff"
+        },
+        {
+          "description": "A band missing, with sharp sides.",
+          "type": "string",
+          "const": "BandLoss"
+        },
+        {
+          "description": "Periodic ripple from one echo.",
+          "type": "string",
+          "const": "Ripple"
+        },
+        {
+          "description": "Non-periodic waves.",
+          "type": "string",
+          "const": "Wave"
+        },
+        {
+          "description": "Lower across the channel.",
+          "type": "string",
+          "const": "LowMer"
+        },
+        {
+          "description": "A fall at the channel's edge from what's next to it.",
+          "type": "string",
+          "const": "Edge"
+        }
+      ]
+    },
+    "ShapeLabel": {
+      "description": "One shape in one capture.",
+      "type": "object",
+      "properties": {
+        "bins": {
+          "description": "Bins where they cause a visible fall.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "shape": {
+          "description": "The shape.",
+          "$ref": "#/$defs/Shape"
+        },
+        "worst_fall_db": {
+          "description": "The largest fall this shape's faults alone cause, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "shape",
+        "worst_fall_db",
+        "bins"
+      ]
+    }
+  }
+}

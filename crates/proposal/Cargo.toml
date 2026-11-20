@@ -1,0 +1,21 @@
+[package]
+name = "proposal"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "Per-component features and the in-process proposal model. Trained offline; a pure function at inference."
+
+[dependencies]
+schema = { path = "../schema" }
+plant-graph = { path = "../plant-graph" }
+features = { path = "../features" }
+sim = { path = "../sim" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["float_roundtrip"] }
+thiserror = "2"
+
+[dev-dependencies]
+pnm-wire = { path = "../pnm-wire" }

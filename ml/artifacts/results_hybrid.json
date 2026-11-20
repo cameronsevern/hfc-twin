@@ -1,0 +1,499 @@
+{
+ "origin": "Synthetic",
+ "families": {
+  "UrbanGrid": {
+   "floor": {
+    "rows": 230,
+    "placeable": 182,
+    "top1": 0.5989010989010989,
+    "top3": 0.6208791208791209,
+    "top3_95": [
+     0.5485803809478401,
+     0.6881803873623767
+    ],
+    "healthy_false_alarm": 0.8846153846153846,
+    "ece": 0.3179305140397398,
+    "mean_confidence": 0.8570609488223486
+   },
+   "hybrid_raw_posterior": {
+    "rows": 230,
+    "placeable": 182,
+    "top1": 0.7307692307692307,
+    "top3": 0.8516483516483516,
+    "top3_95": [
+     0.792760206700154,
+     0.8959983920204768
+    ],
+    "healthy_false_alarm": 0.2692307692307692,
+    "ece": 0.17432468690342656,
+    "mean_confidence": 0.8873681651642963
+   },
+   "hybrid": {
+    "rows": 230,
+    "placeable": 182,
+    "top1": 0.7307692307692307,
+    "top3": 0.8516483516483516,
+    "top3_95": [
+     0.792760206700154,
+     0.8959983920204768
+    ],
+    "healthy_false_alarm": 0.2692307692307692,
+    "ece": 0.05369015220666062,
+    "mean_confidence": 0.7009739839225059
+   },
+   "hybrid_ece_spread": {
+    "accuracy_top_answer": 0.7130434782608696,
+    "mean_confidence": 0.7009739839225059,
+    "ece_95": [
+     0.04137036448083928,
+     0.09922666647301612
+    ],
+    "ece_if_calibrated_mean": 0.04728761877932875,
+    "ece_if_calibrated_95th": 0.06720479896687814
+   },
+   "floor_sims": 104.95652173913044,
+   "hybrid_sims": 122.8695652173913,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 20,
+     "top3": 0.95
+    },
+    "BadDrop": {
+     "n": 15,
+     "top3": 0.9333333333333333
+    },
+    "CinLinkCut": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 15,
+     "top3": 0.3333333333333333
+    },
+    "DownstreamIngress": {
+     "n": 26,
+     "top3": 0.3076923076923077
+    },
+    "FrequencySelectiveLoss": {
+     "n": 14,
+     "top3": 0.2857142857142857
+    },
+    "GcpLoss": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 23,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "RpdFailure": {
+     "n": 7,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 21,
+     "top3": 0.19047619047619047
+    },
+    "TimingLoss": {
+     "n": 5,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 15,
+     "top3": 0.2
+    }
+   },
+   "hybrid_by_class": {
+    "AmpDrift": {
+     "n": 20,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 15,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 15,
+     "top3": 0.9333333333333333
+    },
+    "DownstreamIngress": {
+     "n": 26,
+     "top3": 0.6153846153846154
+    },
+    "FrequencySelectiveLoss": {
+     "n": 14,
+     "top3": 0.8571428571428571
+    },
+    "GcpLoss": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 23,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "RpdFailure": {
+     "n": 7,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 21,
+     "top3": 0.7619047619047619
+    },
+    "TimingLoss": {
+     "n": 5,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 15,
+     "top3": 0.4
+    }
+   }
+  },
+  "Suburban": {
+   "floor": {
+    "rows": 214,
+    "placeable": 183,
+    "top1": 0.6174863387978142,
+    "top3": 0.6721311475409836,
+    "top3_95": [
+     0.601186428201202,
+     0.7359975822118965
+    ],
+    "healthy_false_alarm": 0.7058823529411765,
+    "ece": 0.22117816987302213,
+    "mean_confidence": 0.8239819081907793
+   },
+   "hybrid_raw_posterior": {
+    "rows": 214,
+    "placeable": 183,
+    "top1": 0.8142076502732241,
+    "top3": 0.8961748633879781,
+    "top3_95": [
+     0.8435383807295037,
+     0.9325200559355645
+    ],
+    "healthy_false_alarm": 0.0,
+    "ece": 0.08630181789118788,
+    "mean_confidence": 0.8838896021906499
+   },
+   "hybrid": {
+    "rows": 214,
+    "placeable": 183,
+    "top1": 0.8142076502732241,
+    "top3": 0.8961748633879781,
+    "top3_95": [
+     0.8435383807295037,
+     0.9325200559355645
+    ],
+    "healthy_false_alarm": 0.0,
+    "ece": 0.07503835160072944,
+    "mean_confidence": 0.7617493572042994
+   },
+   "hybrid_ece_spread": {
+    "accuracy_top_answer": 0.822429906542056,
+    "mean_confidence": 0.7617493572042994,
+    "ece_95": [
+     0.055513901102165336,
+     0.11589892552519497
+    ],
+    "ece_if_calibrated_mean": 0.05061961919646116,
+    "ece_if_calibrated_95th": 0.07343974511581994
+   },
+   "floor_sims": 105.69158878504673,
+   "hybrid_sims": 126.78971962616822,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 21,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 16,
+     "top3": 0.9375
+    },
+    "CinLinkCut": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 27,
+     "top3": 0.4074074074074074
+    },
+    "DownstreamIngress": {
+     "n": 18,
+     "top3": 0.4444444444444444
+    },
+    "FrequencySelectiveLoss": {
+     "n": 18,
+     "top3": 0.5555555555555556
+    },
+    "GcpLoss": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 20,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 9,
+     "top3": 0.5555555555555556
+    },
+    "RpdFailure": {
+     "n": 4,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 16,
+     "top3": 0.4375
+    },
+    "TimingLoss": {
+     "n": 4,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 15,
+     "top3": 0.2
+    }
+   },
+   "hybrid_by_class": {
+    "AmpDrift": {
+     "n": 21,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 16,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 27,
+     "top3": 0.9629629629629629
+    },
+    "DownstreamIngress": {
+     "n": 18,
+     "top3": 0.9444444444444444
+    },
+    "FrequencySelectiveLoss": {
+     "n": 18,
+     "top3": 0.9444444444444444
+    },
+    "GcpLoss": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 20,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 9,
+     "top3": 0.5555555555555556
+    },
+    "RpdFailure": {
+     "n": 4,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 16,
+     "top3": 0.9375
+    },
+    "TimingLoss": {
+     "n": 4,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 15,
+     "top3": 0.26666666666666666
+    }
+   }
+  },
+  "Rural": {
+   "floor": {
+    "rows": 327,
+    "placeable": 267,
+    "top1": 0.5730337078651685,
+    "top3": 0.6853932584269663,
+    "top3_95": [
+     0.6273977092419103,
+     0.7381295952785178
+    ],
+    "healthy_false_alarm": 0.4473684210526316,
+    "ece": 0.23383360897655825,
+    "mean_confidence": 0.7868800702481177
+   },
+   "hybrid_raw_posterior": {
+    "rows": 327,
+    "placeable": 267,
+    "top1": 0.6629213483146067,
+    "top3": 0.8089887640449438,
+    "top3_95": [
+     0.7575848791380758,
+     0.8516272950626377
+    ],
+    "healthy_false_alarm": 0.07894736842105263,
+    "ece": 0.17023424118734,
+    "mean_confidence": 0.8491333237561474
+   },
+   "hybrid": {
+    "rows": 327,
+    "placeable": 267,
+    "top1": 0.6629213483146067,
+    "top3": 0.8089887640449438,
+    "top3_95": [
+     0.7575848791380758,
+     0.8516272950626377
+    ],
+    "healthy_false_alarm": 0.07894736842105263,
+    "ece": 0.08120704294102961,
+    "mean_confidence": 0.7533380818157277
+   },
+   "hybrid_ece_spread": {
+    "accuracy_top_answer": 0.6788990825688074,
+    "mean_confidence": 0.7533380818157277,
+    "ece_95": [
+     0.055621138272150476,
+     0.1252005298986195
+    ],
+    "ece_if_calibrated_mean": 0.04336505280645734,
+    "ece_if_calibrated_95th": 0.0619448536362009
+   },
+   "floor_sims": 101.10397553516819,
+   "hybrid_sims": 122.16819571865443,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 31,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 25,
+     "top3": 0.84
+    },
+    "CinLinkCut": {
+     "n": 12,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 20,
+     "top3": 0.45
+    },
+    "DownstreamIngress": {
+     "n": 33,
+     "top3": 0.30303030303030304
+    },
+    "FrequencySelectiveLoss": {
+     "n": 33,
+     "top3": 0.5757575757575758
+    },
+    "GcpLoss": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 27,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 10,
+     "top3": 0.8
+    },
+    "RpdFailure": {
+     "n": 5,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 30,
+     "top3": 0.6333333333333333
+    },
+    "TimingLoss": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 27,
+     "top3": 0.2962962962962963
+    }
+   },
+   "hybrid_by_class": {
+    "AmpDrift": {
+     "n": 31,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 25,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 12,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 20,
+     "top3": 0.8
+    },
+    "DownstreamIngress": {
+     "n": 33,
+     "top3": 0.42424242424242425
+    },
+    "FrequencySelectiveLoss": {
+     "n": 33,
+     "top3": 0.7575757575757576
+    },
+    "GcpLoss": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 27,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 10,
+     "top3": 0.9
+    },
+    "RpdFailure": {
+     "n": 5,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 30,
+     "top3": 0.8666666666666667
+    },
+    "TimingLoss": {
+     "n": 6,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 27,
+     "top3": 0.4444444444444444
+    }
+   }
+  }
+ },
+ "shipped_calibrator_on_seen_families": {
+  "ece": 0.017774130867376982,
+  "accuracy_top_answer": 0.728923476005188,
+  "mean_confidence": 0.7237483749982836,
+  "ece_95": [
+   0.02023708839876004,
+   0.04954383396781301
+  ],
+  "ece_if_calibrated_mean": 0.02827737831849705,
+  "ece_if_calibrated_95th": 0.03998377046282281
+ }
+}

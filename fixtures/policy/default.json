@@ -1,0 +1,222 @@
+{
+  "schema_version": "5",
+  "entries": [
+    {
+      "cause": "WaterIngress",
+      "component_class": "Cable",
+      "action": "Replace the wet section of hardline and reseal its connectors",
+      "parts": [
+        ".500 hardline",
+        "hardline connectors"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "ConnectorReflection",
+      "component_class": null,
+      "action": "Reseat or replace the connector at the marked point",
+      "parts": [
+        "hardline connectors"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "Suckout",
+      "component_class": null,
+      "action": "Inspect the marked section and replace the failed passive or cable",
+      "parts": [
+        "tap",
+        "hardline connectors"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "FrequencySelectiveLoss",
+      "component_class": null,
+      "action": "Remove the trap or filter, or replace the under-rated part",
+      "parts": [
+        "tap"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "AmpDrift",
+      "component_class": "Amp",
+      "action": "Rebalance the amp; replace it if it won't align",
+      "parts": [
+        "amp module"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "UpstreamIngress",
+      "component_class": null,
+      "action": "Find the entry point by attenuating legs in turn, then repair the shielding",
+      "parts": [
+        "drop connectors",
+        "drop cable"
+      ],
+      "crew": "maintenance"
+    },
+    {
+      "cause": "DownstreamIngress",
+      "component_class": null,
+      "action": "Find the entry point and repair the shielding",
+      "parts": [
+        "drop connectors",
+        "drop cable"
+      ],
+      "crew": "maintenance"
+    },
+    {
+      "cause": "PowerSupplySag",
+      "component_class": "PowerSupply",
+      "action": "Test batteries and input power; repair or replace the supply",
+      "parts": [
+        "batteries"
+      ],
+      "crew": "power"
+    },
+    {
+      "cause": "BadDrop",
+      "component_class": "Drop",
+      "action": "Replace the drop and its connectors",
+      "parts": [
+        "drop cable",
+        "drop connectors"
+      ],
+      "crew": "service"
+    },
+    {
+      "cause": "ResonantPeak",
+      "component_class": "Amp",
+      "action": "Reseat the amp module, tighten its hardware and replace the ground spring",
+      "parts": [
+        "amp ground spring"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "AdjacentLevelOffset",
+      "component_class": null,
+      "action": "Rebalance the channel block at the head-end combiner",
+      "parts": [],
+      "crew": "noc"
+    },
+    {
+      "cause": "ForwardOptics",
+      "component_class": null,
+      "action": "Check the forward laser and optical levels, clean the connectors",
+      "parts": [
+        "fiber cleaning kit"
+      ],
+      "crew": "node"
+    },
+    {
+      "cause": "CommonPathDistortion",
+      "component_class": null,
+      "action": "Find and remake the corroded contact, then retest the return floor",
+      "parts": [
+        "hardline connectors"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "RpdFailure",
+      "component_class": "Rpd",
+      "action": "Check the RPD's power and hardware; reset or replace it",
+      "parts": [
+        "RPD"
+      ],
+      "crew": "node"
+    },
+    {
+      "cause": "CinLinkCut",
+      "component_class": "Rpd",
+      "action": "Find and repair the fiber break to the RPD",
+      "parts": [
+        "fiber",
+        "SFP"
+      ],
+      "crew": "fiber"
+    },
+    {
+      "cause": "GcpLoss",
+      "component_class": "Rpd",
+      "action": "Check the Core and CIN path for the RPD's control session; no plant work",
+      "parts": [],
+      "crew": "noc"
+    },
+    {
+      "cause": "TimingLoss",
+      "component_class": "Rpd",
+      "action": "Check the PTP grandmaster and CIN path to the RPD; no plant work",
+      "parts": [],
+      "crew": "noc"
+    },
+    {
+      "cause": "RfmMisalignment",
+      "component_class": "Rpd",
+      "action": "Reset the RPD's RF output and tilt to the design values",
+      "parts": [],
+      "crew": "node"
+    },
+    {
+      "cause": "InHomeWiring",
+      "component_class": null,
+      "action": "Visit the home: find the failed splitter, connector or cable past the ground block and replace it",
+      "parts": [
+        "in-home splitters",
+        "F connectors",
+        "series 6 cable"
+      ],
+      "crew": "service"
+    },
+    {
+      "cause": "Misalignment",
+      "component_class": "Amp",
+      "action": "Realign the amp: refit the input pad and equalizer to the design map",
+      "parts": [
+        "plug-in pads",
+        "plug-in equalizers"
+      ],
+      "crew": "line"
+    },
+    {
+      "cause": "FiberCut",
+      "component_class": null,
+      "action": "Locate the break with an OTDR from the hub and splice it",
+      "parts": [
+        "fiber cable",
+        "splice sleeves"
+      ],
+      "crew": "fiber"
+    },
+    {
+      "cause": "FiberEventLoss",
+      "component_class": null,
+      "action": "Find the lossy splice, connector or bend with an OTDR; clean or remake it",
+      "parts": [
+        "splice sleeves",
+        "connector cleaning kit"
+      ],
+      "crew": "fiber"
+    },
+    {
+      "cause": "OpticalTransmitterDrift",
+      "component_class": null,
+      "action": "Check the optical transmitter's output against its design value and replace it if it has drifted",
+      "parts": [
+        "optical transmitter"
+      ],
+      "crew": "headend"
+    },
+    {
+      "cause": "Unknown",
+      "component_class": null,
+      "action": "Send a technician to the marked location to investigate",
+      "parts": [],
+      "crew": "maintenance"
+    }
+  ]
+}

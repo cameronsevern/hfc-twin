@@ -1,0 +1,56 @@
+{
+  "schema_version": "3",
+  "seed": 1,
+  "faults": [
+    {
+      "onset": "Instant",
+      "kind": {
+        "RpdFailure": {
+          "rpd_id": "rpd-1",
+          "mode": {
+            "HardReset": {
+              "recovery_s": 300.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "CinLinkCut": {
+          "rpd_id": "rpd-1",
+          "repair_s": null
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "GcpLoss": {
+          "rpd_id": "rpd-1",
+          "duration_s": 3600.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "TimingLoss": {
+          "rpd_id": "rpd-1",
+          "duration_s": 3600.0
+        }
+      }
+    },
+    {
+      "onset": "Instant",
+      "kind": {
+        "RfmMisalignment": {
+          "rpd_id": "rpd-1",
+          "ds_gain_delta_db": -3.0,
+          "tilt_delta_db": 1.0
+        }
+      }
+    }
+  ]
+}

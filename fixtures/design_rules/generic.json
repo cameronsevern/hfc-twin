@@ -1,0 +1,2088 @@
+{
+  "schema_version": "2",
+  "id": "generic",
+  "tap_port": [
+    {
+      "profile_ref": "d31_lowsplit_1002_iccap",
+      "at_hi_dbmv": {
+        "value": 14.0,
+        "basis": "Generic"
+      },
+      "tolerance_db": {
+        "value": 3.0,
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "d31_highsplit_1218_rpd",
+      "at_hi_dbmv": {
+        "value": 14.0,
+        "basis": "Generic"
+      },
+      "tolerance_db": {
+        "value": 3.0,
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "d31_lowsplit_1002_iccap_full",
+      "at_hi_dbmv": {
+        "value": 14.0,
+        "basis": "Generic"
+      },
+      "tolerance_db": {
+        "value": 3.0,
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "d31_highsplit_1218_rpd_full",
+      "at_hi_dbmv": {
+        "value": 14.0,
+        "basis": "Generic"
+      },
+      "tolerance_db": {
+        "value": 3.0,
+        "basis": "Generic"
+      }
+    }
+  ],
+  "premises_allowance": {
+    "drop_loss_db": {
+      "value": 7.26,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §1"
+        }
+      }
+    },
+    "house_loss_db": {
+      "value": 12.58,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §1"
+        }
+      }
+    }
+  },
+  "end_of_line": {
+    "last_tap_terminating": {
+      "value": true,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §1"
+        }
+      }
+    },
+    "min_port_dbmv_at_hi": {
+      "value": 12.0,
+      "basis": "Generic"
+    }
+  },
+  "tap_families": [
+    {
+      "ports": 2,
+      "values_db": {
+        "value": [
+          8.0,
+          11.0,
+          14.0,
+          17.0,
+          20.0,
+          23.0,
+          26.0,
+          29.0
+        ],
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §2"
+          }
+        }
+      },
+      "terminating_values_db": {
+        "value": [
+          4.0
+        ],
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §2"
+          }
+        }
+      },
+      "parts": {
+        "value": [
+          "tap-generic-8db-2p-fp",
+          "tap-generic-11db-2p-fp",
+          "tap-generic-14db-2p-fp",
+          "tap-generic-17db-2p-fp",
+          "tap-generic-20db-2p-fp",
+          "tap-generic-23db-2p-fp",
+          "tap-generic-26db-2p-fp",
+          "tap-generic-29db-2p-fp",
+          "tap-generic-4db-2p-term"
+        ],
+        "basis": "Generic"
+      }
+    },
+    {
+      "ports": 4,
+      "values_db": {
+        "value": [
+          11.0,
+          14.0,
+          17.0,
+          20.0,
+          23.0,
+          26.0,
+          29.0
+        ],
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §2"
+          }
+        }
+      },
+      "terminating_values_db": {
+        "value": [
+          8.0
+        ],
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §2"
+          }
+        }
+      },
+      "parts": {
+        "value": [
+          "tap-generic-11db-4p-fp",
+          "tap-generic-14db-4p-fp",
+          "tap-generic-17db-4p-fp",
+          "tap-generic-20db-4p-fp",
+          "tap-generic-23db-4p-fp",
+          "tap-generic-26db-4p-fp",
+          "tap-generic-29db-4p-fp",
+          "tap-generic-8db-4p-term"
+        ],
+        "basis": "Generic"
+      }
+    },
+    {
+      "ports": 8,
+      "values_db": {
+        "value": [
+          14.0,
+          17.0,
+          20.0,
+          23.0,
+          26.0,
+          29.0
+        ],
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §2"
+          }
+        }
+      },
+      "terminating_values_db": {
+        "value": [
+          11.0
+        ],
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §2"
+          }
+        }
+      },
+      "parts": {
+        "value": [
+          "tap-generic-14db-8p-fp",
+          "tap-generic-17db-8p-fp",
+          "tap-generic-20db-8p-fp",
+          "tap-generic-23db-8p-fp",
+          "tap-generic-26db-8p-fp",
+          "tap-generic-29db-8p-fp",
+          "tap-generic-11db-8p-term"
+        ],
+        "basis": "Generic"
+      }
+    }
+  ],
+  "roles": [
+    {
+      "role": "Express",
+      "cable_ref": {
+        "value": "cable-generic-750",
+        "basis": "Generic"
+      },
+      "amp_ref": {
+        "value": "amp-generic-1218-bridger-tables",
+        "basis": "Generic"
+      }
+    },
+    {
+      "role": "Feeder",
+      "cable_ref": {
+        "value": "cable-generic-500",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §5"
+          }
+        }
+      },
+      "amp_ref": {
+        "value": "amp-generic-1218-le-tables",
+        "basis": "Generic"
+      }
+    }
+  ],
+  "drops": [
+    {
+      "max_len_ft": {
+        "value": 150.0,
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §5"
+          }
+        }
+      },
+      "cable_ref": {
+        "value": "drop-rg6",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §5"
+          }
+        }
+      }
+    },
+    {
+      "max_len_ft": {
+        "value": 250.0,
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §5"
+          }
+        }
+      },
+      "cable_ref": {
+        "value": "drop-generic-rg11",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §5"
+          }
+        }
+      }
+    }
+  ],
+  "node": {
+    "max_homes": {
+      "value": 500,
+      "basis": "Generic"
+    },
+    "rf_ports": {
+      "value": 4,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §6"
+        }
+      }
+    },
+    "max_cascade": {
+      "value": 3,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §6"
+        }
+      }
+    },
+    "max_actives": {
+      "value": 30,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §6"
+        }
+      }
+    }
+  },
+  "powering": {
+    "supply_ref": {
+      "value": "psu-generic-90v",
+      "basis": {
+        "Sourced": {
+          "note": "plant-and-powering.md §12.1"
+        }
+      }
+    },
+    "design_load_pct": {
+      "value": 80.0,
+      "basis": {
+        "Sourced": {
+          "note": "plant-and-powering.md §12.1"
+        }
+      }
+    },
+    "port_max_a": {
+      "value": 15.0,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §7"
+        }
+      }
+    },
+    "battery_ref": {
+      "value": "battery-generic-12v",
+      "basis": {
+        "Sourced": {
+          "note": "plant-and-powering.md §12.2"
+        }
+      }
+    },
+    "batteries_per_string": {
+      "value": 3,
+      "basis": {
+        "Sourced": {
+          "note": "plant-and-powering.md §12.2"
+        }
+      }
+    },
+    "battery_strings": {
+      "value": 1,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §7"
+        }
+      }
+    },
+    "inserter_ref": {
+      "value": "pi-generic-1218",
+      "basis": "Generic"
+    },
+    "min_margin_v": {
+      "value": 5.0,
+      "basis": "Generic"
+    }
+  },
+  "structures": {
+    "pole_spacing_ft": {
+      "value": 200.0,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §8"
+        }
+      }
+    },
+    "pedestal_spacing_ft": {
+      "value": 300.0,
+      "basis": "Generic"
+    },
+    "expansion_loop_each_pole": {
+      "value": true,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §8"
+        }
+      }
+    },
+    "strand_ref": {
+      "value": "strand-generic",
+      "basis": "Generic"
+    },
+    "conduit_ref": {
+      "value": "conduit-generic",
+      "basis": "Generic"
+    },
+    "side": {
+      "value": "Right",
+      "basis": "Generic"
+    },
+    "setback_ft": {
+      "value": 10.0,
+      "basis": "Generic"
+    },
+    "pole_ref": {
+      "value": "structure-generic-pole",
+      "basis": "Generic"
+    },
+    "pedestal_ref": {
+      "value": "structure-generic-pedestal",
+      "basis": "Generic"
+    }
+  },
+  "premises": [
+    {
+      "id": "home-run",
+      "share": {
+        "value": 0.25,
+        "basis": "Generic"
+      },
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §9"
+        }
+      },
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": null,
+      "splitter_ref": null,
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "traditional",
+      "share": {
+        "value": 0.4,
+        "basis": "Generic"
+      },
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §9"
+        }
+      },
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-2way-home",
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": [
+        "SetTop"
+      ]
+    },
+    {
+      "id": "four-way",
+      "share": {
+        "value": 0.15,
+        "basis": "Generic"
+      },
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §9"
+        }
+      },
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-4way-home-scte153",
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": [
+        "SetTop",
+        "SetTop",
+        "Television"
+      ]
+    },
+    {
+      "id": "moca",
+      "share": {
+        "value": 0.1,
+        "basis": "Generic"
+      },
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §9"
+        }
+      },
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": "filter-generic-poe-1002",
+      "splitter_ref": "splitter-generic-8way-home",
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": [
+        "SetTop",
+        "SetTop",
+        "SetTop",
+        "SetTop"
+      ]
+    },
+    {
+      "id": "drop-amp",
+      "share": {
+        "value": 0.05,
+        "basis": "Generic"
+      },
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §9"
+        }
+      },
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218",
+      "filter_ref": null,
+      "splitter_ref": null,
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "bare-modem",
+      "share": {
+        "value": 0.05,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": null,
+      "drop_amp_ref": null,
+      "filter_ref": null,
+      "splitter_ref": null,
+      "house_cable_ft": 0.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "inline-3db",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": "atten-generic-inline-3db",
+      "splitter_ref": null,
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "inline-6db",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": "atten-generic-inline-6db",
+      "splitter_ref": null,
+      "house_cable_ft": 50.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "inline-3db-at-modem",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": "atten-generic-inline-3db",
+      "splitter_ref": null,
+      "house_cable_ft": 0.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "inline-6db-at-modem",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": "atten-generic-inline-6db",
+      "splitter_ref": null,
+      "house_cable_ft": 0.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "inline-10db-at-modem",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": "atten-generic-inline-10db",
+      "splitter_ref": null,
+      "house_cable_ft": 0.0,
+      "modems": 1,
+      "cpe": []
+    },
+    {
+      "id": "mdu-4",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-4way-home-scte153",
+      "house_cable_ft": 100.0,
+      "modems": 4,
+      "cpe": []
+    },
+    {
+      "id": "mdu-4-amp",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218",
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-4way-home-scte153",
+      "house_cable_ft": 100.0,
+      "modems": 4,
+      "cpe": []
+    },
+    {
+      "id": "mdu-8",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": null,
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-8way-home",
+      "house_cable_ft": 100.0,
+      "modems": 8,
+      "cpe": []
+    },
+    {
+      "id": "mdu-8-amp",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218",
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-8way-home",
+      "house_cable_ft": 100.0,
+      "modems": 8,
+      "cpe": []
+    },
+    {
+      "id": "mdu-4-active",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218-active",
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-4way-home-scte153",
+      "house_cable_ft": 100.0,
+      "modems": 4,
+      "cpe": []
+    },
+    {
+      "id": "mdu-8-active",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218-active",
+      "filter_ref": null,
+      "splitter_ref": "splitter-generic-8way-home",
+      "house_cable_ft": 100.0,
+      "modems": 8,
+      "cpe": []
+    },
+    {
+      "id": "mdu-4-ports",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218-4port",
+      "filter_ref": null,
+      "splitter_ref": null,
+      "house_cable_ft": 100.0,
+      "modems": 4,
+      "cpe": []
+    },
+    {
+      "id": "mdu-8-ports",
+      "share": {
+        "value": 0.0,
+        "basis": "Generic"
+      },
+      "basis": "Generic",
+      "ground_block_ref": "gb-generic-scte129",
+      "drop_amp_ref": "dropamp-generic-1218-8port",
+      "filter_ref": null,
+      "splitter_ref": null,
+      "house_cable_ft": 100.0,
+      "modems": 8,
+      "cpe": []
+    }
+  ],
+  "fiber": {
+    "fibers_per_analog_node": {
+      "value": 2,
+      "basis": "Generic"
+    },
+    "fibers_per_rpd": {
+      "value": 2,
+      "basis": "Generic"
+    },
+    "cable_counts": {
+      "value": [
+        6,
+        12,
+        18,
+        24,
+        30,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144,
+        216,
+        288,
+        432
+      ],
+      "basis": {
+        "Sourced": {
+          "note": "fiber-optics.md §4"
+        }
+      }
+    },
+    "reel_len_ft": {
+      "value": 22900.0,
+      "basis": {
+        "Sourced": {
+          "note": "fiber-optics.md §4"
+        }
+      }
+    },
+    "link_margin_db": {
+      "value": 3.0,
+      "basis": {
+        "Sourced": {
+          "note": "fiber-optics.md §3"
+        }
+      }
+    },
+    "splice_loss_db": {
+      "value": 0.04,
+      "basis": {
+        "Sourced": {
+          "note": "fiber-optics.md §2"
+        }
+      }
+    },
+    "connector_loss_db": {
+      "value": 0.75,
+      "basis": {
+        "Sourced": {
+          "note": "fiber-optics.md §2"
+        }
+      }
+    },
+    "cable_refs": {
+      "value": [
+        "fiber-generic-6",
+        "fiber-generic-12",
+        "fiber-generic-24",
+        "fiber-generic-48",
+        "fiber-generic-72",
+        "fiber-generic-96",
+        "fiber-generic-144"
+      ],
+      "basis": "Generic"
+    },
+    "closure_ref": {
+      "value": "closure-generic",
+      "basis": "Generic"
+    },
+    "panel_ref": {
+      "value": "panel-generic-144",
+      "basis": "Generic"
+    },
+    "connector_ref": {
+      "value": "fconn-generic-sc-apc",
+      "basis": "Generic"
+    },
+    "jumper_ref": {
+      "value": "fiber-generic-jumper",
+      "basis": "Generic"
+    },
+    "duplex_jumper_ref": {
+      "value": "fiber-generic-jumper-duplex",
+      "basis": "Generic"
+    },
+    "jumper_len_ft": {
+      "value": 15.0,
+      "basis": "Generic"
+    },
+    "composite_index_max": {
+      "value": 0.3,
+      "basis": {
+        "Sourced": {
+          "note": "fiber-optics.md §5.1"
+        }
+      }
+    }
+  },
+  "costs": {
+    "parts": [
+      {
+        "component_ref": "node-generic-1002-tables",
+        "usd": {
+          "value": 6000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "rpd-generic-1218-tables",
+        "usd": {
+          "value": 9000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "cmts-generic-iccap-tables",
+        "usd": {
+          "value": 20000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "core-generic-rphy",
+        "usd": {
+          "value": 20000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "switch-generic-48",
+        "usd": {
+          "value": 8000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "timing-generic-gm",
+        "usd": {
+          "value": 3000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "sfp-generic-10g-lr",
+        "usd": {
+          "value": 300.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "ftx-generic-1310",
+        "usd": {
+          "value": 2500.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "ftx-generic-1310-full",
+        "usd": {
+          "value": 2500.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "osplit-generic-1x2",
+        "usd": {
+          "value": 150.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "osplit-generic-1x8",
+        "usd": {
+          "value": 300.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "frx-generic",
+        "usd": {
+          "value": 600.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "rtx-generic-1310",
+        "usd": {
+          "value": 800.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "rrx-generic-hfc",
+        "usd": {
+          "value": 1200.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "panel-generic-144",
+        "usd": {
+          "value": 1200.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "closure-generic",
+        "usd": {
+          "value": 900.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fconn-generic-sc-apc",
+        "usd": {
+          "value": 15.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-jumper",
+        "usd": {
+          "value": 20.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-jumper-duplex",
+        "usd": {
+          "value": 30.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "amp-generic-1218-bridger-tables",
+        "usd": {
+          "value": 1800.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "amp-generic-1218-le-tables",
+        "usd": {
+          "value": 1100.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-8db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-11db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-14db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-17db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-20db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-23db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-26db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-29db-2p-fp",
+        "usd": {
+          "value": 45.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-4db-2p-term",
+        "usd": {
+          "value": 35.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-11db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-14db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-17db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-20db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-23db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-26db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-29db-4p-fp",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-8db-4p-term",
+        "usd": {
+          "value": 50.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-14db-8p-fp",
+        "usd": {
+          "value": 85.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-17db-8p-fp",
+        "usd": {
+          "value": 85.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-20db-8p-fp",
+        "usd": {
+          "value": 85.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-23db-8p-fp",
+        "usd": {
+          "value": 85.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-26db-8p-fp",
+        "usd": {
+          "value": 85.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-29db-8p-fp",
+        "usd": {
+          "value": 85.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "tap-generic-11db-8p-term",
+        "usd": {
+          "value": 75.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "splitter-generic-2way",
+        "usd": {
+          "value": 70.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dc-generic-8db",
+        "usd": {
+          "value": 70.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dc-generic-12db",
+        "usd": {
+          "value": 70.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dc-generic-16db",
+        "usd": {
+          "value": 70.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "pi-generic-1218",
+        "usd": {
+          "value": 150.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "leq-generic-6db",
+        "usd": {
+          "value": 90.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "leq-generic-8db",
+        "usd": {
+          "value": 90.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "leq-generic-12db",
+        "usd": {
+          "value": 90.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "term-generic",
+        "usd": {
+          "value": 3.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "psu-generic-90v",
+        "usd": {
+          "value": 3500.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "battery-generic-12v",
+        "usd": {
+          "value": 250.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "structure-generic-pole",
+        "usd": {
+          "value": 300.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "structure-generic-pedestal",
+        "usd": {
+          "value": 150.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "conn-generic-pin-500",
+        "usd": {
+          "value": 6.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "conn-generic-pin-750",
+        "usd": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "conn-generic-splice-500",
+        "usd": {
+          "value": 10.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "conn-generic-splice-750",
+        "usd": {
+          "value": 12.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "conn-generic-f",
+        "usd": {
+          "value": 1.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "gb-generic",
+        "usd": {
+          "value": 4.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "splitter-generic-2way-home",
+        "usd": {
+          "value": 5.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "splitter-generic-4way-home",
+        "usd": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "splitter-generic-8way-home",
+        "usd": {
+          "value": 12.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "filter-generic-poe-1002",
+        "usd": {
+          "value": 15.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dropamp-generic-1218",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "cable-generic-500",
+        "usd": {
+          "value": 0.6,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "cable-500-p3",
+        "usd": {
+          "value": 0.6,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "cable-generic-750",
+        "usd": {
+          "value": 1.1,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "drop-rg6",
+        "usd": {
+          "value": 0.12,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "drop-generic-rg11",
+        "usd": {
+          "value": 0.25,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "strand-generic",
+        "usd": {
+          "value": 0.3,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "conduit-generic",
+        "usd": {
+          "value": 1.5,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-6",
+        "usd": {
+          "value": 0.25,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-12",
+        "usd": {
+          "value": 0.3,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-24",
+        "usd": {
+          "value": 0.45,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-48",
+        "usd": {
+          "value": 0.7,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-72",
+        "usd": {
+          "value": 0.95,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-96",
+        "usd": {
+          "value": 1.2,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "fiber-generic-144",
+        "usd": {
+          "value": 1.7,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "sfp-generic-10g-er",
+        "usd": {
+          "value": 600.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "sfp-generic-10g-zr",
+        "usd": {
+          "value": 1500.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "ftx-generic-1550",
+        "usd": {
+          "value": 5000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "ftx-generic-1550-full",
+        "usd": {
+          "value": 5000.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "rtx-generic-1550",
+        "usd": {
+          "value": 1200.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "edfa-generic-17",
+        "usd": {
+          "value": 3500.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "rrx-generic",
+        "usd": {
+          "value": 1200.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "gb-generic-scte129",
+        "usd": {
+          "value": 4.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "splitter-generic-4way-home-scte153",
+        "usd": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "atten-generic-inline-3db",
+        "usd": {
+          "value": 3.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "atten-generic-inline-6db",
+        "usd": {
+          "value": 3.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dropamp-generic-1218-active",
+        "usd": {
+          "value": 60.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dropamp-generic-1218-4port",
+        "usd": {
+          "value": 90.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "dropamp-generic-1218-8port",
+        "usd": {
+          "value": 120.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "component_ref": "atten-generic-inline-10db",
+        "usd": {
+          "value": 3.0,
+          "basis": "Generic"
+        }
+      }
+    ],
+    "construction": [
+      {
+        "kind": "AerialCoax",
+        "usd_per_ft": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "UndergroundCoax",
+        "usd_per_ft": {
+          "value": 18.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "AerialFiber",
+        "usd_per_ft": {
+          "value": 8.0,
+          "basis": {
+            "Sourced": {
+              "note": "fiber-optics.md §8"
+            }
+          }
+        }
+      },
+      {
+        "kind": "UndergroundFiber",
+        "usd_per_ft": {
+          "value": 18.0,
+          "basis": {
+            "Sourced": {
+              "note": "fiber-optics.md §8"
+            }
+          }
+        }
+      },
+      {
+        "kind": "AerialDrop",
+        "usd_per_ft": {
+          "value": 1.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "kind": "BuriedDrop",
+        "usd_per_ft": {
+          "value": 3.0,
+          "basis": "Generic"
+        }
+      }
+    ],
+    "plug_in_families": [
+      {
+        "family": "generic-1218",
+        "usd": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      {
+        "family": "generic-faceplate",
+        "usd": {
+          "value": 15.0,
+          "basis": "Generic"
+        }
+      }
+    ],
+    "ceiling_usd_per_home": {
+      "value": 3000.0,
+      "basis": "Generic"
+    }
+  },
+  "profiles": [
+    {
+      "profile_ref": "d31_lowsplit_1002_iccap",
+      "root_ref": {
+        "value": "node-generic-1002-tables",
+        "basis": "Generic"
+      },
+      "station": {
+        "out_dbmv_at_hi": {
+          "value": 50.0,
+          "basis": "Generic"
+        },
+        "min_out_dbmv_at_hi": {
+          "value": 44.0,
+          "basis": "Generic"
+        },
+        "tilt_db": {
+          "value": 14.0,
+          "basis": "Generic"
+        },
+        "min_tilt_db": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      "premises": {
+        "value": [
+          "home-run",
+          "traditional",
+          "four-way",
+          "moca",
+          "drop-amp",
+          "bare-modem",
+          "inline-3db",
+          "inline-6db",
+          "inline-3db-at-modem",
+          "inline-6db-at-modem",
+          "inline-10db-at-modem",
+          "mdu-4",
+          "mdu-4-amp",
+          "mdu-8",
+          "mdu-8-amp",
+          "mdu-4-active",
+          "mdu-8-active",
+          "mdu-4-ports",
+          "mdu-8-ports"
+        ],
+        "basis": "Generic"
+      },
+      "optics": {
+        "value": {
+          "Analog": {
+            "cmts_ref": "cmts-generic-iccap-tables",
+            "forward_tx": [
+              "ftx-generic-1310",
+              "ftx-generic-1310-full",
+              "ftx-generic-1550",
+              "ftx-generic-1550-full"
+            ],
+            "hub_couplers": [
+              "osplit-generic-1x2",
+              "osplit-generic-1x8"
+            ],
+            "hub_amps": [
+              "edfa-generic-17"
+            ],
+            "node_rx": [
+              "frx-generic"
+            ],
+            "return_tx": [
+              "rtx-generic-1310",
+              "rtx-generic-1550"
+            ],
+            "hub_rx": [
+              "rrx-generic-hfc",
+              "rrx-generic"
+            ]
+          }
+        },
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "d31_lowsplit_1002_iccap_full",
+      "root_ref": {
+        "value": "node-generic-1002-tables",
+        "basis": "Generic"
+      },
+      "station": {
+        "out_dbmv_at_hi": {
+          "value": 50.0,
+          "basis": "Generic"
+        },
+        "min_out_dbmv_at_hi": {
+          "value": 44.0,
+          "basis": "Generic"
+        },
+        "tilt_db": {
+          "value": 14.0,
+          "basis": "Generic"
+        },
+        "min_tilt_db": {
+          "value": 8.0,
+          "basis": "Generic"
+        }
+      },
+      "premises": {
+        "value": [
+          "home-run",
+          "traditional",
+          "four-way",
+          "moca",
+          "drop-amp",
+          "bare-modem",
+          "inline-3db",
+          "inline-6db",
+          "inline-3db-at-modem",
+          "inline-6db-at-modem",
+          "inline-10db-at-modem",
+          "mdu-4",
+          "mdu-4-amp",
+          "mdu-8",
+          "mdu-8-amp",
+          "mdu-4-active",
+          "mdu-8-active",
+          "mdu-4-ports",
+          "mdu-8-ports"
+        ],
+        "basis": "Generic"
+      },
+      "optics": {
+        "value": {
+          "Analog": {
+            "cmts_ref": "cmts-generic-iccap-tables",
+            "forward_tx": [
+              "ftx-generic-1310",
+              "ftx-generic-1310-full",
+              "ftx-generic-1550",
+              "ftx-generic-1550-full"
+            ],
+            "hub_couplers": [
+              "osplit-generic-1x2",
+              "osplit-generic-1x8"
+            ],
+            "hub_amps": [
+              "edfa-generic-17"
+            ],
+            "node_rx": [
+              "frx-generic"
+            ],
+            "return_tx": [
+              "rtx-generic-1310",
+              "rtx-generic-1550"
+            ],
+            "hub_rx": [
+              "rrx-generic-hfc",
+              "rrx-generic"
+            ]
+          }
+        },
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "d31_highsplit_1218_rpd",
+      "root_ref": {
+        "value": "rpd-generic-1218-tables",
+        "basis": "Generic"
+      },
+      "station": {
+        "out_dbmv_at_hi": {
+          "value": 52.0,
+          "basis": "Generic"
+        },
+        "min_out_dbmv_at_hi": {
+          "value": 46.0,
+          "basis": "Generic"
+        },
+        "tilt_db": {
+          "value": 12.1,
+          "basis": "Generic"
+        },
+        "min_tilt_db": {
+          "value": 7.0,
+          "basis": "Generic"
+        }
+      },
+      "premises": {
+        "value": [
+          "home-run",
+          "drop-amp",
+          "bare-modem",
+          "inline-3db",
+          "inline-6db",
+          "inline-3db-at-modem",
+          "inline-6db-at-modem",
+          "inline-10db-at-modem",
+          "mdu-4",
+          "mdu-4-amp",
+          "mdu-8",
+          "mdu-8-amp",
+          "mdu-4-active",
+          "mdu-8-active",
+          "mdu-4-ports",
+          "mdu-8-ports"
+        ],
+        "basis": "Generic"
+      },
+      "optics": {
+        "value": {
+          "Digital": {
+            "core_ref": "core-generic-rphy",
+            "switch_ref": "switch-generic-48",
+            "transceivers": [
+              "sfp-generic-10g-lr",
+              "sfp-generic-10g-er",
+              "sfp-generic-10g-zr"
+            ],
+            "timing_ref": "timing-generic-gm"
+          }
+        },
+        "basis": "Generic"
+      }
+    },
+    {
+      "profile_ref": "d31_highsplit_1218_rpd_full",
+      "root_ref": {
+        "value": "rpd-generic-1218-tables",
+        "basis": "Generic"
+      },
+      "station": {
+        "out_dbmv_at_hi": {
+          "value": 52.0,
+          "basis": "Generic"
+        },
+        "min_out_dbmv_at_hi": {
+          "value": 46.0,
+          "basis": "Generic"
+        },
+        "tilt_db": {
+          "value": 12.1,
+          "basis": "Generic"
+        },
+        "min_tilt_db": {
+          "value": 7.0,
+          "basis": "Generic"
+        }
+      },
+      "premises": {
+        "value": [
+          "home-run",
+          "drop-amp",
+          "bare-modem",
+          "inline-3db",
+          "inline-6db",
+          "inline-3db-at-modem",
+          "inline-6db-at-modem",
+          "inline-10db-at-modem",
+          "mdu-4",
+          "mdu-4-amp",
+          "mdu-8",
+          "mdu-8-amp",
+          "mdu-4-active",
+          "mdu-8-active",
+          "mdu-4-ports",
+          "mdu-8-ports"
+        ],
+        "basis": "Generic"
+      },
+      "optics": {
+        "value": {
+          "Digital": {
+            "core_ref": "core-generic-rphy",
+            "switch_ref": "switch-generic-48",
+            "transceivers": [
+              "sfp-generic-10g-lr",
+              "sfp-generic-10g-er",
+              "sfp-generic-10g-zr"
+            ],
+            "timing_ref": "timing-generic-gm"
+          }
+        },
+        "basis": "Generic"
+      }
+    }
+  ],
+  "conditioning": {
+    "conditioners": {
+      "value": [
+        "cond-generic-2db",
+        "cond-generic-4db",
+        "cond-generic-6db",
+        "cond-generic-8db",
+        "cond-generic-10db",
+        "cond-generic-12db",
+        "cond-generic-cs-2db",
+        "cond-generic-cs-4db",
+        "cond-generic-cs-6db",
+        "cond-generic-cs-8db"
+      ],
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §2"
+        }
+      }
+    },
+    "line_equalizers": {
+      "value": [
+        "leq-generic-6db",
+        "leq-generic-8db",
+        "leq-generic-12db"
+      ],
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §3"
+        }
+      }
+    }
+  },
+  "branching": {
+    "splitter_ref": {
+      "value": "splitter-generic-2way",
+      "basis": "Generic"
+    },
+    "couplers": {
+      "value": [
+        "dc-generic-8db",
+        "dc-generic-12db",
+        "dc-generic-16db"
+      ],
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §3"
+        }
+      }
+    }
+  },
+  "premises_parts": {
+    "modem_d30_ref": {
+      "value": "modem-generic-d30",
+      "basis": "Generic"
+    },
+    "modem_d31_ref": {
+      "value": "modem-generic-d31",
+      "basis": "Generic"
+    },
+    "cpe_refs": {
+      "value": [
+        {
+          "device": "SetTop",
+          "component_ref": "cpe-generic-settop"
+        },
+        {
+          "device": "Television",
+          "component_ref": "cpe-generic-tv"
+        },
+        {
+          "device": "MocaAdapter",
+          "component_ref": "cpe-generic-moca"
+        }
+      ],
+      "basis": "Generic"
+    },
+    "house_cable_ref": {
+      "value": "drop-rg6",
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §9"
+        }
+      }
+    },
+    "unused_port": {
+      "value": "Terminated",
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §1"
+        }
+      }
+    },
+    "terminator_ref": {
+      "value": "term-generic",
+      "basis": "Generic"
+    },
+    "drop_amp_below_dbmv": {
+      "value": -6.0,
+      "basis": {
+        "Sourced": {
+          "note": "design-practice.md §1"
+        }
+      }
+    }
+  },
+  "fittings": {
+    "connectors": {
+      "value": [
+        "conn-generic-pin-500",
+        "conn-generic-pin-750",
+        "conn-generic-splice-500",
+        "conn-generic-splice-750",
+        "conn-generic-f"
+      ],
+      "basis": "Generic"
+    },
+    "hardline_reel_len_ft": {
+      "value": 2500.0,
+      "basis": "Generic"
+    },
+    "jumper_len_ft": {
+      "value": 3.0,
+      "basis": "Generic"
+    }
+  },
+  "candidates": {
+    "node_count_steps": {
+      "value": [
+        -1,
+        0,
+        1
+      ],
+      "basis": "Generic"
+    },
+    "express_cables": {
+      "value": [
+        "cable-generic-750",
+        "cable-generic-500"
+      ],
+      "basis": "Generic"
+    }
+  },
+  "upgrade": {
+    "moves": [
+      {
+        "value": "SwapActiveModules",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §10"
+          }
+        }
+      },
+      {
+        "value": "SwapTapFaceplates",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §10"
+          }
+        }
+      },
+      {
+        "value": "SwapPassives",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §10"
+          }
+        }
+      },
+      {
+        "value": "ChangePlugIns",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §10"
+          }
+        }
+      },
+      {
+        "value": "RemovePremisesParts",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §10"
+          }
+        }
+      },
+      {
+        "value": "SwapModems",
+        "basis": "Generic"
+      },
+      {
+        "value": "ReplaceSetTops",
+        "basis": {
+          "Sourced": {
+            "note": "design-practice.md §10"
+          }
+        }
+      }
+    ]
+  }
+}

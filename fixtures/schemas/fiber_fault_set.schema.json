@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FiberFaultSet",
+  "description": "One region's fiber faults.",
+  "type": "object",
+  "properties": {
+    "faults": {
+      "description": "The faults.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FiberFault"
+      }
+    },
+    "region": {
+      "description": "The region they're in, by id.",
+      "type": "string"
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "region",
+    "faults"
+  ],
+  "$defs": {
+    "FiberCableId": {
+      "description": "A fiber cable.",
+      "type": "string"
+    },
+    "FiberElementId": {
+      "description": "An element of a fiber plant.",
+      "type": "string"
+    },
+    "FiberFault": {
+      "description": "One fiber fault.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "What it is.",
+          "$ref": "#/$defs/FiberFaultKind"
+        },
+        "onset": {
+          "description": "When it starts and how it comes on. A cut is all or nothing: it's cut once its onset has begun.",
+          "$ref": "#/$defs/Onset"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "onset",
+        "kind"
+      ]
+    },
+    "FiberFaultKind": {
+      "description": "The fiber fault classes.",
+      "oneOf": [
+        {
+          "description": "A cable cut through: no light passes the point on any strand. Task 19's `AnalogFiberCut` becomes this when it's built.",
+          "type": "object",
+          "properties": {
+            "FiberCut": {
+              "type": "object",
+              "properties": {
+                "cable": {
+                  "description": "The cable.",
+                  "$ref": "#/$defs/FiberCableId"
+                },
+                "pos_ft": {
+                  "description": "Feet from its `from` end.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "repair_s": {
+                  "description": "Seconds from the onset until it's spliced, or `None` while it stays cut.",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "format": "double"
+                }
+              },
+              "required": [
+                "cable",
+                "pos_ft"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "FiberCut"
+          ]
+        },
+        {
+          "description": "Loss at a point: a bend, a bad splice or a dirty connector.",
+          "type": "object",
+          "properties": {
+            "EventLoss": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "description": "Where.",
+                  "$ref": "#/$defs/FiberLocation"
+                },
+                "loss_db": {
+                  "description": "Added loss at full severity, dB.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "location",
+                "loss_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "EventLoss"
+          ]
+        },
+        {
+          "description": "A transmitter's output and noise moved: a hub transmitter or optic, or a node's return laser or RPD optic, named by its\nfiber element (a node's by its `NodeEnd`).",
+          "type": "object",
+          "properties": {
+            "TransmitterDrift": {
+              "type": "object",
+              "properties": {
+                "element": {
+                  "description": "The element.",
+                  "$ref": "#/$defs/FiberElementId"
+                },
+                "power_delta_db": {
+                  "description": "Change in launch power at full severity, dB.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "rin_delta_db": {
+                  "description": "Change in relative intensity noise at full severity, dB/Hz. Analog only.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "element",
+                "power_delta_db",
+                "rin_delta_db"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "TransmitterDrift"
+          ]
+        }
+      ]
+    },
+    "FiberLocation": {
+      "description": "Where on the fiber plant a fault is.",
+      "oneOf": [
+        {
+          "description": "A point on a cable: every strand through it.",
+          "type": "object",
+          "properties": {
+            "Cable": {
+              "type": "object",
+              "properties": {
+                "cable": {
+                  "description": "The cable.",
+                  "$ref": "#/$defs/FiberCableId"
+                },
+                "pos_ft": {
+                  "description": "Feet from its `from` end.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "cable",
+                "pos_ft"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Cable"
+          ]
+        },
+        {
+          "description": "An element: every link with a connector at it or passing through it.",
+          "type": "object",
+          "properties": {
+            "Element": {
+              "type": "object",
+              "properties": {
+                "element": {
+                  "description": "The element.",
+                  "$ref": "#/$defs/FiberElementId"
+                }
+              },
+              "required": [
+                "element"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Element"
+          ]
+        },
+        {
+          "description": "One splice at an element, named by the two strands it joins, since a splice has no part.",
+          "type": "object",
+          "properties": {
+            "Splice": {
+              "type": "object",
+              "properties": {
+                "element": {
+                  "description": "The closure or panel.",
+                  "$ref": "#/$defs/FiberElementId"
+                },
+                "strands": {
+                  "description": "The strands it joins, either order.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/StrandRef"
+                  },
+                  "maxItems": 2,
+                  "minItems": 2
+                }
+              },
+              "required": [
+                "element",
+                "strands"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Splice"
+          ]
+        }
+      ]
+    },
+    "Onset": {
+      "description": "How a fault appears over time.",
+      "oneOf": [
+        {
+          "description": "Present at full severity from the start of the run.",
+          "type": "string",
+          "const": "Instant"
+        },
+        {
+          "description": "Severity rises linearly from zero to full.",
+          "type": "object",
+          "properties": {
+            "Ramp": {
+              "type": "object",
+              "properties": {
+                "end": {
+                  "description": "Simulated time severity reaches full, seconds.",
+                  "$ref": "#/$defs/Timestamp"
+                },
+                "start": {
+                  "description": "Simulated time severity starts rising, seconds.",
+                  "$ref": "#/$defs/Timestamp"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Ramp"
+          ]
+        }
+      ]
+    },
+    "StrandRef": {
+      "description": "One strand of one cable.",
+      "type": "object",
+      "properties": {
+        "cable": {
+          "description": "The cable.",
+          "$ref": "#/$defs/FiberCableId"
+        },
+        "strand": {
+          "description": "The strand, numbered from 1.",
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cable",
+        "strand"
+      ]
+    },
+    "Timestamp": {
+      "description": "Simulated time in seconds, passed in and never read from the system clock\n(invariant 4). t = 0 is midnight on the simulated day (§8).",
+      "type": "integer",
+      "format": "int64"
+    }
+  }
+}

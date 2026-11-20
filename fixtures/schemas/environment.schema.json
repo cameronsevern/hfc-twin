@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Environment",
+  "description": "The series applied to one plant. Sample spacing sets the sim's time step (§7.4).",
+  "type": "object",
+  "properties": {
+    "ambient_sources": {
+      "description": "Radio around the plant that healthy homes' wiring picks up (§18). Version 2.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AmbientSource"
+      }
+    },
+    "samples": {
+      "description": "Samples in time order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/EnvironmentSample"
+      }
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "samples"
+  ],
+  "$defs": {
+    "AmbientSource": {
+      "description": "One ambient source: a band of radio at a level, on an hourly schedule (§18). Version 2.",
+      "type": "object",
+      "properties": {
+        "hi_mhz": {
+          "description": "Upper edge, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "id": {
+          "description": "Stable id.",
+          "type": "string"
+        },
+        "level_dbmv_per_mhz": {
+          "description": "What wiring with no shielding would pick up, dBmV per MHz: the level at zero coupling.",
+          "type": "number",
+          "format": "double"
+        },
+        "lo_mhz": {
+          "description": "Lower edge, MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "schedule": {
+          "description": "Power multiplier by hour of day, as a fault's (§8).",
+          "$ref": "#/$defs/Schedule"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "lo_mhz",
+        "hi_mhz",
+        "level_dbmv_per_mhz",
+        "schedule"
+      ]
+    },
+    "EnvironmentSample": {
+      "description": "One point in the series.",
+      "type": "object",
+      "properties": {
+        "ground_temp_c": {
+          "description": "Ground temperature for underground spans (§1.2), °C.",
+          "type": "number",
+          "format": "double"
+        },
+        "rain_mm_per_hr": {
+          "description": "Rainfall for the water-ingress term (§8), mm per hour.",
+          "type": "number",
+          "format": "double"
+        },
+        "solar_w_per_m2": {
+          "description": "Sunlight on aerial plant, W/m², for an aerial span's solar gain (§19). Absent is none. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "t": {
+          "description": "Simulated time, seconds.",
+          "$ref": "#/$defs/Timestamp"
+        },
+        "temp_c": {
+          "description": "Air temperature for aerial spans (§1.2), °C.",
+          "type": "number",
+          "format": "double"
+        },
+        "wind_m_per_s": {
+          "description": "Wind speed, m/s, for a connector fault's wind coupling (§19). Absent is calm. Version 2.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "t",
+        "temp_c",
+        "ground_temp_c",
+        "rain_mm_per_hr"
+      ]
+    },
+    "Schedule": {
+      "description": "A time-of-day profile on a fault's severity (§8).",
+      "type": "object",
+      "properties": {
+        "hourly_multipliers": {
+          "description": "Severity multiplier per hour, dimensionless, with hour = (t / 3600) mod 24.",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          },
+          "maxItems": 24,
+          "minItems": 24
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "hourly_multipliers"
+      ]
+    },
+    "Timestamp": {
+      "description": "Simulated time in seconds, passed in and never read from the system clock\n(invariant 4). t = 0 is midnight on the simulated day (§8).",
+      "type": "integer",
+      "format": "int64"
+    }
+  }
+}

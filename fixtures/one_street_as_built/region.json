@@ -1,0 +1,19 @@
+{
+  "schema_version": "2",
+  "id": "region-as-built",
+  "map_id": "one-street",
+  "origin": "Synthetic",
+  "nodes": [
+    {
+      "service_group": "sg-as-built-lowsplit",
+      "profile_ref": "d31_lowsplit_1002_iccap",
+      "homes_passed": 8
+    },
+    {
+      "service_group": "sg-as-built-highsplit",
+      "profile_ref": "d31_highsplit_1218_rpd",
+      "homes_passed": 8
+    }
+  ],
+  "fiber_ref": "fiber-as-built"
+}

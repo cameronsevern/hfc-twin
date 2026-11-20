@@ -1,0 +1,381 @@
+{
+ "origin": "Synthetic",
+ "split": "calibrate",
+ "artifact": "edit_01.json",
+ "parent": "spectrum_model.json",
+ "kind": "inner",
+ "kept": false,
+ "meets_bars": false,
+ "against_parent": {
+  "worse": [
+   {
+    "part": "healthy_false_alarm",
+    "parent": 0.008520847121111846,
+    "edit": 0.01844804765056254
+   }
+  ],
+  "fall_change_db": -0.18479764461517334
+ },
+ "against_parent_parents_thresholds": {
+  "worse": [
+   {
+    "part": "healthy_false_alarm",
+    "parent": 0.008520847121111846,
+    "edit": 0.01844804765056254
+   }
+  ],
+  "fall_change_db": -0.18479764461517334
+ },
+ "edit": {
+  "captures": 18354,
+  "healthy_captures": 12088,
+  "severe_10_db": {
+   "captures": 3631,
+   "not_normal": 0.9988983751032773
+  },
+  "severe_20_db": {
+   "captures": 2331,
+   "not_normal": 1.0
+  },
+  "healthy_false_alarm": 0.01844804765056254,
+  "macro_f1": 0.9125465692594984,
+  "shapes": {
+   "Ingress": {
+    "f1": 0.962862930452397,
+    "precision": 0.9674355495251018,
+    "recall": 0.9583333333333334,
+    "captures": 744
+   },
+   "Spike": {
+    "f1": 0.9734647460197119,
+    "precision": 0.9801526717557252,
+    "recall": 0.9668674698795181,
+    "captures": 664
+   },
+   "Dip": {
+    "f1": 0.9491039426523297,
+    "precision": 0.9664233576642336,
+    "recall": 0.9323943661971831,
+    "captures": 710
+   },
+   "RollOff": {
+    "f1": 0.9240710823909531,
+    "precision": 0.9270664505672609,
+    "recall": 0.9210950080515298,
+    "captures": 621
+   },
+   "BandLoss": {
+    "f1": 0.9469964664310955,
+    "precision": 0.9305555555555556,
+    "recall": 0.9640287769784173,
+    "captures": 695
+   },
+   "Ripple": {
+    "f1": 0.9393939393939394,
+    "precision": 0.9117647058823529,
+    "recall": 0.96875,
+    "captures": 64
+   },
+   "Wave": {
+    "f1": 0.9087018544935807,
+    "precision": 0.9465081723625557,
+    "recall": 0.8737997256515775,
+    "captures": 729
+   },
+   "LowMer": {
+    "f1": 0.7065573770491803,
+    "precision": 0.8795918367346939,
+    "recall": 0.5904109589041096,
+    "captures": 730
+   },
+   "Edge": {
+    "f1": 0.9017667844522969,
+    "precision": 0.9101283880171184,
+    "recall": 0.8935574229691877,
+    "captures": 714
+   }
+  },
+  "band_iou_median": {
+   "Ingress": 1.0,
+   "Dip": 0.9500830564784053,
+   "BandLoss": 0.9916317991631799,
+   "RollOff": 0.9487179487179487
+  },
+  "fall_mae_db": 1.9536951780319214,
+  "unknown_share": 0.06701536449820203,
+  "not_normal_by_worst_fall": {
+   "1.5-3": {
+    "captures": 854,
+    "not_normal": 0.2892271662763466
+   },
+   "3-6": {
+    "captures": 633,
+    "not_normal": 0.7282780410742496
+   },
+   "6-10": {
+    "captures": 630,
+    "not_normal": 0.9031746031746032
+   },
+   "10-20": {
+    "captures": 1566,
+    "not_normal": 0.9968071519795658
+   },
+   "20-30": {
+    "captures": 1060,
+    "not_normal": 1.0
+   },
+   "30-1000": {
+    "captures": 1523,
+    "not_normal": 1.0
+   }
+  },
+  "by_map": {
+   "cary_nc": {
+    "captures": 2703,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.012728278915329275
+   },
+   "kansas_city_brookside_mo": {
+    "captures": 5082,
+    "severe_not_normal": 0.999009900990099,
+    "healthy_false_alarm": 0.016191904047976012
+   },
+   "northampton_ma": {
+    "captures": 5486,
+    "severe_not_normal": 0.99906191369606,
+    "healthy_false_alarm": 0.01868131868131868
+   },
+   "tampa_seminole_heights_fl": {
+    "captures": 5083,
+    "severe_not_normal": 0.9981006647673314,
+    "healthy_false_alarm": 0.023593466424682397
+   }
+  },
+  "by_profile": {
+   "d31_highsplit_1218_rpd": {
+    "captures": 9264,
+    "severe_not_normal": 0.9977900552486187,
+    "healthy_false_alarm": 0.015834545160769105
+   },
+   "d31_lowsplit_1002_iccap": {
+    "captures": 9090,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.021190032208848956
+   }
+  },
+  "several_at_once": {
+   "single": {
+    "captures": 5035,
+    "all_visible_shapes_named": 0.910824230387289
+   },
+   "several": {
+    "captures": 316,
+    "all_visible_shapes_named": 0.43670886075949367
+   }
+  },
+  "small_fall_mae_db": 0.22079183161258698,
+  "fall_bands": {
+   "0-3": {
+    "bins": 15632426,
+    "mae_db": 0.22079183161258698,
+    "bias_db": 0.13060317933559418
+   },
+   "3-6": {
+    "bins": 308024,
+    "mae_db": 2.695979356765747,
+    "bias_db": -1.771148681640625
+   },
+   "6-10": {
+    "bins": 332604,
+    "mae_db": 2.813387393951416,
+    "bias_db": -1.024169921875
+   },
+   "10-20": {
+    "bins": 720365,
+    "mae_db": 1.451732873916626,
+    "bias_db": -0.014309336431324482
+   },
+   "20-1000": {
+    "bins": 442881,
+    "mae_db": 1.6082698106765747,
+    "bias_db": -0.4529040455818176
+   }
+  }
+ },
+ "parent_result": {
+  "captures": 18354,
+  "healthy_captures": 12088,
+  "severe_10_db": {
+   "captures": 3631,
+   "not_normal": 0.998347562654916
+  },
+  "severe_20_db": {
+   "captures": 2331,
+   "not_normal": 1.0
+  },
+  "healthy_false_alarm": 0.008520847121111846,
+  "macro_f1": 0.9127250193598224,
+  "shapes": {
+   "Ingress": {
+    "f1": 0.962862930452397,
+    "precision": 0.9674355495251018,
+    "recall": 0.9583333333333334,
+    "captures": 744
+   },
+   "Spike": {
+    "f1": 0.9734647460197119,
+    "precision": 0.9801526717557252,
+    "recall": 0.9668674698795181,
+    "captures": 664
+   },
+   "Dip": {
+    "f1": 0.9491039426523297,
+    "precision": 0.9664233576642336,
+    "recall": 0.9323943661971831,
+    "captures": 710
+   },
+   "RollOff": {
+    "f1": 0.9255663430420712,
+    "precision": 0.9300813008130081,
+    "recall": 0.9210950080515298,
+    "captures": 621
+   },
+   "BandLoss": {
+    "f1": 0.9469964664310955,
+    "precision": 0.9305555555555556,
+    "recall": 0.9640287769784173,
+    "captures": 695
+   },
+   "Ripple": {
+    "f1": 0.9393939393939394,
+    "precision": 0.9117647058823529,
+    "recall": 0.96875,
+    "captures": 64
+   },
+   "Wave": {
+    "f1": 0.9084457061745919,
+    "precision": 0.9411764705882353,
+    "recall": 0.877914951989026,
+    "captures": 729
+   },
+   "LowMer": {
+    "f1": 0.7069243156199678,
+    "precision": 0.857421875,
+    "recall": 0.6013698630136987,
+    "captures": 730
+   },
+   "Edge": {
+    "f1": 0.9017667844522969,
+    "precision": 0.9101283880171184,
+    "recall": 0.8935574229691877,
+    "captures": 714
+   }
+  },
+  "band_iou_median": {
+   "Ingress": 1.0,
+   "Dip": 0.9500830564784053,
+   "BandLoss": 0.9916317991631799,
+   "RollOff": 0.9481765834932822
+  },
+  "fall_mae_db": 2.1384928226470947,
+  "unknown_share": 0.057589626239511825,
+  "not_normal_by_worst_fall": {
+   "1.5-3": {
+    "captures": 854,
+    "not_normal": 0.28688524590163933
+   },
+   "3-6": {
+    "captures": 633,
+    "not_normal": 0.7187993680884676
+   },
+   "6-10": {
+    "captures": 630,
+    "not_normal": 0.8523809523809524
+   },
+   "10-20": {
+    "captures": 1566,
+    "not_normal": 0.9955300127713921
+   },
+   "20-30": {
+    "captures": 1060,
+    "not_normal": 1.0
+   },
+   "30-1000": {
+    "captures": 1523,
+    "not_normal": 1.0
+   }
+  },
+  "by_map": {
+   "cary_nc": {
+    "captures": 2703,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.00387382401770891
+   },
+   "kansas_city_brookside_mo": {
+    "captures": 5082,
+    "severe_not_normal": 0.999009900990099,
+    "healthy_false_alarm": 0.0074962518740629685
+   },
+   "northampton_ma": {
+    "captures": 5486,
+    "severe_not_normal": 0.9971857410881801,
+    "healthy_false_alarm": 0.007967032967032966
+   },
+   "tampa_seminole_heights_fl": {
+    "captures": 5083,
+    "severe_not_normal": 0.9981006647673314,
+    "healthy_false_alarm": 0.012704174228675136
+   }
+  },
+  "by_profile": {
+   "d31_highsplit_1218_rpd": {
+    "captures": 9264,
+    "severe_not_normal": 0.9966850828729282,
+    "healthy_false_alarm": 0.009209888511875909
+   },
+   "d31_lowsplit_1002_iccap": {
+    "captures": 9090,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.007797931852856417
+   }
+  },
+  "several_at_once": {
+   "single": {
+    "captures": 5035,
+    "all_visible_shapes_named": 0.9126117179741807
+   },
+   "several": {
+    "captures": 316,
+    "all_visible_shapes_named": 0.4430379746835443
+   }
+  },
+  "small_fall_mae_db": 0.1854458451271057,
+  "fall_bands": {
+   "0-3": {
+    "bins": 15632426,
+    "mae_db": 0.1854458451271057,
+    "bias_db": 0.09498140215873718
+   },
+   "3-6": {
+    "bins": 308024,
+    "mae_db": 2.7074975967407227,
+    "bias_db": -1.8789112567901611
+   },
+   "6-10": {
+    "bins": 332604,
+    "mae_db": 3.433042049407959,
+    "bias_db": -1.918499231338501
+   },
+   "10-20": {
+    "bins": 720365,
+    "mae_db": 1.599660038948059,
+    "bias_db": -0.19093656539916992
+   },
+   "20-1000": {
+    "bins": 442881,
+    "mae_db": 1.6469768285751343,
+    "bias_db": -0.5735549330711365
+   }
+  }
+ }
+}

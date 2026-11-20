@@ -1,0 +1,15 @@
+[package]
+name = "emulator"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish.workspace = true
+description = "A sim-driven stand-in for modems and a CMTS: real SNMP, real TFTP, real PNM files, no hardware."
+
+[dependencies]
+pnm-wire = { path = "../pnm-wire" }
+schema = { path = "../schema" }
+plant-graph = { path = "../plant-graph" }
+sim = { path = "../sim" }

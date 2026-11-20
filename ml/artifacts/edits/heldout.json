@@ -1,0 +1,362 @@
+{
+ "origin": "Synthetic",
+ "note": "Task 15's three reserve areas, read once. Real streets, invented plant, simulated faults and telemetry.",
+ "split": "reserve",
+ "parent": "spectrum_model.json",
+ "final": "edit_02.json",
+ "parent_result": {
+  "captures": 7775,
+  "healthy_captures": 5082,
+  "severe_10_db": {
+   "captures": 1515,
+   "not_normal": 0.9986798679867986
+  },
+  "severe_20_db": {
+   "captures": 918,
+   "not_normal": 1.0
+  },
+  "healthy_false_alarm": 0.009248327430145612,
+  "macro_f1": 0.9077437369906297,
+  "shapes": {
+   "Ingress": {
+    "f1": 0.9533898305084746,
+    "precision": 0.9615384615384616,
+    "recall": 0.9453781512605042,
+    "captures": 238
+   },
+   "Spike": {
+    "f1": 0.9797191887675507,
+    "precision": 0.9751552795031055,
+    "recall": 0.9843260188087775,
+    "captures": 319
+   },
+   "Dip": {
+    "f1": 0.9520547945205479,
+    "precision": 0.972027972027972,
+    "recall": 0.9328859060402684,
+    "captures": 298
+   },
+   "RollOff": {
+    "f1": 0.9132075471698112,
+    "precision": 0.9236641221374046,
+    "recall": 0.9029850746268657,
+    "captures": 268
+   },
+   "BandLoss": {
+    "f1": 0.9492063492063493,
+    "precision": 0.940251572327044,
+    "recall": 0.9583333333333334,
+    "captures": 312
+   },
+   "Ripple": {
+    "f1": 0.9090909090909091,
+    "precision": 0.8333333333333334,
+    "recall": 1.0,
+    "captures": 15
+   },
+   "Wave": {
+    "f1": 0.9202898550724637,
+    "precision": 0.9372693726937269,
+    "recall": 0.9039145907473309,
+    "captures": 281
+   },
+   "LowMer": {
+    "f1": 0.6857142857142857,
+    "precision": 0.8680851063829788,
+    "recall": 0.5666666666666667,
+    "captures": 360
+   },
+   "Edge": {
+    "f1": 0.9070208728652751,
+    "precision": 0.9446640316205533,
+    "recall": 0.8722627737226277,
+    "captures": 274
+   }
+  },
+  "band_iou_median": {
+   "Ingress": 1.0,
+   "Dip": 0.9550555493210638,
+   "BandLoss": 0.9903379387602689,
+   "RollOff": 0.9495267580716498
+  },
+  "fall_mae_db": 2.1767499446868896,
+  "unknown_share": 0.05414790996784566,
+  "not_normal_by_worst_fall": {
+   "1.5-3": {
+    "captures": 414,
+    "not_normal": 0.30193236714975846
+   },
+   "3-6": {
+    "captures": 291,
+    "not_normal": 0.6254295532646048
+   },
+   "6-10": {
+    "captures": 251,
+    "not_normal": 0.8764940239043825
+   },
+   "10-20": {
+    "captures": 712,
+    "not_normal": 0.9943820224719101
+   },
+   "20-30": {
+    "captures": 432,
+    "not_normal": 1.0
+   },
+   "30-1000": {
+    "captures": 593,
+    "not_normal": 1.0
+   }
+  },
+  "by_map": {
+   "bend_or": {
+    "captures": 2847,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.009081196581196582
+   },
+   "greensboro_nc": {
+    "captures": 2540,
+    "severe_not_normal": 0.997907949790795,
+    "healthy_false_alarm": 0.00783132530120482
+   },
+   "omaha_ne": {
+    "captures": 2388,
+    "severe_not_normal": 0.9979035639412998,
+    "healthy_false_alarm": 0.01096774193548387
+   }
+  },
+  "by_profile": {
+   "d31_highsplit_1218_rpd": {
+    "captures": 3908,
+    "severe_not_normal": 0.9974779319041615,
+    "healthy_false_alarm": 0.010180109631949883
+   },
+   "d31_lowsplit_1002_iccap": {
+    "captures": 3867,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.008306962025316455
+   }
+  },
+  "several_at_once": {
+   "single": {
+    "captures": 2126,
+    "all_visible_shapes_named": 0.8974600188146754
+   },
+   "several": {
+    "captures": 119,
+    "all_visible_shapes_named": 0.42857142857142855
+   }
+  },
+  "small_fall_mae_db": 0.1937301754951477,
+  "fall_bands": {
+   "0-3": {
+    "bins": 6618320,
+    "mae_db": 0.1937301754951477,
+    "bias_db": 0.09945288300514221
+   },
+   "3-6": {
+    "bins": 151363,
+    "mae_db": 2.9410126209259033,
+    "bias_db": -2.217597007751465
+   },
+   "6-10": {
+    "bins": 135398,
+    "mae_db": 3.066037654876709,
+    "bias_db": -1.4861690998077393
+   },
+   "10-20": {
+    "bins": 326599,
+    "mae_db": 1.7494471073150635,
+    "bias_db": 0.12971201539039612
+   },
+   "20-1000": {
+    "bins": 154570,
+    "mae_db": 1.5522292852401733,
+    "bias_db": -0.3326246440410614
+   }
+  }
+ },
+ "final_result": {
+  "captures": 7775,
+  "healthy_captures": 5082,
+  "severe_10_db": {
+   "captures": 1515,
+   "not_normal": 0.9993399339933994
+  },
+  "severe_20_db": {
+   "captures": 918,
+   "not_normal": 1.0
+  },
+  "healthy_false_alarm": 0.015151515151515152,
+  "macro_f1": 0.9082329555703006,
+  "shapes": {
+   "Ingress": {
+    "f1": 0.9533898305084746,
+    "precision": 0.9615384615384616,
+    "recall": 0.9453781512605042,
+    "captures": 238
+   },
+   "Spike": {
+    "f1": 0.9797191887675507,
+    "precision": 0.9751552795031055,
+    "recall": 0.9843260188087775,
+    "captures": 319
+   },
+   "Dip": {
+    "f1": 0.9520547945205479,
+    "precision": 0.972027972027972,
+    "recall": 0.9328859060402684,
+    "captures": 298
+   },
+   "RollOff": {
+    "f1": 0.9132075471698112,
+    "precision": 0.9236641221374046,
+    "recall": 0.9029850746268657,
+    "captures": 268
+   },
+   "BandLoss": {
+    "f1": 0.9492063492063493,
+    "precision": 0.940251572327044,
+    "recall": 0.9583333333333334,
+    "captures": 312
+   },
+   "Ripple": {
+    "f1": 0.9090909090909091,
+    "precision": 0.8333333333333334,
+    "recall": 1.0,
+    "captures": 15
+   },
+   "Wave": {
+    "f1": 0.9202898550724637,
+    "precision": 0.9372693726937269,
+    "recall": 0.9039145907473309,
+    "captures": 281
+   },
+   "LowMer": {
+    "f1": 0.6901172529313232,
+    "precision": 0.869198312236287,
+    "recall": 0.5722222222222222,
+    "captures": 360
+   },
+   "Edge": {
+    "f1": 0.9070208728652751,
+    "precision": 0.9446640316205533,
+    "recall": 0.8722627737226277,
+    "captures": 274
+   }
+  },
+  "band_iou_median": {
+   "Ingress": 1.0,
+   "Dip": 0.9550555493210638,
+   "BandLoss": 0.9903379387602689,
+   "RollOff": 0.9504727499777004
+  },
+  "fall_mae_db": 2.0068037509918213,
+  "unknown_share": 0.06070739549839228,
+  "not_normal_by_worst_fall": {
+   "1.5-3": {
+    "captures": 414,
+    "not_normal": 0.30917874396135264
+   },
+   "3-6": {
+    "captures": 291,
+    "not_normal": 0.6323024054982818
+   },
+   "6-10": {
+    "captures": 251,
+    "not_normal": 0.9123505976095617
+   },
+   "10-20": {
+    "captures": 712,
+    "not_normal": 0.9957865168539326
+   },
+   "20-30": {
+    "captures": 432,
+    "not_normal": 1.0
+   },
+   "30-1000": {
+    "captures": 593,
+    "not_normal": 1.0
+   }
+  },
+  "by_map": {
+   "bend_or": {
+    "captures": 2847,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.014957264957264958
+   },
+   "greensboro_nc": {
+    "captures": 2540,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.014457831325301205
+   },
+   "omaha_ne": {
+    "captures": 2388,
+    "severe_not_normal": 0.9979035639412998,
+    "healthy_false_alarm": 0.016129032258064516
+   }
+  },
+  "by_profile": {
+   "d31_highsplit_1218_rpd": {
+    "captures": 3908,
+    "severe_not_normal": 0.9987389659520807,
+    "healthy_false_alarm": 0.012529365700861394
+   },
+   "d31_lowsplit_1002_iccap": {
+    "captures": 3867,
+    "severe_not_normal": 1.0,
+    "healthy_false_alarm": 0.017800632911392406
+   }
+  },
+  "several_at_once": {
+   "single": {
+    "captures": 2126,
+    "all_visible_shapes_named": 0.8984007525870179
+   },
+   "several": {
+    "captures": 119,
+    "all_visible_shapes_named": 0.42857142857142855
+   }
+  },
+  "small_fall_mae_db": 0.21456649899482727,
+  "fall_bands": {
+   "0-3": {
+    "bins": 6618320,
+    "mae_db": 0.21456649899482727,
+    "bias_db": 0.12119138985872269
+   },
+   "3-6": {
+    "bins": 151363,
+    "mae_db": 2.8739700317382812,
+    "bias_db": -2.0924034118652344
+   },
+   "6-10": {
+    "bins": 135398,
+    "mae_db": 2.5703065395355225,
+    "bias_db": -0.8449462056159973
+   },
+   "10-20": {
+    "bins": 326599,
+    "mae_db": 1.5929137468338013,
+    "bias_db": 0.46362149715423584
+   },
+   "20-1000": {
+    "bins": 154570,
+    "mae_db": 1.5385488271713257,
+    "bias_db": -0.16652466356754303
+   }
+  }
+ },
+ "against_parent": {
+  "worse": [
+   {
+    "part": "healthy_false_alarm",
+    "parent": 0.009248327430145612,
+    "edit": 0.015151515151515152
+   }
+  ],
+  "fall_change_db": -0.16994619369506836
+ },
+ "fall_lower_than_noise": true,
+ "nothing_worse": false,
+ "holds": false
+}

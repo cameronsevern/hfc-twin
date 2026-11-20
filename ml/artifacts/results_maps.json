@@ -1,0 +1,1141 @@
+{
+ "origin": "Synthetic",
+ "note": "Real streets, invented plant, simulated faults and telemetry.",
+ "test": {
+  "gbdt": {
+   "hybrid": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.7535159141376758,
+    "top3": 0.8638045891931903,
+    "top3_95": [
+     0.8444797218313956,
+     0.8810663493846048
+    ],
+    "healthy_false_alarm": 0.07142857142857142,
+    "ece": 0.0217397177984032,
+    "mean_confidence": 0.7576192386334074
+   },
+   "hybrid_raw_posterior": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.7535159141376758,
+    "top3": 0.8638045891931903,
+    "top3_95": [
+     0.8444797218313956,
+     0.8810663493846048
+    ],
+    "healthy_false_alarm": 0.07142857142857142,
+    "ece": 0.1031375767276077,
+    "mean_confidence": 0.8605058262132241
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.7584745762711864,
+    "mean_confidence": 0.7576192386334074,
+    "ece_95": [
+     0.01822815304099827,
+     0.03984473718144738
+    ],
+    "ece_if_calibrated_mean": 0.01784710497072306,
+    "ece_if_calibrated_95th": 0.025774694098077002
+   },
+   "proposal_only": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.7091043671354552,
+    "top3": 0.8786084381939304,
+    "top3_95": [
+     0.8601116381769475,
+     0.8949581795788698
+    ],
+    "healthy_false_alarm": 0.01098901098901099,
+    "ece": 0.04528871870024155,
+    "mean_confidence": 0.7469989817211106
+   },
+   "sims": 121.1773607748184,
+   "by_class": {
+    "AmpDrift": {
+     "n": 141,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 113,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 67,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 130,
+     "top3": 0.8615384615384616
+    },
+    "DownstreamIngress": {
+     "n": 147,
+     "top3": 0.7278911564625851
+    },
+    "FrequencySelectiveLoss": {
+     "n": 154,
+     "top3": 0.8571428571428571
+    },
+    "GcpLoss": {
+     "n": 35,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 152,
+     "top3": 0.993421052631579
+    },
+    "RfmMisalignment": {
+     "n": 42,
+     "top3": 0.7619047619047619
+    },
+    "RpdFailure": {
+     "n": 40,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 132,
+     "top3": 0.9015151515151515
+    },
+    "TimingLoss": {
+     "n": 43,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 155,
+     "top3": 0.4838709677419355
+    }
+   },
+   "floor": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.6395262768319763,
+    "top3": 0.688378978534419,
+    "top3_95": [
+     0.6631764468099917,
+     0.7125132279091786
+    ],
+    "healthy_false_alarm": 0.6868131868131868,
+    "ece": 0.22423648167579577,
+    "mean_confidence": 0.8229047625474665
+   },
+   "floor_sims": 100.35230024213075,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 141,
+     "top3": 0.9787234042553191
+    },
+    "BadDrop": {
+     "n": 113,
+     "top3": 0.9203539823008849
+    },
+    "CinLinkCut": {
+     "n": 67,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 130,
+     "top3": 0.5153846153846153
+    },
+    "DownstreamIngress": {
+     "n": 147,
+     "top3": 0.35374149659863946
+    },
+    "FrequencySelectiveLoss": {
+     "n": 154,
+     "top3": 0.5974025974025974
+    },
+    "GcpLoss": {
+     "n": 35,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 152,
+     "top3": 0.9868421052631579
+    },
+    "RfmMisalignment": {
+     "n": 42,
+     "top3": 0.7380952380952381
+    },
+    "RpdFailure": {
+     "n": 40,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 132,
+     "top3": 0.6363636363636364
+    },
+    "TimingLoss": {
+     "n": 43,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 155,
+     "top3": 0.17419354838709677
+    }
+   }
+  },
+  "gnn": {
+   "hybrid": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.7853441894892672,
+    "top3": 0.8956328645447816,
+    "top3_95": [
+     0.8781922982058329,
+     0.910829828070774
+    ],
+    "healthy_false_alarm": 0.08791208791208792,
+    "ece": 0.016131470935962674,
+    "mean_confidence": 0.7809605678617272
+   },
+   "hybrid_raw_posterior": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.7853441894892672,
+    "top3": 0.8956328645447816,
+    "top3_95": [
+     0.8781922982058329,
+     0.910829828070774
+    ],
+    "healthy_false_alarm": 0.08791208791208792,
+    "ece": 0.09900440651814013,
+    "mean_confidence": 0.8469548119016161
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.7826876513317191,
+    "mean_confidence": 0.7809605678617272,
+    "ece_95": [
+     0.012895373031926812,
+     0.03340315892954696
+    ],
+    "ece_if_calibrated_mean": 0.015117537036707734,
+    "ece_if_calibrated_95th": 0.021788432644269877
+   },
+   "proposal_only": {
+    "rows": 1652,
+    "placeable": 1351,
+    "top1": 0.8253145817912657,
+    "top3": 0.9444855662472242,
+    "top3_95": [
+     0.9309672300219137,
+     0.9554832598360888
+    ],
+    "healthy_false_alarm": 0.04395604395604396,
+    "ece": 0.016787308925215502,
+    "mean_confidence": 0.8341733840361107
+   },
+   "sims": 121.30750605326877,
+   "by_class": {
+    "AmpDrift": {
+     "n": 141,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 113,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 67,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 130,
+     "top3": 0.9230769230769231
+    },
+    "DownstreamIngress": {
+     "n": 147,
+     "top3": 0.7414965986394558
+    },
+    "FrequencySelectiveLoss": {
+     "n": 154,
+     "top3": 0.8701298701298701
+    },
+    "GcpLoss": {
+     "n": 35,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 152,
+     "top3": 0.993421052631579
+    },
+    "RfmMisalignment": {
+     "n": 42,
+     "top3": 0.7857142857142857
+    },
+    "RpdFailure": {
+     "n": 40,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 132,
+     "top3": 0.9090909090909091
+    },
+    "TimingLoss": {
+     "n": 43,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 155,
+     "top3": 0.6709677419354839
+    }
+   }
+  }
+ },
+ "test_paired": {
+  "gnn_minus_gbdt": {
+   "nodes": 402,
+   "placeable": 1351,
+   "top1_difference": 0.03182827535159141,
+   "top1_95": [
+    0.017302950495017327,
+    0.04663272870853108
+   ],
+   "top3_difference": 0.03182827535159141,
+   "top3_95": [
+    0.020818364258894047,
+    0.04310377432312588
+   ]
+  },
+  "gnn_minus_gbdt_proposal_only": {
+   "nodes": 402,
+   "placeable": 1351,
+   "top1_difference": 0.11621021465581051,
+   "top1_95": [
+    0.09425882474372475,
+    0.13841062981921848
+   ],
+   "top3_difference": 0.06587712805329386,
+   "top3_95": [
+    0.05132075471698113,
+    0.0804515540863864
+   ]
+  },
+  "gbdt_minus_floor": {
+   "nodes": 402,
+   "placeable": 1351,
+   "top1_difference": 0.11398963730569948,
+   "top1_95": [
+    0.09626021526808849,
+    0.13213593921184047
+   ],
+   "top3_difference": 0.17542561065877127,
+   "top3_95": [
+    0.15424729571438786,
+    0.19645638390867934
+   ]
+  }
+ },
+ "by_map": {
+  "alamo_heights_tx": {
+   "runs": 14,
+   "placeable": 12,
+   "gbdt_top1": 0.75,
+   "gbdt_top3": 0.8333333333333334,
+   "gbdt_false_alarm": 0.0,
+   "gnn_top1": 0.8333333333333334,
+   "gnn_top3": 0.8333333333333334,
+   "gnn_false_alarm": 0.0
+  },
+  "albany_ny": {
+   "runs": 266,
+   "placeable": 223,
+   "gbdt_top1": 0.726457399103139,
+   "gbdt_top3": 0.8026905829596412,
+   "gbdt_false_alarm": 0.18518518518518517,
+   "gnn_top1": 0.7533632286995515,
+   "gnn_top3": 0.852017937219731,
+   "gnn_false_alarm": 0.18518518518518517
+  },
+  "albuquerque_nm": {
+   "runs": 269,
+   "placeable": 205,
+   "gbdt_top1": 0.7902439024390244,
+   "gbdt_top3": 0.8926829268292683,
+   "gbdt_false_alarm": 0.11764705882352941,
+   "gnn_top1": 0.8097560975609757,
+   "gnn_top3": 0.9170731707317074,
+   "gnn_false_alarm": 0.14705882352941177
+  },
+  "culver_city_ca": {
+   "runs": 263,
+   "placeable": 214,
+   "gbdt_top1": 0.7663551401869159,
+   "gbdt_top3": 0.8644859813084113,
+   "gbdt_false_alarm": 0.03333333333333333,
+   "gnn_top1": 0.8130841121495327,
+   "gnn_top3": 0.9065420560747663,
+   "gnn_false_alarm": 0.06666666666666667
+  },
+  "keene_nh": {
+   "runs": 115,
+   "placeable": 97,
+   "gbdt_top1": 0.711340206185567,
+   "gbdt_top3": 0.8247422680412371,
+   "gbdt_false_alarm": 0.0,
+   "gnn_top1": 0.7422680412371134,
+   "gnn_top3": 0.845360824742268,
+   "gnn_false_alarm": 0.06666666666666667
+  },
+  "lakewood_oh": {
+   "runs": 120,
+   "placeable": 97,
+   "gbdt_top1": 0.7422680412371134,
+   "gbdt_top3": 0.8969072164948454,
+   "gbdt_false_alarm": 0.0,
+   "gnn_top1": 0.7628865979381443,
+   "gnn_top3": 0.9278350515463918,
+   "gnn_false_alarm": 0.07142857142857142
+  },
+  "lexington_ky": {
+   "runs": 541,
+   "placeable": 448,
+   "gbdt_top1": 0.7589285714285714,
+   "gbdt_top3": 0.875,
+   "gbdt_false_alarm": 0.05,
+   "gnn_top1": 0.7946428571428571,
+   "gnn_top3": 0.9017857142857143,
+   "gnn_false_alarm": 0.03333333333333333
+  },
+  "wauwatosa_wi": {
+   "runs": 64,
+   "placeable": 55,
+   "gbdt_top1": 0.7272727272727273,
+   "gbdt_top3": 0.9272727272727272,
+   "gbdt_false_alarm": 0.0,
+   "gnn_top1": 0.7454545454545455,
+   "gnn_top3": 0.9454545454545454,
+   "gnn_false_alarm": 0.0
+  }
+ },
+ "by_profile": {
+  "d31_highsplit_1218_rpd": {
+   "runs": 837,
+   "placeable": 707,
+   "gbdt_top1": 0.7920792079207921,
+   "gbdt_top3": 0.8783592644978784,
+   "gbdt_false_alarm": 0.0625,
+   "gnn_top1": 0.8132956152758133,
+   "gnn_top3": 0.9024045261669024,
+   "gnn_false_alarm": 0.09375
+  },
+  "d31_lowsplit_1002_iccap": {
+   "runs": 815,
+   "placeable": 644,
+   "gbdt_top1": 0.7111801242236024,
+   "gbdt_top3": 0.8478260869565217,
+   "gbdt_false_alarm": 0.08139534883720931,
+   "gnn_top1": 0.7546583850931677,
+   "gnn_top3": 0.8881987577639752,
+   "gnn_false_alarm": 0.08139534883720931
+  }
+ },
+ "shipped_gbdt_proposal_only": {
+  "rows": 1652,
+  "placeable": 1351,
+  "top1": 0.6617320503330866,
+  "top3": 0.847520355292376,
+  "top3_95": [
+   0.8273673871797407,
+   0.8657025628424613
+  ],
+  "healthy_false_alarm": 0.016483516483516484,
+  "ece": 0.059713050725194464,
+  "mean_confidence": 0.7292388398233689
+ },
+ "more_data_gbdt_proposal_vs_shipped": {
+  "nodes": 402,
+  "placeable": 1351,
+  "top1_difference": 0.047372316802368614,
+  "top1_95": [
+   0.027298836851433243,
+   0.06757955915851532
+  ],
+  "top3_difference": 0.031088082901554404,
+  "top3_95": [
+   0.016798185552418146,
+   0.045722713864306784
+  ]
+ },
+ "generated_reference": {
+  "gbdt": {
+   "hybrid": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.7633136094674556,
+    "top3": 0.9112426035502958,
+    "top3_95": [
+     0.8761206063240048,
+     0.9371215502771812
+    ],
+    "healthy_false_alarm": 0.13953488372093023,
+    "ece": 0.021410252958738826,
+    "mean_confidence": 0.7763543966381684
+   },
+   "hybrid_raw_posterior": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.7633136094674556,
+    "top3": 0.9112426035502958,
+    "top3_95": [
+     0.8761206063240048,
+     0.9371215502771812
+    ],
+    "healthy_false_alarm": 0.13953488372093023,
+    "ece": 0.10520582808463697,
+    "mean_confidence": 0.8699204641426221
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.7655502392344498,
+    "mean_confidence": 0.7763543966381684,
+    "ece_95": [
+     0.022892854600010993,
+     0.06465098905485317
+    ],
+    "ece_if_calibrated_mean": 0.034078312253610375,
+    "ece_if_calibrated_95th": 0.04978255380344988
+   },
+   "proposal_only": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.727810650887574,
+    "top3": 0.908284023668639,
+    "top3_95": [
+     0.8727567662916577,
+     0.9346347273123975
+    ],
+    "healthy_false_alarm": 0.0,
+    "ece": 0.04239320736274854,
+    "mean_confidence": 0.7586624090046916
+   },
+   "sims": 123.07416267942584,
+   "by_class": {
+    "AmpDrift": {
+     "n": 36,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 36,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 16,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 24,
+     "top3": 0.9583333333333334
+    },
+    "DownstreamIngress": {
+     "n": 34,
+     "top3": 0.7058823529411765
+    },
+    "FrequencySelectiveLoss": {
+     "n": 40,
+     "top3": 0.9
+    },
+    "GcpLoss": {
+     "n": 15,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 42,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 13,
+     "top3": 0.8461538461538461
+    },
+    "RpdFailure": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 36,
+     "top3": 0.9722222222222222
+    },
+    "TimingLoss": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 29,
+     "top3": 0.5862068965517241
+    }
+   },
+   "floor": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.636094674556213,
+    "top3": 0.7218934911242604,
+    "top3_95": [
+     0.6718353107746763,
+     0.7669644140101363
+    ],
+    "healthy_false_alarm": 0.6511627906976745,
+    "ece": 0.23850501679561076,
+    "mean_confidence": 0.844230861544164
+   },
+   "floor_sims": 104.95454545454545,
+   "floor_by_class": {
+    "AmpDrift": {
+     "n": 36,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 36,
+     "top3": 0.8333333333333334
+    },
+    "CinLinkCut": {
+     "n": 16,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 24,
+     "top3": 0.75
+    },
+    "DownstreamIngress": {
+     "n": 34,
+     "top3": 0.35294117647058826
+    },
+    "FrequencySelectiveLoss": {
+     "n": 40,
+     "top3": 0.425
+    },
+    "GcpLoss": {
+     "n": 15,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 42,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 13,
+     "top3": 0.6923076923076923
+    },
+    "RpdFailure": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 36,
+     "top3": 0.6944444444444444
+    },
+    "TimingLoss": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 29,
+     "top3": 0.2413793103448276
+    }
+   }
+  },
+  "gnn": {
+   "hybrid": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.7869822485207101,
+    "top3": 0.9112426035502958,
+    "top3_95": [
+     0.8761206063240048,
+     0.9371215502771812
+    ],
+    "healthy_false_alarm": 0.13953488372093023,
+    "ece": 0.02809106966751277,
+    "mean_confidence": 0.7794617267428999
+   },
+   "hybrid_raw_posterior": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.7869822485207101,
+    "top3": 0.9112426035502958,
+    "top3_95": [
+     0.8761206063240048,
+     0.9371215502771812
+    ],
+    "healthy_false_alarm": 0.13953488372093023,
+    "ece": 0.12254237157369566,
+    "mean_confidence": 0.8516224279764213
+   },
+   "ece_spread": {
+    "accuracy_top_answer": 0.784688995215311,
+    "mean_confidence": 0.7794617267428999,
+    "ece_95": [
+     0.024430486961271453,
+     0.06481174696077867
+    ],
+    "ece_if_calibrated_mean": 0.030468614000218146,
+    "ece_if_calibrated_95th": 0.04436757831704538
+   },
+   "proposal_only": {
+    "rows": 418,
+    "placeable": 338,
+    "top1": 0.7988165680473372,
+    "top3": 0.9408284023668639,
+    "top3_95": [
+     0.9103761057187681,
+     0.9613726808537263
+    ],
+    "healthy_false_alarm": 0.0,
+    "ece": 0.03930775208656169,
+    "mean_confidence": 0.8267098401053894
+   },
+   "sims": 122.20334928229666,
+   "by_class": {
+    "AmpDrift": {
+     "n": 36,
+     "top3": 1.0
+    },
+    "BadDrop": {
+     "n": 36,
+     "top3": 1.0
+    },
+    "CinLinkCut": {
+     "n": 16,
+     "top3": 1.0
+    },
+    "ConnectorReflection": {
+     "n": 24,
+     "top3": 0.9583333333333334
+    },
+    "DownstreamIngress": {
+     "n": 34,
+     "top3": 0.6470588235294118
+    },
+    "FrequencySelectiveLoss": {
+     "n": 40,
+     "top3": 0.925
+    },
+    "GcpLoss": {
+     "n": 15,
+     "top3": 1.0
+    },
+    "PowerSupplySag": {
+     "n": 42,
+     "top3": 1.0
+    },
+    "RfmMisalignment": {
+     "n": 13,
+     "top3": 0.8461538461538461
+    },
+    "RpdFailure": {
+     "n": 9,
+     "top3": 1.0
+    },
+    "Suckout": {
+     "n": 36,
+     "top3": 0.9444444444444444
+    },
+    "TimingLoss": {
+     "n": 8,
+     "top3": 1.0
+    },
+    "WaterIngress": {
+     "n": 29,
+     "top3": 0.6551724137931034
+    }
+   }
+  },
+  "gnn_minus_gbdt": {
+   "nodes": 127,
+   "placeable": 338,
+   "top1_difference": 0.023668639053254437,
+   "top1_95": [
+    0.0,
+    0.0473186119873817
+   ],
+   "top3_difference": 0.0,
+   "top3_95": [
+    -0.018520981087470446,
+    0.01764705882352941
+   ]
+  }
+ },
+ "worlds": {
+  "Tap return loss low": {
+   "gbdt_top3": 0.5159010600706714,
+   "gnn_top3": 0.568904593639576,
+   "gbdt_top1": 0.4134275618374558,
+   "gnn_top1": 0.45936395759717313,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": 0.045936395759717315,
+    "top1_95": [
+     0.019294091935601373,
+     0.07483184284949933
+    ],
+    "top3_difference": 0.053003533568904596,
+    "top3_95": [
+     0.02464788732394366,
+     0.08209088486140723
+    ]
+   }
+  },
+  "Tap return loss high": {
+   "gbdt_top3": 0.7420494699646644,
+   "gnn_top3": 0.7208480565371025,
+   "gbdt_top1": 0.6501766784452296,
+   "gnn_top1": 0.5901060070671378,
+   "gbdt_false_alarm": 0.5,
+   "gnn_false_alarm": 0.6052631578947368,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": -0.06007067137809187,
+    "top1_95": [
+     -0.09574468085106383,
+     -0.025360029822633846
+    ],
+    "top3_difference": -0.02120141342756184,
+    "top3_95": [
+     -0.05016752376499922,
+     0.007220216606498195
+    ]
+   }
+  },
+  "Active return loss low": {
+   "gbdt_top3": 0.7067137809187279,
+   "gnn_top3": 0.7667844522968198,
+   "gbdt_top1": 0.5901060070671378,
+   "gnn_top1": 0.6360424028268551,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": 0.045936395759717315,
+    "top1_95": [
+     0.016891891891891893,
+     0.07823280557774709
+    ],
+    "top3_difference": 0.06007067137809187,
+    "top3_95": [
+     0.025,
+     0.09747512547327636
+    ]
+   }
+  },
+  "Active return loss high": {
+   "gbdt_top3": 0.7773851590106007,
+   "gnn_top3": 0.7809187279151943,
+   "gbdt_top1": 0.6819787985865724,
+   "gnn_top1": 0.6643109540636042,
+   "gbdt_false_alarm": 0.2894736842105263,
+   "gnn_false_alarm": 0.5789473684210527,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": -0.0176678445229682,
+    "top1_95": [
+     -0.051094890510948905,
+     0.01730103806228374
+    ],
+    "top3_difference": 0.0035335689045936395,
+    "top3_95": [
+     -0.016835016835016835,
+     0.02464788732394366
+    ]
+   }
+  },
+  "Hardline and drop loss low": {
+   "gbdt_top3": 0.7773851590106007,
+   "gnn_top3": 0.8303886925795053,
+   "gbdt_top1": 0.6890459363957597,
+   "gnn_top1": 0.7102473498233216,
+   "gbdt_false_alarm": 0.34210526315789475,
+   "gnn_false_alarm": 0.2631578947368421,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": 0.02120141342756184,
+    "top1_95": [
+     -0.0035341976535090474,
+     0.048109965635738834
+    ],
+    "top3_difference": 0.053003533568904596,
+    "top3_95": [
+     0.024305555555555556,
+     0.08203270755597013
+    ]
+   }
+  },
+  "Hardline and drop loss high": {
+   "gbdt_top3": 0.7667844522968198,
+   "gnn_top3": 0.8268551236749117,
+   "gbdt_top1": 0.6325088339222615,
+   "gnn_top1": 0.6749116607773852,
+   "gbdt_false_alarm": 0.8947368421052632,
+   "gnn_false_alarm": 0.8947368421052632,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": 0.04240282685512368,
+    "top1_95": [
+     0.014388489208633094,
+     0.07252128838838079
+    ],
+    "top3_difference": 0.06007067137809187,
+    "top3_95": [
+     0.034482758620689655,
+     0.08896979963925314
+    ]
+   }
+  }
+ },
+ "worlds_added_after_the_result": {
+  "Modem implementation MER low": {
+   "gbdt_top3": 0.8021201413427562,
+   "gnn_top3": 0.6819787985865724,
+   "gbdt_top1": 0.6855123674911661,
+   "gnn_top1": 0.6007067137809188,
+   "gbdt_false_alarm": 0.6578947368421053,
+   "gnn_false_alarm": 0.5789473684210527,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": -0.08480565371024736,
+    "top1_95": [
+     -0.12406083639756324,
+     -0.049466768179282174
+    ],
+    "top3_difference": -0.12014134275618374,
+    "top3_95": [
+     -0.16129315223542728,
+     -0.08273381294964029
+    ]
+   }
+  },
+  "Modem implementation MER high": {
+   "gbdt_top3": 0.8056537102473498,
+   "gnn_top3": 0.8056537102473498,
+   "gbdt_top1": 0.696113074204947,
+   "gnn_top1": 0.7385159010600707,
+   "gbdt_false_alarm": 0.10526315789473684,
+   "gnn_false_alarm": 0.9736842105263158,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": 0.04240282685512368,
+    "top1_95": [
+     0.010752688172043012,
+     0.07473976868327392
+    ],
+    "top3_difference": 0.0,
+    "top3_95": [
+     -0.028469750889679714,
+     0.02996599150727138
+    ]
+   }
+  },
+  "CIN at reference low": {
+   "gbdt_top3": 0.773851590106007,
+   "gnn_top3": 0.7667844522968198,
+   "gbdt_top1": 0.6855123674911661,
+   "gnn_top1": 0.7067137809187279,
+   "gbdt_false_alarm": 0.7894736842105263,
+   "gnn_false_alarm": 0.9473684210526315,
+   "placeable": 283,
+   "gnn_minus_gbdt": {
+    "nodes": 229,
+    "placeable": 283,
+    "top1_difference": 0.02120141342756184,
+    "top1_95": [
+     -0.010992063492063492,
+     0.05517241379310345
+    ],
+    "top3_difference": -0.007067137809187279,
+    "top3_95": [
+     -0.03484625130966594,
+     0.020905923344947737
+    ]
+   }
+  }
+ },
+ "worlds_proposal_only": {
+  "Tap return loss low": {
+   "gbdt_top3": 0.5742092457420924,
+   "gnn_top3": 0.6861313868613139,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0
+  },
+  "Tap return loss high": {
+   "gbdt_top3": 0.8077858880778589,
+   "gnn_top3": 0.45985401459854014,
+   "gbdt_false_alarm": 0.05263157894736842,
+   "gnn_false_alarm": 1.0
+  },
+  "Active return loss low": {
+   "gbdt_top3": 0.681265206812652,
+   "gnn_top3": 0.7712895377128953,
+   "gbdt_false_alarm": 1.0,
+   "gnn_false_alarm": 1.0
+  },
+  "Active return loss high": {
+   "gbdt_top3": 0.8223844282238443,
+   "gnn_top3": 0.7518248175182481,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.9649122807017544
+  },
+  "Modem return loss low": {
+   "gbdt_top3": 0.8077858880778589,
+   "gnn_top3": 0.8588807785888077,
+   "gbdt_false_alarm": 0.9298245614035088,
+   "gnn_false_alarm": 0.9649122807017544
+  },
+  "Modem return loss high": {
+   "gbdt_top3": 0.8491484184914841,
+   "gnn_top3": 0.9051094890510949,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.7192982456140351
+  },
+  "Tap port isolation low": {
+   "gbdt_top3": 0.8564476885644768,
+   "gnn_top3": 0.9367396593673966,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "Tap port isolation high": {
+   "gbdt_top3": 0.878345498783455,
+   "gnn_top3": 0.9391727493917275,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "Forward noise figure low": {
+   "gbdt_top3": 0.8759124087591241,
+   "gnn_top3": 0.9391727493917275,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "Forward noise figure high": {
+   "gbdt_top3": 0.8759124087591241,
+   "gnn_top3": 0.9391727493917275,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "Return noise figure low": {
+   "gbdt_top3": 0.878345498783455,
+   "gnn_top3": 0.9318734793187348,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.3157894736842105
+  },
+  "Return noise figure high": {
+   "gbdt_top3": 0.8467153284671532,
+   "gnn_top3": 0.9343065693430657,
+   "gbdt_false_alarm": 0.5263157894736842,
+   "gnn_false_alarm": 0.5614035087719298
+  },
+  "CIN at reference low": {
+   "gbdt_top3": 0.7664233576642335,
+   "gnn_top3": 0.7226277372262774,
+   "gbdt_false_alarm": 0.8070175438596491,
+   "gnn_false_alarm": 0.9122807017543859
+  },
+  "CIN at reference high": {
+   "gbdt_top3": 0.8759124087591241,
+   "gnn_top3": 0.9367396593673966,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "AGC range low": {
+   "gbdt_top3": 0.8442822384428224,
+   "gnn_top3": 0.829683698296837,
+   "gbdt_false_alarm": 0.47368421052631576,
+   "gnn_false_alarm": 0.5614035087719298
+  },
+  "AGC range high": {
+   "gbdt_top3": 0.8734793187347932,
+   "gnn_top3": 0.9391727493917275,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "Modem implementation MER low": {
+   "gbdt_top3": 0.7956204379562044,
+   "gnn_top3": 0.36009732360097324,
+   "gbdt_false_alarm": 0.9824561403508771,
+   "gnn_false_alarm": 1.0
+  },
+  "Modem implementation MER high": {
+   "gbdt_top3": 0.8686131386861314,
+   "gnn_top3": 0.8345498783454988,
+   "gbdt_false_alarm": 0.10526315789473684,
+   "gnn_false_alarm": 0.9473684210526315
+  },
+  "Hardline and drop loss low": {
+   "gbdt_top3": 0.8126520681265207,
+   "gnn_top3": 0.9075425790754258,
+   "gbdt_false_alarm": 0.3333333333333333,
+   "gnn_false_alarm": 0.05263157894736842
+  },
+  "Hardline and drop loss high": {
+   "gbdt_top3": 0.8321167883211679,
+   "gnn_top3": 0.9075425790754258,
+   "gbdt_false_alarm": 0.5789473684210527,
+   "gnn_false_alarm": 0.24561403508771928
+  },
+  "Cable temperature coefficient low": {
+   "gbdt_top3": 0.878345498783455,
+   "gnn_top3": 0.9343065693430657,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.03508771929824561
+  },
+  "Cable temperature coefficient high": {
+   "gbdt_top3": 0.8710462287104623,
+   "gnn_top3": 0.9367396593673966,
+   "gbdt_false_alarm": 0.05263157894736842,
+   "gnn_false_alarm": 0.07017543859649122
+  },
+  "Loop resistance low": {
+   "gbdt_top3": 0.8710462287104623,
+   "gnn_top3": 0.9367396593673966,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.05263157894736842
+  },
+  "Loop resistance high": {
+   "gbdt_top3": 0.8540145985401459,
+   "gnn_top3": 0.9318734793187348,
+   "gbdt_false_alarm": 0.15789473684210525,
+   "gnn_false_alarm": 0.08771929824561403
+  },
+  "Active power draw low": {
+   "gbdt_top3": 0.8734793187347932,
+   "gnn_top3": 0.9221411192214112,
+   "gbdt_false_alarm": 0.03508771929824561,
+   "gnn_false_alarm": 0.08771929824561403
+  },
+  "Active power draw high": {
+   "gbdt_top3": 0.8564476885644768,
+   "gnn_top3": 0.9318734793187348,
+   "gbdt_false_alarm": 0.14035087719298245,
+   "gnn_false_alarm": 0.08771929824561403
+  }
+ },
+ "latency": {
+  "candidates": 109,
+  "gnn_ms": 5.9685352,
+  "origin": "Synthetic"
+ },
+ "decision": {
+  "rule": {
+   "localization": true,
+   "false_alarms": true,
+   "calibration": true,
+   "when_the_sim_is_wrong": true,
+   "latency": true
+  },
+  "gnn_replaces_gbdt": true
+ }
+}

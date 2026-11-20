@@ -1,0 +1,409 @@
+{
+  "schema_version": "1",
+  "id": "d31_lowsplit_1002_iccap",
+  "docsis": "D31",
+  "band_plan": [
+    {
+      "lo_mhz": 5.0,
+      "hi_mhz": 42.0,
+      "direction": "Us"
+    },
+    {
+      "lo_mhz": 54.0,
+      "hi_mhz": 1002.0,
+      "direction": "Ds"
+    }
+  ],
+  "channel_plan": {
+    "ds_sc_qam": [
+      {
+        "channel_id": "ds-sc-01",
+        "center_mhz": 603.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-02",
+        "center_mhz": 609.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-03",
+        "center_mhz": 615.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-04",
+        "center_mhz": 621.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-05",
+        "center_mhz": 627.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-06",
+        "center_mhz": 633.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-07",
+        "center_mhz": 639.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-08",
+        "center_mhz": 645.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-09",
+        "center_mhz": 651.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-10",
+        "center_mhz": 657.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-11",
+        "center_mhz": 663.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-12",
+        "center_mhz": 669.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-13",
+        "center_mhz": 675.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-14",
+        "center_mhz": 681.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-15",
+        "center_mhz": 687.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-16",
+        "center_mhz": 693.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-17",
+        "center_mhz": 699.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-18",
+        "center_mhz": 705.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-19",
+        "center_mhz": 711.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-20",
+        "center_mhz": 717.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-21",
+        "center_mhz": 723.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-22",
+        "center_mhz": 729.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-23",
+        "center_mhz": 735.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-24",
+        "center_mhz": 741.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-25",
+        "center_mhz": 747.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-26",
+        "center_mhz": 753.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-27",
+        "center_mhz": 759.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-28",
+        "center_mhz": 765.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-29",
+        "center_mhz": 771.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-30",
+        "center_mhz": 777.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-31",
+        "center_mhz": 783.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      },
+      {
+        "channel_id": "ds-sc-32",
+        "center_mhz": 789.0,
+        "width_mhz": 6.0,
+        "modulation": "Qam256"
+      }
+    ],
+    "ofdm": [
+      {
+        "channel_id": "ofdm-1",
+        "first_active_mhz": 811.0,
+        "last_active_mhz": 1000.95,
+        "fft_size": 4096,
+        "subcarrier_spacing_khz": 50.0,
+        "cp_us": 2.5,
+        "rolloff_us": 1.25,
+        "data_profiles": [
+          {
+            "data_profile_id": 0,
+            "modulation": "Qam256"
+          },
+          {
+            "data_profile_id": 1,
+            "modulation": "Qam1024"
+          },
+          {
+            "data_profile_id": 2,
+            "modulation": "Qam4096"
+          }
+        ],
+        "ncp_modulation": "Qam16"
+      }
+    ],
+    "us_sc_qam": [
+      {
+        "channel_id": "us-sc-1",
+        "center_mhz": 16.4,
+        "width_mhz": 6.4,
+        "symbol_rate_msym_per_s": 5.12,
+        "modulation": "Qam64"
+      },
+      {
+        "channel_id": "us-sc-2",
+        "center_mhz": 22.8,
+        "width_mhz": 6.4,
+        "symbol_rate_msym_per_s": 5.12,
+        "modulation": "Qam64"
+      },
+      {
+        "channel_id": "us-sc-3",
+        "center_mhz": 29.2,
+        "width_mhz": 6.4,
+        "symbol_rate_msym_per_s": 5.12,
+        "modulation": "Qam64"
+      },
+      {
+        "channel_id": "us-sc-4",
+        "center_mhz": 35.6,
+        "width_mhz": 6.4,
+        "symbol_rate_msym_per_s": 5.12,
+        "modulation": "Qam64"
+      }
+    ],
+    "ofdma": []
+  },
+  "max_cascade": 6,
+  "max_homes_passed": 500,
+  "design_levels": {
+    "out_dbmv_at_hi": 50.0,
+    "tilt_db": 14.0,
+    "psd_spread_max_db": 10.0,
+    "modem_in_min_dbmv_by_qam": [
+      {
+        "qam": "Qam16",
+        "min_dbmv": -15.0
+      },
+      {
+        "qam": "Qam64",
+        "min_dbmv": -15.0
+      },
+      {
+        "qam": "Qam128",
+        "min_dbmv": -15.0
+      },
+      {
+        "qam": "Qam256",
+        "min_dbmv": -15.0
+      },
+      {
+        "qam": "Qam512",
+        "min_dbmv": -12.0
+      },
+      {
+        "qam": "Qam1024",
+        "min_dbmv": -12.0
+      },
+      {
+        "qam": "Qam2048",
+        "min_dbmv": -9.0
+      },
+      {
+        "qam": "Qam4096",
+        "min_dbmv": -6.0
+      }
+    ],
+    "modem_in_max_dbmv": 15.0,
+    "modem_in_total_max_dbmv": 40.0,
+    "us_node_in_target_dbmv": 8.0
+  },
+  "fec": [
+    {
+      "qam": "Qam16",
+      "thr_db": 12.0,
+      "req_cnr_db": 15.0,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": null
+    },
+    {
+      "qam": "Qam64",
+      "thr_db": 18.0,
+      "req_cnr_db": 21.0,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": null
+    },
+    {
+      "qam": "Qam128",
+      "thr_db": 21.0,
+      "req_cnr_db": 24.0,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": null
+    },
+    {
+      "qam": "Qam256",
+      "thr_db": 24.0,
+      "req_cnr_db": 27.0,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": 26.0
+    },
+    {
+      "qam": "Qam512",
+      "thr_db": 26.0,
+      "req_cnr_db": 30.5,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": null
+    },
+    {
+      "qam": "Qam1024",
+      "thr_db": 29.0,
+      "req_cnr_db": 34.0,
+      "req_cnr_above_1002_db": null,
+      "sc_qam_thr_db": null
+    },
+    {
+      "qam": "Qam2048",
+      "thr_db": 32.0,
+      "req_cnr_db": 37.0,
+      "req_cnr_above_1002_db": 37.5,
+      "sc_qam_thr_db": null
+    },
+    {
+      "qam": "Qam4096",
+      "thr_db": 35.0,
+      "req_cnr_db": 41.0,
+      "req_cnr_above_1002_db": 41.5,
+      "sc_qam_thr_db": null
+    }
+  ],
+  "modem_behavior": {
+    "tx_saturation": "Clamp",
+    "ranging_spacing_s": 15.0,
+    "reregistration_s": 60.0
+  },
+  "node_kind": "Analog",
+  "capability": {
+    "ds_rxmer_file": true,
+    "ds_rxmer_summary": true,
+    "ds_chan_est_file": true,
+    "ds_chan_est_summary": true,
+    "ofdma_preeq_file": false,
+    "ofdma_preeq_summary": false,
+    "sc_qam_preeq": true,
+    "fbc": {
+      "file": true,
+      "snmp": true,
+      "lo_mhz": 54.0,
+      "hi_mhz": 1002.0
+    },
+    "per_profile_fec": true,
+    "plc_ncp_counters": true,
+    "band_power_6mhz": true,
+    "us_rxmer_file": false,
+    "us_rxmer_summary": false,
+    "us_spectrum_capture": true,
+    "v_in": true,
+    "i_draw": true,
+    "temp_c": false,
+    "status": false,
+    "out_level": true,
+    "access": [
+      "CmSnmp",
+      "CmTftp",
+      "CmtsSnmp"
+    ]
+  }
+}

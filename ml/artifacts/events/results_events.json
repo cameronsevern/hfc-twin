@@ -1,0 +1,167 @@
+{
+  "direction_analog_no_optics": {
+    "Analog ForwardLoss": {
+      "high": 1.0,
+      "hits": 114,
+      "low": 1.0,
+      "of": 114,
+      "share": 1.0
+    },
+    "Analog ReturnLoss": {
+      "high": 1.0,
+      "hits": 106,
+      "low": 1.0,
+      "of": 106,
+      "share": 1.0
+    }
+  },
+  "direction_by_kind": {
+    "Analog ForwardLoss": {
+      "high": 1.0,
+      "hits": 114,
+      "low": 1.0,
+      "of": 114,
+      "share": 1.0
+    },
+    "Analog ReturnLoss": {
+      "high": 1.0,
+      "hits": 106,
+      "low": 1.0,
+      "of": 106,
+      "share": 1.0
+    },
+    "Rpd ForwardLoss": {
+      "high": 1.0,
+      "hits": 240,
+      "low": 1.0,
+      "of": 240,
+      "share": 1.0
+    },
+    "Rpd ReturnLoss": {
+      "high": 1.0,
+      "hits": 240,
+      "low": 1.0,
+      "of": 240,
+      "share": 1.0
+    }
+  },
+  "events": 3300,
+  "names_the_break_by_kind": {
+    "FiberCut": {
+      "high": 1.0,
+      "hits": 354,
+      "low": 1.0,
+      "of": 354,
+      "share": 1.0
+    },
+    "NodeFailure": {
+      "high": 1.0,
+      "hits": 114,
+      "low": 1.0,
+      "of": 114,
+      "share": 1.0
+    },
+    "SpanCut Open": {
+      "high": 0.8495575221238938,
+      "hits": 87,
+      "low": 0.6902654867256637,
+      "of": 113,
+      "share": 0.7699115044247787
+    },
+    "SpanCut Shorted": {
+      "high": 0.1724137931034483,
+      "hits": 21,
+      "low": 0.07471264367816093,
+      "of": 174,
+      "share": 0.1206896551724138
+    }
+  },
+  "note": "Real streets, invented plant, simulated events and telemetry. A pass says the reading reads this sim.",
+  "origin": "Synthetic",
+  "rule": {
+    "doesnt_over_call": {
+      "bar": 0.1,
+      "pass": false,
+      "share": {
+        "high": 0.19112627986348124,
+        "hits": 44,
+        "low": 0.10921501706484642,
+        "of": 293,
+        "share": 0.15017064846416384
+      }
+    },
+    "names_the_break": {
+      "bar": 0.9,
+      "pass": false,
+      "share": {
+        "high": 0.7859973579920739,
+        "hits": 576,
+        "low": 0.7402945113788487,
+        "of": 755,
+        "share": 0.7629139072847683
+      }
+    },
+    "tells_forward_from_return": {
+      "bar": 0.95,
+      "pass": true,
+      "share": {
+        "high": 1.0,
+        "hits": 700,
+        "low": 1.0,
+        "of": 700,
+        "share": 1.0
+      }
+    }
+  },
+  "strand_losses_left_out": 8,
+  "verdicts_by_kind": {
+    "Damaged": {
+      "NoOnePoint": 92,
+      "Normal": 124,
+      "PlantBreak": 32,
+      "Premises": 106
+    },
+    "FiberCut": {
+      "PlantBreak": 354
+    },
+    "ForwardLoss": {
+      "PlantBreak": 354
+    },
+    "HousePower": {
+      "NoOnePoint": 267,
+      "PlantBreak": 70,
+      "Premises": 17
+    },
+    "NodeFailure": {
+      "PlantBreak": 114
+    },
+    "ReturnLoss": {
+      "Normal": 8,
+      "PlantBreak": 346
+    },
+    "Short": {
+      "NoOnePoint": 30,
+      "Normal": 72,
+      "PlantBreak": 213,
+      "Premises": 39
+    },
+    "SpanCut": {
+      "NoOnePoint": 26,
+      "Normal": 8,
+      "PlantBreak": 318,
+      "Premises": 2
+    },
+    "SupplyOutage": {
+      "NoOnePoint": 277,
+      "Normal": 30,
+      "PlantBreak": 23,
+      "Premises": 24
+    },
+    "Water": {
+      "NoOnePoint": 18,
+      "Normal": 264,
+      "PlantBreak": 24,
+      "Premises": 48
+    }
+  }
+}

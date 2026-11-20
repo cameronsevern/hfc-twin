@@ -1,0 +1,30 @@
+{
+  "schema_version": "1",
+  "id": "dacd9fff-a2cb-5376-b872-090de7317003",
+  "service_group": "sg-1",
+  "t": 300,
+  "element_id": "modem",
+  "geo": {
+    "lon_deg": -105.1,
+    "lat_deg": 39.9
+  },
+  "cause": "BadDrop",
+  "parameters": {
+    "onset": "Instant",
+    "kind": {
+      "BadDrop": {
+        "modem_id": "modem",
+        "extra_loss_db": 6.0,
+        "return_loss_db": null
+      }
+    }
+  },
+  "confidence": 0.92,
+  "affected_modems": 1,
+  "action": "Replace the drop",
+  "parts": [
+    "drop cable"
+  ],
+  "explanation": "Extra loss on one drop only.",
+  "status": "Proposed"
+}

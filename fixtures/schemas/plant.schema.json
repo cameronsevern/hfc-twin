@@ -1,0 +1,1155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Plant",
+  "description": "One service group's tree.",
+  "type": "object",
+  "properties": {
+    "edges": {
+      "description": "The connections between them, directed away from the root.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Edge"
+      }
+    },
+    "elements": {
+      "description": "The devices in the tree.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Element"
+      }
+    },
+    "modem_bindings": {
+      "description": "Hashed modem identities. Raw addresses never appear here (invariant 10).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ModemBinding"
+      }
+    },
+    "origin": {
+      "description": "Whether this plant is simulated or real (invariant 11).",
+      "$ref": "#/$defs/Origin"
+    },
+    "power_supplies": {
+      "description": "The powering overlay. Not part of the tree.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PowerSupply"
+      }
+    },
+    "profile_ref": {
+      "description": "The architecture profile this node runs.",
+      "$ref": "#/$defs/ProfileId"
+    },
+    "schema_version": {
+      "description": "Version of this schema.",
+      "type": "string"
+    },
+    "service_group": {
+      "description": "The service group this tree serves.",
+      "$ref": "#/$defs/ServiceGroupId"
+    },
+    "structures": {
+      "description": "Poles, pedestals, vaults and cabinets that elements, supplies and spans are on or in. Version 2.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Structure"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "service_group",
+    "profile_ref",
+    "origin",
+    "elements",
+    "edges",
+    "power_supplies",
+    "modem_bindings"
+  ],
+  "$defs": {
+    "ActiveFitted": {
+      "description": "What's in an active's housing. Plug-ins are `PlugIn` parts of the active's `plugin_family`. Version 2.",
+      "type": "object",
+      "properties": {
+        "forward_rx": {
+          "description": "A node's forward optical receiver, an `OpticalRx` that receives forward.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input_eq": {
+          "description": "Forward input equalizer or cable simulator.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "input_pad": {
+          "description": "Forward input pad, a `Pad`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outputs": {
+          "description": "What's fitted at each output port.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutputFitted"
+          }
+        },
+        "return_eq": {
+          "description": "Return equalizer, a `ReturnEqualizer`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "return_pad": {
+          "description": "Return pad, a `ReturnPad`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "return_tx": {
+          "description": "A node's return optical transmitter, an `OpticalTx` that transmits return.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "set_point": {
+          "description": "The output this station is aligned to, in place of the profile's design level.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SetPoint"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "transceivers": {
+          "description": "An RPD's pluggable optics, `Transceiver`s, primary first.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ComponentId"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "BatteryBank": {
+      "description": "A supply's standby batteries: strings in parallel, each of batteries in series. Version 2.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The battery, a `Battery`.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "per_string": {
+          "description": "Batteries in series in each string.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "strings": {
+          "description": "Strings in parallel.",
+          "type": "integer",
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "component_ref",
+        "per_string",
+        "strings"
+      ]
+    },
+    "ComponentId": {
+      "description": "A component library entry.",
+      "type": "string"
+    },
+    "Edge": {
+      "description": "A connection, directed away from the root.",
+      "type": "object",
+      "properties": {
+        "from": {
+          "description": "The port it leaves.",
+          "$ref": "#/$defs/PortRef"
+        },
+        "id": {
+          "description": "Stable id. A fault's `span_id` refers to this.",
+          "$ref": "#/$defs/EdgeId"
+        },
+        "kind": {
+          "description": "What it is made of.",
+          "$ref": "#/$defs/EdgeKind"
+        },
+        "record_status": {
+          "description": "Where this record came from. Cable is plant too. `None` follows the element the edge enters. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RecordStatus"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "to": {
+          "description": "The port it enters.",
+          "$ref": "#/$defs/PortRef"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from",
+        "to",
+        "kind"
+      ]
+    },
+    "EdgeId": {
+      "description": "A plant edge. A fault's `span_id` is one of these (§8).",
+      "type": "string"
+    },
+    "EdgeKind": {
+      "description": "What physically makes up an edge.",
+      "oneOf": [
+        {
+          "description": "Hardline between plant devices.",
+          "type": "object",
+          "properties": {
+            "Span": {
+              "type": "object",
+              "properties": {
+                "cable_ref": {
+                  "description": "The cable, class `Cable`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "fittings": {
+                  "description": "Connectors, splices and adapters along it, by position. Version 2.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/Fitting"
+                  }
+                },
+                "installation": {
+                  "description": "How it is installed.",
+                  "$ref": "#/$defs/Installation"
+                },
+                "len_ft": {
+                  "description": "Length, feet.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "path": {
+                  "description": "The points it passes between its ends, in order from its upstream end. Version 2.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/RoutePoint"
+                  }
+                },
+                "power_passing": {
+                  "description": "Whether it carries AC power (§6.2).",
+                  "type": "boolean"
+                },
+                "support": {
+                  "description": "The strand it's lashed to or the conduit it's in, a `Strand` or `Conduit` part, by the foot. Version 2.",
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/ComponentId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "cable_ref",
+                "len_ft",
+                "installation",
+                "power_passing"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Span"
+          ]
+        },
+        {
+          "description": "Drop cable from a tap port to a home or a device.",
+          "type": "object",
+          "properties": {
+            "Drop": {
+              "type": "object",
+              "properties": {
+                "cable_ref": {
+                  "description": "The cable, class `Drop`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "fittings": {
+                  "description": "Connectors along it, by position. Version 2.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/Fitting"
+                  }
+                },
+                "installation": {
+                  "description": "How it's installed. `None` is version 1's, which follows air temperature as `Aerial` does. Version 2.",
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/Installation"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "len_ft": {
+                  "description": "Length, feet.",
+                  "type": "number",
+                  "format": "double"
+                },
+                "path": {
+                  "description": "The points it passes between its ends. Version 2.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/RoutePoint"
+                  }
+                }
+              },
+              "required": [
+                "cable_ref",
+                "len_ft"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Drop"
+          ]
+        },
+        {
+          "description": "A part mounted directly on a port, with no cable.",
+          "type": "string",
+          "const": "Direct"
+        },
+        {
+          "description": "Cable inside a home, below its ground block. Version 2.",
+          "type": "object",
+          "properties": {
+            "House": {
+              "type": "object",
+              "properties": {
+                "cable_ref": {
+                  "description": "The cable, class `Drop`.",
+                  "$ref": "#/$defs/ComponentId"
+                },
+                "fittings": {
+                  "description": "Connectors along it, by position.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/Fitting"
+                  }
+                },
+                "len_ft": {
+                  "description": "Length, feet.",
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "required": [
+                "cable_ref",
+                "len_ft"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "House"
+          ]
+        }
+      ]
+    },
+    "Element": {
+      "description": "A device in the tree.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The library entry it is built from.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "fitted": {
+          "description": "What's installed in or on it: plug-ins, optics, port states. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fitted"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "geo": {
+          "description": "Where it is, if known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LonLat"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "description": "Stable human-assigned id, such as `amp-1`.",
+          "$ref": "#/$defs/ElementId"
+        },
+        "kind": {
+          "description": "The kind of device.",
+          "$ref": "#/$defs/ElementKind"
+        },
+        "ports": {
+          "description": "Its ports.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Port"
+          }
+        },
+        "record_status": {
+          "description": "Where this record came from.",
+          "$ref": "#/$defs/RecordStatus"
+        },
+        "structure": {
+          "description": "The structure it's on or in. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "component_ref",
+        "ports",
+        "record_status"
+      ]
+    },
+    "ElementId": {
+      "description": "A plant element or power supply, such as `amp-1`.",
+      "type": "string"
+    },
+    "ElementKind": {
+      "description": "The kinds of tree element.",
+      "oneOf": [
+        {
+          "description": "Analog fiber node.",
+          "type": "object",
+          "properties": {
+            "Node": {
+              "type": "object",
+              "properties": {
+                "return_atten_db": {
+                  "description": "Return attenuation, the input a technician's switch test changes, dB (§7.3).",
+                  "type": "number",
+                  "format": "double",
+                  "default": 0.0
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Node"
+          ]
+        },
+        {
+          "description": "Remote PHY device.",
+          "type": "object",
+          "properties": {
+            "Rpd": {
+              "type": "object",
+              "properties": {
+                "return_atten_db": {
+                  "description": "Return attenuation, the input a technician's switch test changes, dB (§7.3).",
+                  "type": "number",
+                  "format": "double",
+                  "default": 0.0
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Rpd"
+          ]
+        },
+        {
+          "description": "RF amplifier.",
+          "type": "object",
+          "properties": {
+            "Amp": {
+              "type": "object",
+              "properties": {
+                "return_atten_db": {
+                  "description": "Return attenuation, the input a technician's switch test changes, dB (§7.3).",
+                  "type": "number",
+                  "format": "double",
+                  "default": 0.0
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Amp"
+          ]
+        },
+        {
+          "description": "Multi-port tap.",
+          "type": "string",
+          "const": "Tap"
+        },
+        {
+          "description": "Splitter.",
+          "type": "string",
+          "const": "Splitter"
+        },
+        {
+          "description": "Directional coupler.",
+          "type": "string",
+          "const": "DirectionalCoupler"
+        },
+        {
+          "description": "Power inserter.",
+          "type": "string",
+          "const": "PowerInserter"
+        },
+        {
+          "description": "Terminator.",
+          "type": "string",
+          "const": "Terminator"
+        },
+        {
+          "description": "Cable modem.",
+          "type": "string",
+          "const": "Modem"
+        },
+        {
+          "description": "An in-line equalizer in its own housing. Version 2.",
+          "type": "string",
+          "const": "LineEqualizer"
+        },
+        {
+          "description": "Where a drop enters a home. In-home cable is below one. Version 2.",
+          "type": "string",
+          "const": "GroundBlock"
+        },
+        {
+          "description": "An amplifier in a home. Version 2.",
+          "type": "string",
+          "const": "DropAmp"
+        },
+        {
+          "description": "A filter, on a tap port or in a home. Version 2.",
+          "type": "string",
+          "const": "Filter"
+        },
+        {
+          "description": "Customer equipment that reports nothing. Version 2.",
+          "type": "string",
+          "const": "Cpe"
+        }
+      ]
+    },
+    "Fitted": {
+      "description": "What's installed in or on an element, which must suit its kind. Version 2.",
+      "oneOf": [
+        {
+          "description": "On a node, RPD or amp.",
+          "type": "object",
+          "properties": {
+            "Active": {
+              "$ref": "#/$defs/ActiveFitted"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Active"
+          ]
+        },
+        {
+          "description": "On a tap, splitter or directional coupler.",
+          "type": "object",
+          "properties": {
+            "Passive": {
+              "$ref": "#/$defs/PassiveFitted"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Passive"
+          ]
+        },
+        {
+          "description": "On a ground block.",
+          "type": "object",
+          "properties": {
+            "GroundBlock": {
+              "$ref": "#/$defs/GroundBlockFitted"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "GroundBlock"
+          ]
+        }
+      ]
+    },
+    "Fitting": {
+      "description": "A connector, splice or adapter at a point along a cabled edge. Version 2.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The part, a `Connector`.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "pos_ft": {
+          "description": "Distance from the edge's upstream end, feet: 0 and the edge's length are its two ends.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "pos_ft",
+        "component_ref"
+      ]
+    },
+    "GroundBlockFitted": {
+      "description": "What's particular to one home's ground block. Version 2.",
+      "type": "object",
+      "properties": {
+        "coupling_db": {
+          "description": "How far the home's wiring keeps ambient signals out, as coupling loss from outside, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "coupling_db"
+      ]
+    },
+    "Installation": {
+      "description": "How a span is installed; it selects the §1.2 temperature.",
+      "oneOf": [
+        {
+          "description": "Strung on poles: follows `temp_c`.",
+          "type": "string",
+          "const": "Aerial"
+        },
+        {
+          "description": "Buried: follows `ground_temp_c`.",
+          "type": "string",
+          "const": "Underground"
+        }
+      ]
+    },
+    "LonLat": {
+      "description": "A geographic position.",
+      "type": "object",
+      "properties": {
+        "lat_deg": {
+          "description": "Latitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        },
+        "lon_deg": {
+          "description": "Longitude in degrees, WGS 84.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "lon_deg",
+        "lat_deg"
+      ]
+    },
+    "ModemBinding": {
+      "description": "Links a plant modem to a hashed identity (invariant 10).",
+      "type": "object",
+      "properties": {
+        "element_id": {
+          "description": "The modem element.",
+          "$ref": "#/$defs/ElementId"
+        },
+        "pseudonym": {
+          "description": "The hashed identity.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "element_id",
+        "pseudonym"
+      ]
+    },
+    "Origin": {
+      "description": "Whether a plant or observation is simulated or measured (invariant 11).",
+      "oneOf": [
+        {
+          "description": "Generated by this project; never to be presented as real.",
+          "type": "string",
+          "const": "Synthetic"
+        },
+        {
+          "description": "Measured on, or imported from, a real network.",
+          "type": "string",
+          "const": "Field"
+        }
+      ]
+    },
+    "OutputFitted": {
+      "description": "What's fitted at one output port of an active. Version 2.",
+      "type": "object",
+      "properties": {
+        "eq": {
+          "description": "Its equalizer or cable simulator.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pad": {
+          "description": "Its pad, a `Pad`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "port": {
+          "description": "The output port.",
+          "$ref": "#/$defs/PortId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "port"
+      ]
+    },
+    "PassiveFitted": {
+      "description": "What's fitted on a passive. Version 2.",
+      "type": "object",
+      "properties": {
+        "conditioner": {
+          "description": "A tap's faceplate conditioner, a `TapConditioner` of the tap's `plugin_family`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComponentId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ports": {
+          "description": "The state of each port with nothing connected. A port with neither an edge nor a state means what it did in\nversion 1.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PortStateEntry"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Port": {
+      "description": "One port. Off-path echoes and FDX need port identity, and it can't be rebuilt later.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique on its element.",
+          "$ref": "#/$defs/PortId"
+        },
+        "role": {
+          "description": "What it does.",
+          "$ref": "#/$defs/PortRole"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role"
+      ]
+    },
+    "PortId": {
+      "description": "A port on one element, such as `tap-1` or `through`.",
+      "type": "string"
+    },
+    "PortRef": {
+      "description": "One end of an edge.",
+      "type": "object",
+      "properties": {
+        "element_id": {
+          "description": "The element.",
+          "$ref": "#/$defs/ElementId"
+        },
+        "port": {
+          "description": "The port on it.",
+          "$ref": "#/$defs/PortId"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "element_id",
+        "port"
+      ]
+    },
+    "PortRole": {
+      "description": "What a port does on its element.",
+      "oneOf": [
+        {
+          "description": "Faces the root.",
+          "type": "string",
+          "const": "Input"
+        },
+        {
+          "description": "An active's output.",
+          "type": "string",
+          "const": "Output"
+        },
+        {
+          "description": "A tap's or coupler's through port.",
+          "type": "string",
+          "const": "Through"
+        },
+        {
+          "description": "A tap port, where a drop connects.",
+          "type": "string",
+          "const": "TapPort"
+        },
+        {
+          "description": "A splitter leg.",
+          "type": "string",
+          "const": "Leg"
+        },
+        {
+          "description": "A directional coupler's coupled port.",
+          "type": "string",
+          "const": "Coupled"
+        }
+      ]
+    },
+    "PortState": {
+      "description": "What's on a port with nothing connected.",
+      "oneOf": [
+        {
+          "description": "A terminator screwed on.",
+          "type": "object",
+          "properties": {
+            "Terminated": {
+              "type": "object",
+              "properties": {
+                "component_ref": {
+                  "description": "The terminator, a `Terminator`.",
+                  "$ref": "#/$defs/ComponentId"
+                }
+              },
+              "required": [
+                "component_ref"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "Terminated"
+          ]
+        },
+        {
+          "description": "Nothing at all: a reflector.",
+          "type": "string",
+          "const": "Open"
+        }
+      ]
+    },
+    "PortStateEntry": {
+      "description": "One unused port's state. Version 2.",
+      "type": "object",
+      "properties": {
+        "port": {
+          "description": "The port.",
+          "$ref": "#/$defs/PortId"
+        },
+        "state": {
+          "description": "Its state.",
+          "$ref": "#/$defs/PortState"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "port",
+        "state"
+      ]
+    },
+    "PowerSupply": {
+      "description": "A power supply, in the overlay rather than the tree.",
+      "type": "object",
+      "properties": {
+        "batteries": {
+          "description": "Its standby batteries. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BatteryBank"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "component_ref": {
+          "description": "The library entry it is built from. Voltage lives there (§6.3).",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "feeds": {
+          "description": "The element where its current enters the tree; it flows on from there along\npower-passing edges (§6.2).",
+          "$ref": "#/$defs/ElementId"
+        },
+        "geo": {
+          "description": "Where it is, if known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LonLat"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "description": "Stable human-assigned id.",
+          "$ref": "#/$defs/ElementId"
+        },
+        "record_status": {
+          "description": "Where this record came from. `None` follows the element it feeds. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RecordStatus"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "structure": {
+          "description": "The cabinet or pole it's in or on. Version 2.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "component_ref",
+        "feeds"
+      ]
+    },
+    "ProfileId": {
+      "description": "An architecture profile.",
+      "type": "string"
+    },
+    "RecordStatus": {
+      "description": "Where a plant element came from.",
+      "oneOf": [
+        {
+          "description": "Output of a design; not in the field.",
+          "type": "string",
+          "const": "Designed"
+        },
+        {
+          "description": "Recorded as built.",
+          "type": "string",
+          "const": "Built"
+        },
+        {
+          "description": "Imported from an outside system.",
+          "type": "string",
+          "const": "Imported"
+        }
+      ]
+    },
+    "RoutePoint": {
+      "description": "A point a cable passes. Version 2.",
+      "type": "object",
+      "properties": {
+        "geo": {
+          "description": "Where.",
+          "$ref": "#/$defs/LonLat"
+        },
+        "structure": {
+          "description": "The structure there, such as the pole it's attached at.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureId"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "geo"
+      ]
+    },
+    "ServiceGroupId": {
+      "description": "A service group: one node's tree.",
+      "type": "string"
+    },
+    "SetPoint": {
+      "description": "An active's alignment target. Version 2.",
+      "type": "object",
+      "properties": {
+        "out_dbmv_at_hi": {
+          "description": "Output at the band's top frequency, dBmV per 6 MHz.",
+          "type": "number",
+          "format": "double"
+        },
+        "tilt_db": {
+          "description": "Output tilt across the forward band, dB.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "out_dbmv_at_hi",
+        "tilt_db"
+      ]
+    },
+    "Structure": {
+      "description": "A pole, pedestal, vault or cabinet. No RF and no power: a record and a parts-list line. Version 2.",
+      "type": "object",
+      "properties": {
+        "component_ref": {
+          "description": "The part, a `Structure`.",
+          "$ref": "#/$defs/ComponentId"
+        },
+        "geo": {
+          "description": "Where it is, if known.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LonLat"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "description": "Stable id.",
+          "$ref": "#/$defs/StructureId"
+        },
+        "kind": {
+          "description": "What it is. Must be its part's kind.",
+          "$ref": "#/$defs/StructureKind"
+        },
+        "record_status": {
+          "description": "Where this record came from.",
+          "$ref": "#/$defs/RecordStatus"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "component_ref",
+        "record_status"
+      ]
+    },
+    "StructureId": {
+      "description": "A pole, pedestal, vault or cabinet, in a coax or a fiber plant. Version 2.",
+      "type": "string"
+    },
+    "StructureKind": {
+      "description": "The kinds of structure plant is mounted on or in.",
+      "oneOf": [
+        {
+          "description": "A utility pole.",
+          "type": "string",
+          "const": "Pole"
+        },
+        {
+          "description": "A pedestal at grade.",
+          "type": "string",
+          "const": "Pedestal"
+        },
+        {
+          "description": "A buried vault or handhole.",
+          "type": "string",
+          "const": "Vault"
+        },
+        {
+          "description": "A cabinet, such as a power supply's.",
+          "type": "string",
+          "const": "Cabinet"
+        }
+      ]
+    }
+  }
+}

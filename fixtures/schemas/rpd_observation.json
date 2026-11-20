@@ -1,0 +1,11 @@
+{
+  "schema_version": "1",
+  "t": 300,
+  "origin": "Synthetic",
+  "element_id": "rpd-1",
+  "top_level_state": "Operational",
+  "gcp_status": "Reconnecting",
+  "ptp_result": "HoldoverWithinSpec",
+  "rf_output_up": true,
+  "drawing_power": true
+}
